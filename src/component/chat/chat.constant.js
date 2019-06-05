@@ -1,3 +1,2 @@
-const OAUTH_SLACK_KEY = 'xoxp-45686229510-45705486354-642755140896-36d57265326c3df03a336f5f1a24d34c'
-
-export const GET_CHANNEL_URL = `https://slack.com/api/channels.list?token=${OAUTH_SLACK_KEY}&scope=%22channels:read%22`
+export const GET_GENERAL_CHANNEL_HISTORY = `https://api.codetap.academy/slack/channels.history`
+export const GET_ALL_USERS_LIST = `https://api.codetap.academy/slack/users.list`

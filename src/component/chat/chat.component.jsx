@@ -1,14 +1,22 @@
-import React, { useEffect } from 'react'
-import { GET_CHANNEL_URL } from './chat.constant'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { GET_ALL_USERS_LIST, GET_GENERAL_CHANNEL_HISTORY } from './chat.constant'
 
 export const Chat = () => {
-    useEffect(() => {
-        fetch(GET_CHANNEL_URL)
-            .then(response => response.json())
-            .then(response => console.log(response))
-    }, [])
+  const [ channelMessageList, setChannelMessageList] = useState([])
+  useEffect(() => {
+    // ditch fetch
+    axios.get(GET_GENERAL_CHANNEL_HISTORY)
+      .then(({ data }) => {
+        console.log(data)
+        setChannelMessageList(data)
+      })
+  }, [])
 
-    return (
-        <div>Here will come the chat</div>
-    )
+  return (
+    <div>
+      <h1>Gigi kent</h1>
+      <pre>{JSON.stringify(channelMessageList, null, 2)}</pre>
+    </div>
+  )
 }
