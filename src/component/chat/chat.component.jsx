@@ -3,6 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { GET_ALL_USERS_LIST, GET_GENERAL_CHANNEL_HISTORY } from './chat.constant'
 import { StyledChannelMessage } from './chat.style';
+import { UserSpan } from './chat-user.component';
 
 export const Chat = () => {
   const [ channelMessageList, setChannelMessageList] = useState([])
@@ -81,13 +82,7 @@ export const Chat = () => {
                   .map(({ type, text }) => {
                     return type === 'span'
                       ? <span>{text}</span>
-                      : <user style={{
-                        margin: '0 0.4rem',
-                        color: '#1264a3',
-                        background: '#e8f5fa',
-                        borderRadius: '3px',
-                        padding: '1px 3px',
-                      }}>{text}</user>
+                      : <UserSpan text={text} />
                   })
                 : message.text
 
