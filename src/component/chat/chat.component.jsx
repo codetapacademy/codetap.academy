@@ -6,6 +6,16 @@ import { StyledChannelMessage } from './chat.style';
 
 export const Chat = () => {
   const [ channelMessageList, setChannelMessageList] = useState([])
+  
+  /**
+   * I want to retrieve the Nickname or Full name from the profile.
+   * Sometimes we have a display_name, some times we have a real_name
+   */
+  const getTheName = profile => {
+    const { display_name, real_name } = profile
+    return display_name || real_name
+  }
+
   useEffect(() => {
     axios
       .all([
@@ -15,7 +25,7 @@ export const Chat = () => {
       .then(axios.spread(
         (messagesResponse, usersResponse) => {
           const userList = usersResponse.data.members
-          console.log(userList)
+
           const messageList = messagesResponse.data.messages
             .map(message => {
               const something = userList.filter(user => user.id === message.user)
@@ -23,18 +33,17 @@ export const Chat = () => {
               const mentionedUserId = message.text.match(/<@[A-Z0-9]+>/gm) || []
               const pairedNiceIdList = mentionedUserId
                 .map(FBI => {
-                  const name = '@' + userList
+                  const name = '@' + getTheName(userList
                     .filter(user => user.id === FBI.slice(2, -1))
-                    .reduce(a => a).profile.display_name
+                    .reduce(a => a).profile)
                   return {
                     id: FBI,
                     name,
                   }
                 })
 
-              console.log(pairedNiceIdList)
 
-              const niceName = something.reduce(a => a).profile.display_name
+              const niceName = getTheName(something.reduce(a => a).profile)
               let textToBeSplit = message.text
               let text2List = []
               pairedNiceIdList.forEach(pni => {
@@ -42,7 +51,6 @@ export const Chat = () => {
                 if (!text2List.length) {
                   text2List = [...text2]
                     .reduce((a, c) => {
-                      console.log('ccccc', c)
                       return [...a, {
                         type: 'span',
                         text: c
@@ -59,7 +67,6 @@ export const Chat = () => {
                     else if (text2.length > 1) {
                       const gigiKent = [...text2]
                         .reduce((a, c) => {
-                          console.log('ccccc', c)
                           return [...a, {
                             type: 'span',
                             text: c
@@ -88,7 +95,6 @@ export const Chat = () => {
                       }}>{text}</user>
                   })
                 : message.text
-              console.log('****', text2List.flatMap(z => z))
 
               return {
                 ...message,
