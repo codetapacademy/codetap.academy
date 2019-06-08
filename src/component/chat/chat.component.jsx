@@ -16,6 +16,19 @@ export const Chat = () => {
     return display_name || real_name
   }
 
+  const convertMessageToComponentData = (text2, pni) => {
+    return [...text2]
+    .reduce((a, c) => {
+      return [...a, {
+        type: 'span',
+        text: c
+      }, {
+        type: 'user',
+        text: pni.name
+      }]
+    }, [])
+  }
+
   useEffect(() => {
     axios
       .all([
@@ -49,32 +62,14 @@ export const Chat = () => {
               pairedNiceIdList.forEach(pni => {
                 const text2 = textToBeSplit.split(pni.id)
                 if (!text2List.length) {
-                  text2List = [...text2]
-                    .reduce((a, c) => {
-                      return [...a, {
-                        type: 'span',
-                        text: c
-                      }, {
-                        type: 'user',
-                        text: pni.name
-                      }]
-                    }, [])
+                  text2List = convertMessageToComponentData(text2, pni)
                   text2List = text2List.slice(0, -1)
                 } else {
                   text2List = text2List.map(t => {
                     const text2 = t.text.split(pni.id)
                     if (t.type !== 'span' || text2.length === 1) return t
                     else if (text2.length > 1) {
-                      const gigiKent = [...text2]
-                        .reduce((a, c) => {
-                          return [...a, {
-                            type: 'span',
-                            text: c
-                          }, {
-                            type: 'user',
-                            text: pni.name
-                          }]
-                        }, [])
+                      const gigiKent = convertMessageToComponentData(text2, pni)
                       return gigiKent.slice(0, -1)
                     }
                   })
