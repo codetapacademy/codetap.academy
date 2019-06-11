@@ -13,8 +13,11 @@ export const Chat = () => {
    * Sometimes we have a display_name, some times we have a real_name
    */
   const getTheName = profile => {
-    const { display_name, real_name } = profile
-    return display_name || real_name
+    const { display_name, real_name, image_48 } = profile
+    return {
+      name: display_name || real_name,
+      avatar: image_48,
+    }
   }
 
   const convertMessageToComponentData = (text2, pni) => {
@@ -42,6 +45,7 @@ export const Chat = () => {
 
           const messageList = messagesResponse.data.messages
             .map(message => {
+              // console.log(message)
               const something = userList.filter(user => user.id === message.user)
               // U1BLREAAE
               const mentionedUserId = message.text.match(/<@[A-Z0-9]+>/gm) || []
@@ -49,7 +53,7 @@ export const Chat = () => {
                 .map(FBI => {
                   const name = '@' + getTheName(userList
                     .filter(user => user.id === FBI.slice(2, -1))
-                    .reduce(a => a).profile)
+                    .reduce(a => a).profile).name
                   return {
                     id: FBI,
                     name,
@@ -57,7 +61,7 @@ export const Chat = () => {
                 })
 
 
-              const niceName = getTheName(something.reduce(a => a).profile)
+              const niceNameAndAvatar = getTheName(something.reduce(a => a).profile)
               let textToBeSplit = message.text
               let text2List = []
               pairedNiceIdList.forEach(pni => {
@@ -73,23 +77,25 @@ export const Chat = () => {
                       const gigiKent = convertMessageToComponentData(text2, pni)
                       return gigiKent.slice(0, -1)
                     }
+                    return t
                   })
                 }
               })
               const text = pairedNiceIdList.length 
                 ? text2List
                   .flatMap(z => z)
-                  .map(({ type, text }) => {
+                  .map(({ type, text }, key) => {
                     return type === 'span'
-                      ? <span>{text}</span>
-                      : <UserSpan text={text} />
+                      ? <span key={`${text}-${key}`}>{text}</span>
+                      : <UserSpan key={`${text}-${key}`} text={text} />
                   })
                 : message.text
 
               return {
                 ...message,
                 text,
-                niceName,
+                niceName: niceNameAndAvatar.name,
+                avatar: niceNameAndAvatar.avatar,
               }
             })
           setChannelMessageList(messageList)
@@ -98,11 +104,12 @@ export const Chat = () => {
   }, [])
 
   const renderChatMessage = () => {
-    return channelMessageList.map(({ text, ts, niceName }) => {
+    return channelMessageList.map(({ text, ts, niceName, avatar }) => {
       return (
         <StyledChannelMessage key={ts}>
           <div>{niceName}</div>
           <div>{text}</div>
+          <div>{avatar}</div>
           <div>{moment(ts * 1000).fromNow()}</div>
         </StyledChannelMessage>
       )
