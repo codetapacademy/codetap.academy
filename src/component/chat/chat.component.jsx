@@ -4,6 +4,7 @@ import moment from 'moment'
 import { GET_ALL_USERS_LIST, GET_GENERAL_CHANNEL_HISTORY } from './chat.constant'
 import { StyledChannelMessage } from './chat.style';
 import { UserSpan } from './chat-user.component';
+import ChatAvatar from './chat-avatar';
 
 export const Chat = () => {
   const [ channelMessageList, setChannelMessageList] = useState([])
@@ -109,7 +110,7 @@ export const Chat = () => {
         <StyledChannelMessage key={ts}>
           <div>{niceName}</div>
           <div>{text}</div>
-          <div>{avatar}</div>
+          <ChatAvatar imagePath={avatar} />
           <div>{moment(ts * 1000).fromNow()}</div>
         </StyledChannelMessage>
       )
