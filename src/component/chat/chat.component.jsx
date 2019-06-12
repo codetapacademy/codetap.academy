@@ -99,22 +99,55 @@ export const Chat = () => {
                 avatar: niceNameAndAvatar.avatar,
               }
             })
-          setChannelMessageList(messageList)
+
+          const grouConcurentMessageByUser = ungrouppedMessageList => {
+            let currentUser = ungrouppedMessageList[0].user
+            let returnedCollection = []
+            let currentCollection = []
+            ungrouppedMessageList.forEach(message => {
+              if (currentUser === message.user) {
+                currentCollection = [...currentCollection, message]
+              }
+              else {
+                currentUser = message.user
+                returnedCollection = [...returnedCollection, currentCollection]
+                currentCollection = [message]
+              }
+            })
+            return returnedCollection
+
+            // [1, 2, 3, 4, 5, 6, 7]
+            // [[1, 2], [3], [4], [5, 6, 7]]
+          }
+
+          console.log(messageList)
+
+          setChannelMessageList(grouConcurentMessageByUser(messageList))
         }
       ))
   }, [])
 
   const renderChatMessage = () => {
-    return channelMessageList.map(({ text, ts, niceName, avatar }) => {
-      return (
-        <StyledChannelMessage key={ts}>
-          <div>{niceName}</div>
-          <div>{text}</div>
-          <ChatAvatar imagePath={avatar} />
-          <div>{moment(ts * 1000).fromNow()}</div>
-        </StyledChannelMessage>
-      )
-    })
+    return channelMessageList
+      .map(channelMessageGrouped => {
+        return (
+          <div className="group">
+          {
+            channelMessageGrouped.map(({ text, ts, niceName, avatar }) => {
+              return (
+                <StyledChannelMessage key={ts}>
+                  <div>{niceName}</div>
+                  <div>{text}</div>
+                  <ChatAvatar imagePath={avatar} />
+                  <div>{moment(ts * 1000).fromNow()}</div>
+                </StyledChannelMessage>
+              )
+            })
+          }
+          </div>
+        )
+      }
+    )
   }
 
   return (
