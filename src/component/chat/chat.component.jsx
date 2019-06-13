@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { GET_ALL_USERS_LIST, GET_GENERAL_CHANNEL_HISTORY } from './chat.constant'
-import { StyledChannelMessage } from './chat.style';
+import { StyledChannelMessage, StyledMessageGroup } from './chat.style';
 import { UserSpan } from './chat-user.component';
 import ChatAvatar from './chat-avatar';
 
@@ -120,8 +120,6 @@ export const Chat = () => {
             // [[1, 2], [3], [4], [5, 6, 7]]
           }
 
-          console.log(messageList)
-
           setChannelMessageList(grouConcurentMessageByUser(messageList))
         }
       ))
@@ -131,20 +129,20 @@ export const Chat = () => {
     return channelMessageList
       .map(channelMessageGrouped => {
         return (
-          <div className="group">
+          <StyledMessageGroup>
           {
-            channelMessageGrouped.map(({ text, ts, niceName, avatar }) => {
+            channelMessageGrouped.map(({ text, ts, niceName, avatar }, key) => {
               return (
                 <StyledChannelMessage key={ts}>
                   <div>{niceName}</div>
                   <div>{text}</div>
-                  <ChatAvatar imagePath={avatar} />
+                  {!key && <ChatAvatar imagePath={avatar} />}
                   <div>{moment(ts * 1000).fromNow()}</div>
                 </StyledChannelMessage>
               )
             })
           }
-          </div>
+          </StyledMessageGroup>
         )
       }
     )
