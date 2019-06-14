@@ -5,8 +5,8 @@ export const StyledApp = styled.div`
   background-image: linear-gradient(180deg,#dddbd1,#d2dbdc);
 
   ::before {
+    position: fixed;
     content: '';
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;

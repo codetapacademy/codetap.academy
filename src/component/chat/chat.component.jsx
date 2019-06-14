@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { GET_ALL_USERS_LIST, GET_GENERAL_CHANNEL_HISTORY } from './chat.constant'
-import { StyledChannelMessage, StyledMessageGroup } from './chat.style';
+import { StyledChannelMessage, StyledMessageGroup, StyledChat } from './chat.style';
 import { UserSpan } from './chat-user.component';
 import ChatAvatar from './chat-avatar';
 
@@ -149,9 +149,9 @@ export const Chat = () => {
   }
 
   return (
-    <div>
+    <StyledChat>
       <h1>CodeTap Members Chat</h1>
       {renderChatMessage()}
-    </div>
+    </StyledChat>
   )
 }
