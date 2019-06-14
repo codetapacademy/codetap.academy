@@ -72,7 +72,7 @@ export const Chat = () => {
                   text2List = text2List.slice(0, -1)
                 } else {
                   text2List = text2List.map(t => {
-                    const text2 = t.text.split(pni.id)
+                    const text2 = (t.text || '').split(pni.id)
                     if (t.type !== 'span' || text2.length === 1) return t
                     else if (text2.length > 1) {
                       const gigiKent = convertMessageToComponentData(text2, pni)
