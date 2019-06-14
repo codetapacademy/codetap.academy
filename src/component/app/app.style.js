@@ -11,6 +11,6 @@ export const StyledApp = styled.div`
     left: 0;
     width: 100%;
     height: 200px;
-    background-color: #d52027;
+    background-color: #d52027;    
   }
 `
