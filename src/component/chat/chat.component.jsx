@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { GET_ALL_USERS_LIST, GET_GENERAL_CHANNEL_HISTORY } from './chat.constant'
-import { StyledChannelMessage, StyledMessageGroup, StyledChat } from './chat.style';
+import { StyledChannelMessage, StyledMessageGroup, StyledChat, StyledNickname, StyledTimestamp } from './chat.style';
 import { UserSpan } from './chat-user.component';
-import ChatAvatar from './chat-avatar';
+import { StyledAvatar } from './chat-avatar.style';
 
 export const Chat = () => {
   const [ channelMessageList, setChannelMessageList] = useState([])
@@ -127,17 +127,30 @@ export const Chat = () => {
 
   const renderChatMessage = () => {
     return channelMessageList
-      .map(channelMessageGrouped => {
+      .map((channelMessageGrouped, groupKey) => {
         return (
           <StyledMessageGroup>
           {
             channelMessageGrouped.map(({ text, ts, niceName, avatar }, key) => {
+              const leftOrRight = groupKey % 2 ? 'left' : 'right'
+              const rightOrLeft = groupKey % 2 ? 'right' : 'left'
               return (
                 <StyledChannelMessage key={ts}>
-                  <div>{niceName}</div>
-                  <div>{text}</div>
-                  {!key && <ChatAvatar imagePath={avatar} />}
-                  <div>{moment(ts * 1000).fromNow()}</div>
+                  {!key && 
+                  <StyledNickname leftOrRight={leftOrRight}>
+                    {niceName}
+                  </StyledNickname>}
+
+                  {!key && 
+                  <StyledAvatar
+                    imagePath={avatar}
+                    leftOrRight={leftOrRight}
+                  />}
+                  {text}
+
+                  <StyledTimestamp leftOrRight={rightOrLeft}>
+                    {moment(ts * 1000).fromNow()}
+                  </StyledTimestamp>
                 </StyledChannelMessage>
               )
             })
