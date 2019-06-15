@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { GET_ALL_USERS_LIST, GET_GENERAL_CHANNEL_HISTORY } from './chat.constant'
-import { StyledChannelMessage } from './chat.style';
+import { StyledChannelMessage, StyledMessageGroup, StyledChat, StyledNickname, StyledTimestamp } from './chat.style';
 import { UserSpan } from './chat-user.component';
-import ChatAvatar from './chat-avatar';
+import { StyledAvatar } from './chat-avatar.style';
 
 export const Chat = () => {
   const [ channelMessageList, setChannelMessageList] = useState([])
@@ -72,7 +72,7 @@ export const Chat = () => {
                   text2List = text2List.slice(0, -1)
                 } else {
                   text2List = text2List.map(t => {
-                    const text2 = t.text.split(pni.id)
+                    const text2 = (t.text || '').split(pni.id)
                     if (t.type !== 'span' || text2.length === 1) return t
                     else if (text2.length > 1) {
                       const gigiKent = convertMessageToComponentData(text2, pni)
@@ -120,8 +120,6 @@ export const Chat = () => {
             // [[1, 2], [3], [4], [5, 6, 7]]
           }
 
-          console.log(messageList)
-
           setChannelMessageList(grouConcurentMessageByUser(messageList))
         }
       ))
@@ -129,31 +127,44 @@ export const Chat = () => {
 
   const renderChatMessage = () => {
     return channelMessageList
-      .map(channelMessageGrouped => {
+      .map((channelMessageGrouped, groupKey) => {
         return (
-          <div className="group">
+          <StyledMessageGroup>
           {
-            channelMessageGrouped.map(({ text, ts, niceName, avatar }) => {
+            channelMessageGrouped.map(({ text, ts, niceName, avatar }, key) => {
+              const leftOrRight = groupKey % 2 ? 'left' : 'right'
+              const rightOrLeft = groupKey % 2 ? 'right' : 'left'
               return (
                 <StyledChannelMessage key={ts}>
-                  <div>{niceName}</div>
-                  <div>{text}</div>
-                  <ChatAvatar imagePath={avatar} />
-                  <div>{moment(ts * 1000).fromNow()}</div>
+                  {!key && 
+                  <StyledNickname leftOrRight={leftOrRight}>
+                    {niceName}
+                  </StyledNickname>}
+
+                  {!key && 
+                  <StyledAvatar
+                    imagePath={avatar}
+                    leftOrRight={leftOrRight}
+                  />}
+                  {text}
+
+                  <StyledTimestamp leftOrRight={rightOrLeft}>
+                    {moment(ts * 1000).fromNow()}
+                  </StyledTimestamp>
                 </StyledChannelMessage>
               )
             })
           }
-          </div>
+          </StyledMessageGroup>
         )
       }
     )
   }
 
   return (
-    <div>
+    <StyledChat>
       <h1>CodeTap Members Chat</h1>
       {renderChatMessage()}
-    </div>
+    </StyledChat>
   )
 }
