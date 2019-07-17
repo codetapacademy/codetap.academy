@@ -1,13 +1,13 @@
 import React from 'react'
-import { Link } from '@reach/router'
+import { StyledTopMenu, StyledLink } from './top-menu.style'
 
 const TopMenu = () => {
   return (
-    <div>
-      <Link to="/">Home</Link>
-      <Link to="/dashboard">Dashboard</Link>
+    <StyledTopMenu>
+      <StyledLink to="/">Home</StyledLink>
+      <StyledLink to="/dashboard">Dashboard</StyledLink>
       <button>Log in</button>
-    </div>
+    </StyledTopMenu>
   )
 }
 
