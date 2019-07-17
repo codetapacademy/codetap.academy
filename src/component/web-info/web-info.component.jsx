@@ -1,11 +1,17 @@
 import React from 'react'
-import CoursePanel from '../course-panel';
+import CoursePanel from '../course-panel'
+import TopMenu from '../top-menu'
+import { Router } from '@reach/router'
+import Home from '../home';
 
 const WebInfo = () => {
   return (
     <div>
-      <h1>Info about course released, mentoring and much more</h1>
-      <CoursePanel />
+      <TopMenu />
+      <Router>
+        <Home path="/" />
+        <CoursePanel path="dashboard" />
+      </Router>
     </div>
   )
 }
