@@ -105,6 +105,12 @@ const CoursePanel = () => {
     }
     setTitle(value)
   }
+  
+  const handleCancel = () => {
+    setCourseIdToEdit(null)
+    setTitle('')
+    setDescription('')
+  }
 
   const handleDescription = e => {
     const { value } = e.target
@@ -122,6 +128,7 @@ const CoursePanel = () => {
       <CourseEdit
         addCourse={addCourse}
         handleTitle={handleTitle}
+        handleCancel={handleCancel}
         courseIdToEdit={courseIdToEdit}
         description={courseEditValue.description}
         handleDescription={handleDescription}

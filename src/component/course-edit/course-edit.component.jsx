@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyledActionButtonWrapper, StyledCourseEdit } from './course-edit.style';
 
-const CourseEdit = ({ title, handleTitle, addCourse, courseIdToEdit, description, handleDescription }) => {
+const CourseEdit = ({ title, handleTitle, addCourse, courseIdToEdit, description, handleDescription, handleCancel }) => {
   return (
     <StyledCourseEdit>
       <input
@@ -20,7 +20,7 @@ const CourseEdit = ({ title, handleTitle, addCourse, courseIdToEdit, description
         <button onClick={addCourse}>
           {courseIdToEdit ? 'Save course' : 'Add course'}
         </button>
-        {courseIdToEdit && <button onClick={handleTitle}>
+        {courseIdToEdit && <button onClick={handleCancel}>
           Cancel
         </button>}
       </StyledActionButtonWrapper>
