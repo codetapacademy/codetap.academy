@@ -6,7 +6,8 @@ import { courseListReducer } from './course-panel.reducer'
 import { addCourseAction, removeCourseAction, modifyCourseAction } from './course-panel.action'
 
 const CoursePanel = () => {
-  const [ courseTitle, setCourseTitle ] = useState('')
+  const [ title, setTitle ] = useState('')
+  const [ description, setDescription ] = useState('change me!!! :p sa nu moarahhh gigi')
   const [ courseList, dispatch ] = useReducer(courseListReducer, [])
   const [ courseIdToEdit, setCourseIdToEdit ] = useState(null)
   const [ editInputUpdated, setEditInputUpdated ] = useState(false)
@@ -17,11 +18,12 @@ const CoursePanel = () => {
       .collection('course')
       .onSnapshot(snapList => {
         snapList.docChanges().forEach(change => {
-          const title = change.doc.data()
+          const course = change.doc.data()
           // console.log(title, change.type, change.doc.id)
           if (change.type === 'added') {
             dispatch(addCourseAction({
-              title: title.courseTitle,
+              title: course.title,
+              description: course.description,
               id: change.doc.id,
             }))
           }
@@ -32,7 +34,8 @@ const CoursePanel = () => {
           }
           else if (change.type === 'modified') {
             dispatch(modifyCourseAction({
-              title: title.courseTitle,
+              title: course.title,
+              description: course.description,
               id: change.doc.id,
             }))
             setCourseIdToEdit(null)
@@ -59,37 +62,40 @@ const CoursePanel = () => {
     if (courseIdToEdit) {
       // it means we want to update a course
       courseCollection.doc(courseIdToEdit).set(
-        { courseTitle },
+        { title, description },
         { merge: true }
       )
     }
     else {
       // we want to add a course
-      courseCollection.add({ courseTitle })
+      courseCollection.add({ title, description })
     }
-    setCourseTitle('')
+    setTitle('')
+    setDescription('')
   }
 
-  const getTheCourseTitle = (courseList, courseToEdit) => {
+  const getCourseToEdit = (courseList, courseToEdit) => {
     setEditInputUpdated(false)
     return courseList
       .filter(({ id }) => id === courseToEdit)
-      .map(({ title }) => title)[0] || ''
+      .map(({ title, description }) => ({ title, description }))[0] || {}
   }
 
   const courseEditValue = editInputUpdated
     // get the course title value from the list
-    ? getTheCourseTitle(courseList, courseIdToEdit)
+    ? getCourseToEdit(courseList, courseIdToEdit)
     // the value from the input or empty string
-    : courseTitle
+    : { title, description }
 
   const handleCourseToEdit = courseId => {
     setEditInputUpdated(true)
     setCourseIdToEdit(courseId)
-    setCourseTitle(getTheCourseTitle(courseList, courseId))
+    const { title, description } = getCourseToEdit(courseList, courseId)
+    setTitle(title)
+    setDescription(description)
   }
 
-  const handleSetCourseTitle = e => {
+  const handleTitle = e => {
     let value = ''
     if (e.target.value) {
       value = e.target.value
@@ -97,7 +103,12 @@ const CoursePanel = () => {
     else {
       setCourseIdToEdit(null)
     }
-    setCourseTitle(value)
+    setTitle(value)
+  }
+
+  const handleDescription = e => {
+    const { value } = e.target
+    setDescription(value)
   }
 
   return (
@@ -107,11 +118,14 @@ const CoursePanel = () => {
         handleCourseToEdit={handleCourseToEdit}
         deleteItem={deleteItem}
       />
+
       <CourseEdit
         addCourse={addCourse}
-        handleSetCourseTitle={handleSetCourseTitle}
+        handleTitle={handleTitle}
         courseIdToEdit={courseIdToEdit}
-        courseTitle={courseEditValue}
+        description={courseEditValue.description}
+        handleDescription={handleDescription}
+        title={courseEditValue.title}
       />
     </div>
   )

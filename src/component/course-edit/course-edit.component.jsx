@@ -1,20 +1,30 @@
 import React from 'react'
+import { StyledActionButtonWrapper, StyledCourseEdit } from './course-edit.style';
 
-const CourseEdit = ({ courseTitle, handleSetCourseTitle, addCourse, courseIdToEdit }) => {
+const CourseEdit = ({ title, handleTitle, addCourse, courseIdToEdit, description, handleDescription }) => {
   return (
-    <div>
+    <StyledCourseEdit>
       <input
         type="text"
-        value={courseTitle}
-        onChange={handleSetCourseTitle}
+        value={title}
+        onChange={handleTitle}
         placeholder="Course title"/>
-      <button onClick={addCourse}>
-        {courseIdToEdit ? 'Save course' : 'Add course'}
-      </button>
-      {courseIdToEdit && <button onClick={handleSetCourseTitle}>
-        Cancel
-      </button>}
-    </div>
+
+      <textarea
+        value={description}
+        onChange={handleDescription}
+        placeholder="Course description"
+      />
+
+      <StyledActionButtonWrapper>
+        <button onClick={addCourse}>
+          {courseIdToEdit ? 'Save course' : 'Add course'}
+        </button>
+        {courseIdToEdit && <button onClick={handleTitle}>
+          Cancel
+        </button>}
+      </StyledActionButtonWrapper>
+    </StyledCourseEdit>
   )
 }
 
