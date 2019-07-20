@@ -119,12 +119,7 @@ const CoursePanel = () => {
 
   return (
     <div>
-      <CourseList
-        courseList={courseList}
-        handleCourseToEdit={handleCourseToEdit}
-        deleteItem={deleteItem}
-      />
-
+      <h2>Add Course</h2>
       <CourseEdit
         addCourse={addCourse}
         handleTitle={handleTitle}
@@ -133,6 +128,12 @@ const CoursePanel = () => {
         description={courseEditValue.description}
         handleDescription={handleDescription}
         title={courseEditValue.title}
+      />
+      <h2>Manage course</h2>
+      <CourseList
+        courseList={courseList}
+        handleCourseToEdit={handleCourseToEdit}
+        deleteItem={deleteItem}
       />
     </div>
   )
