@@ -2,12 +2,15 @@ import styled from 'styled-components'
 
 export const StyledTitle = styled.div`
   padding: 0.5rem 1rem;
-  background-color: #f1f1f1;
+  background-color: ${({ theme }) => theme.layout.background};
   cursor: pointer;
+  text-transform: capitalize
 `
 
 export const StyledDescription = styled.div`
   padding: 0.5rem 1rem;
+  background-color: ${({ theme }) => theme.layout.backgroundText};
+  flex-grow: 1;
 `
 
 export const StyledCourseItem = styled.div`

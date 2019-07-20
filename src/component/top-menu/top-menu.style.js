@@ -17,7 +17,7 @@ export const StyledTopMenu = styled.div`
   background-color: ${({ theme }) => theme.menu.background};
   display: flex;
   justify-content: space-evenly;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
 `

@@ -1,5 +1,6 @@
 const layout = {
   background: '#202225',
+  backgroundText: '#36393f',
   logo: '#d52027',
   borderRadius: '0.5rem',
   text: '#fff',
