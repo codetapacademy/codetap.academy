@@ -5,7 +5,7 @@ import CourseEdit from '../course-edit/course-edit.component'
 import { courseListReducer } from './course-panel.reducer'
 import { addCourseAction, removeCourseAction, modifyCourseAction } from './course-panel.action'
 import { navigate } from '@reach/router'
-import { StyledControlPanel } from './course-panel.style';
+import { StyledControlPanel, StyledPanelTitle } from './course-panel.style';
 
 const CoursePanel = () => {
   const [ title, setTitle ] = useState('')
@@ -126,7 +126,7 @@ const CoursePanel = () => {
 
   return (
     <StyledControlPanel>
-      <h2>Add Course</h2>
+      <StyledPanelTitle>Add Course</StyledPanelTitle>
       <CourseEdit
         addCourse={addCourse}
         handleTitle={handleTitle}
@@ -136,7 +136,7 @@ const CoursePanel = () => {
         handleDescription={handleDescription}
         title={courseEditValue.title}
       />
-      <h2>Manage course</h2>
+      <StyledPanelTitle>Manage course</StyledPanelTitle>
       <CourseList
         courseList={courseList}
         handleCourseToEdit={handleCourseToEdit}

@@ -8,12 +8,12 @@ import { StyledWebInfo, StyledRouter } from './web-info.style';
 const WebInfo = () => {
   return (
     <StyledWebInfo>
-      <TopMenu />
       <StyledRouter>
         <Home path="/" />
         <CoursePanel path="dashboard" />
         <Course path="/course/:id" />
       </StyledRouter>
+      <TopMenu />
     </StyledWebInfo>
   )
 }

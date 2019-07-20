@@ -4,21 +4,20 @@ export const StyledTitle = styled.div`
   padding: 0.5rem 1rem;
   background-color: ${({ theme }) => theme.layout.background};
   cursor: pointer;
-  text-transform: capitalize
+  text-transform: capitalize;
 `
 
 export const StyledDescription = styled.div`
   padding: 0.5rem 1rem;
   background-color: ${({ theme }) => theme.layout.backgroundText};
   flex-grow: 1;
+  position: relative;
 `
 
 export const StyledCourseItem = styled.div`
-  width: 250px;
   height: 180px;
   border-radius: 0.5rem;
   border: 1px solid #f1f1f1;
-  position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
