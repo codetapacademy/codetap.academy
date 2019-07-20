@@ -6,6 +6,7 @@ import { courseListReducer } from './course-panel.reducer'
 import { addCourseAction, removeCourseAction, modifyCourseAction } from './course-panel.action'
 import { navigate } from '@reach/router'
 import { StyledControlPanel, StyledPanelTitle } from './course-panel.style';
+import { WebInfoState } from '../web-info/web-info.context'
 
 const CoursePanel = () => {
   const [ title, setTitle ] = useState('')
@@ -13,7 +14,8 @@ const CoursePanel = () => {
   const [ courseList, dispatch ] = useReducer(courseListReducer, [])
   const [ courseIdToEdit, setCourseIdToEdit ] = useState(null)
   const [ editInputUpdated, setEditInputUpdated ] = useState(false)
-
+  const t = WebInfoState()
+  
   useEffect(() => {
     // I want to get a list of courses from FireStore
     db
