@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/codetapacademy/codetap.academy/compare/v0.1.0...v0.2.0) (2019-07-20)
+
+
+### Bug Fixes
+
+* top menu position and improve UI style [#60](https://github.com/codetapacademy/codetap.academy/issues/60) ([ced58f1](https://github.com/codetapacademy/codetap.academy/commit/ced58f1))
+* update the cance/reset logic in course management ([6a555c5](https://github.com/codetapacademy/codetap.academy/commit/6a555c5))
+
+
+### Features
+
+* add description to the CRUD process of course title ([3dba68e](https://github.com/codetapacademy/codetap.academy/commit/3dba68e)), closes [#51](https://github.com/codetapacademy/codetap.academy/issues/51)
+* add Roboto font to the webpage as the default one ([cf2267c](https://github.com/codetapacademy/codetap.academy/commit/cf2267c)), closes [#59](https://github.com/codetapacademy/codetap.academy/issues/59)
+* Autofocus the title after a course has been added ([6a01091](https://github.com/codetapacademy/codetap.academy/commit/6a01091)), closes [#57](https://github.com/codetapacademy/codetap.academy/issues/57)
+* create routing for course entity ([c30d465](https://github.com/codetapacademy/codetap.academy/commit/c30d465)), closes [#54](https://github.com/codetapacademy/codetap.academy/issues/54)
+* update dashboard course display ([f81d172](https://github.com/codetapacademy/codetap.academy/commit/f81d172)), closes [#55](https://github.com/codetapacademy/codetap.academy/issues/55)
+
+
+
 ## 0.1.0 (2019-07-17)
 
 
