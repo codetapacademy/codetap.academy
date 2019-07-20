@@ -1,9 +1,7 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useState } from 'react'
 import { db } from '../data/firebase'
 import CourseList from '../course-list/course-list.component'
 import CourseEdit from '../course-edit/course-edit.component'
-import { courseListReducer } from './course-panel.reducer'
-import { addCourseAction, removeCourseAction, modifyCourseAction } from './course-panel.action'
 import { navigate } from '@reach/router'
 import { StyledControlPanel, StyledPanelTitle } from './course-panel.style';
 import { WebInfoState } from '../web-info/web-info.context'
@@ -11,42 +9,9 @@ import { WebInfoState } from '../web-info/web-info.context'
 const CoursePanel = () => {
   const [ title, setTitle ] = useState('')
   const [ description, setDescription ] = useState('change me!!! :p sa nu moarahhh gigi')
-  const [ courseList, dispatch ] = useReducer(courseListReducer, [])
   const [ courseIdToEdit, setCourseIdToEdit ] = useState(null)
   const [ editInputUpdated, setEditInputUpdated ] = useState(false)
-  const t = WebInfoState()
-  
-  useEffect(() => {
-    // I want to get a list of courses from FireStore
-    db
-      .collection('course')
-      .onSnapshot(snapList => {
-        snapList.docChanges().forEach(change => {
-          const course = change.doc.data()
-          // console.log(title, change.type, change.doc.id)
-          if (change.type === 'added') {
-            dispatch(addCourseAction({
-              title: course.title,
-              description: course.description,
-              id: change.doc.id,
-            }))
-          }
-          else if (change.type === 'removed') {
-            dispatch(removeCourseAction({
-              id: change.doc.id,
-            }))
-          }
-          else if (change.type === 'modified') {
-            dispatch(modifyCourseAction({
-              title: course.title,
-              description: course.description,
-              id: change.doc.id,
-            }))
-            setCourseIdToEdit(null)
-          }
-        })
-      })
-  }, [])
+  const { courseList } = WebInfoState()
 
   const deleteItem = id => {
     db
