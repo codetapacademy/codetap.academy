@@ -3,8 +3,9 @@ import { db } from '../data/firebase'
 import CourseList from '../course-list/course-list.component'
 import CourseEdit from '../course-edit/course-edit.component'
 import { navigate } from '@reach/router'
-import { StyledControlPanel, StyledPanelTitle } from './course-panel.style';
+import { StyledControlPanel } from './course-panel.style';
 import { WebInfoState } from '../web-info/web-info.context'
+import PanelTitle from '../panel-title';
 
 const CoursePanel = () => {
   const [ title, setTitle ] = useState('')
@@ -93,7 +94,7 @@ const CoursePanel = () => {
 
   return (
     <StyledControlPanel>
-      <StyledPanelTitle>Add Course</StyledPanelTitle>
+      <PanelTitle>Add Course</PanelTitle>
       <CourseEdit
         addCourse={addCourse}
         handleTitle={handleTitle}
@@ -103,7 +104,7 @@ const CoursePanel = () => {
         handleDescription={handleDescription}
         title={courseEditValue.title}
       />
-      <StyledPanelTitle>Manage course</StyledPanelTitle>
+      <PanelTitle>Manage course</PanelTitle>
       <CourseList
         courseList={courseList}
         handleCourseToEdit={handleCourseToEdit}

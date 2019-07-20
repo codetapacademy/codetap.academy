@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { WebInfoState } from '../web-info/web-info.context';
+import PanelTitle from '../panel-title';
 
 const Course = ({ id }) => {
   const { courseList } = WebInfoState()
@@ -17,7 +18,7 @@ const Course = ({ id }) => {
 
   return (
     <div>
-      <h1>{title}</h1>
+      <PanelTitle>{title}</PanelTitle>
       <p>{description}</p>
     </div>
   )
