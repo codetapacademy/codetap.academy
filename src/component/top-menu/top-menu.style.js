@@ -14,9 +14,10 @@ export const StyledLink = styled(Link)`
 `
 
 export const StyledTopMenu = styled.div`
-  background-color: #d52027;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  background-color: ${({ theme }) => theme.menu.background};
   display: flex;
   justify-content: space-evenly;
+  position: fixed;
+  top: 0;
+  width: 100%;
 `
