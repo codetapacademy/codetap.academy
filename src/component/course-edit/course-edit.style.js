@@ -15,7 +15,7 @@ export const StyledActionButtonWrapper = styled.div`
 
 export const StyledCourseEdit = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr auto;
   grid-template-rows: auto 1fr;
   grid-gap: 0.5rem;
 `

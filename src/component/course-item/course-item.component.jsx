@@ -17,11 +17,13 @@ const CourseItem = ({ id, title, description, deleteItem, handleCourseToEdit, go
   return (
     <StyledCourseItem>
       <StyledTitle onClick={handleGoToCourse}>{title}</StyledTitle>
-      <StyledDescription>{description}</StyledDescription>
-      <StyledButtonWrapper>
-        <button onClick={handleEditItem}>💾</button>
-        <button onClick={handleDeleteItem}>&times;</button>
-      </StyledButtonWrapper>
+      <StyledDescription>
+        {description}
+        <StyledButtonWrapper>
+          <button onClick={handleEditItem}>💾</button>
+          <button onClick={handleDeleteItem}>&times;</button>
+        </StyledButtonWrapper>
+      </StyledDescription>
     </StyledCourseItem>
   )
 }
