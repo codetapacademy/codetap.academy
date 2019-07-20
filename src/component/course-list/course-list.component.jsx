@@ -3,12 +3,12 @@ import CourseItem from '../course-item/course-item.component';
 import { StyledCourseList } from './course-list.style';
 
 
-const CourseList = ({ courseList = [], deleteItem, handleCourseToEdit }) => {
+const CourseList = ({ courseList = [], deleteItem, handleCourseToEdit, goToCourse }) => {
   return (
     <StyledCourseList>
       {courseList.map(course => <CourseItem
         key={course.id}
-        {...{...course, deleteItem, handleCourseToEdit }}
+        {...{...course, deleteItem, handleCourseToEdit, goToCourse }}
         />
       )}
     </StyledCourseList>

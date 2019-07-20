@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const StyledTitle = styled.div`
   padding: 0.5rem 1rem;
   background-color: #f1f1f1;
+  cursor: pointer;
 `
 
 export const StyledDescription = styled.div`
@@ -11,7 +12,7 @@ export const StyledDescription = styled.div`
 
 export const StyledCourseItem = styled.div`
   width: 250px;
-  height: 500px;
+  height: 180px;
   border-radius: 0.5rem;
   border: 1px solid #f1f1f1;
   position: relative;
@@ -22,13 +23,14 @@ export const StyledCourseItem = styled.div`
 
 export const StyledButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   position: absolute;
   right: -100%;
-  top: 0;
+  top: 2.5rem;
   transition: 0.25s;
 
   ${StyledCourseItem}:hover & {
-    right: 0;
+    right: 5px;
   }
 `
 

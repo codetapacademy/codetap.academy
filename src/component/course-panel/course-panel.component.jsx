@@ -4,6 +4,7 @@ import CourseList from '../course-list/course-list.component'
 import CourseEdit from '../course-edit/course-edit.component'
 import { courseListReducer } from './course-panel.reducer'
 import { addCourseAction, removeCourseAction, modifyCourseAction } from './course-panel.action'
+import { navigate } from '@reach/router'
 
 const CoursePanel = () => {
   const [ title, setTitle ] = useState('')
@@ -117,6 +118,11 @@ const CoursePanel = () => {
     setDescription(value)
   }
 
+  const goToCourse = id => {
+    console.log(`Go to course with id: ${id}`)
+    navigate(`/course/${id}`)
+  }
+
   return (
     <div>
       <h2>Add Course</h2>
@@ -134,6 +140,7 @@ const CoursePanel = () => {
         courseList={courseList}
         handleCourseToEdit={handleCourseToEdit}
         deleteItem={deleteItem}
+        goToCourse={goToCourse}
       />
     </div>
   )
