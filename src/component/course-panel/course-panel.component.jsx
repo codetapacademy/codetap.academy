@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { db } from '../data/firebase'
 import CourseList from '../course-list/course-list.component'
-import CourseEdit from '../course-edit/course-edit.component'
+import ManageTitleAndDescription from '../manage-title-and-description/manage-title-and-description.component'
 import { navigate } from '@reach/router'
 import { StyledControlPanel } from './course-panel.style';
 import { WebInfoState } from '../web-info/web-info.context'
@@ -51,7 +51,7 @@ const CoursePanel = () => {
       .map(({ title, description }) => ({ title, description }))[0] || {}
   }
 
-  const courseEditValue = editInputUpdated
+  const manageTitleAndDescriptionValue = editInputUpdated
     // get the course title value from the list
     ? getCourseToEdit(courseList, courseIdToEdit)
     // the value from the input or empty string
@@ -95,14 +95,16 @@ const CoursePanel = () => {
   return (
     <StyledControlPanel>
       <PanelTitle>Add Course</PanelTitle>
-      <CourseEdit
-        addCourse={addCourse}
+      <ManageTitleAndDescription
+        addToDb={addCourse}
         handleTitle={handleTitle}
         handleCancel={handleCancel}
         courseIdToEdit={courseIdToEdit}
-        description={courseEditValue.description}
+        description={manageTitleAndDescriptionValue.description}
         handleDescription={handleDescription}
-        title={courseEditValue.title}
+        addLabel="Add course"
+        saveLabel="Save course"
+        title={manageTitleAndDescriptionValue.title}
       />
       <PanelTitle>Manage course</PanelTitle>
       <CourseList

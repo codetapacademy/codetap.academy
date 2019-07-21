@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
-import { StyledActionButtonWrapper, StyledCourseEdit } from './course-edit.style';
+import { StyledActionButtonWrapper, StyledManageTitleAndDescription } from './manage-title-and-description.style';
 
-const CourseEdit = ({ title, handleTitle, addCourse, courseIdToEdit, description, handleDescription, handleCancel }) => {
+const ManageTitleAndDescription = ({ addLabel, saveLabel, title, handleTitle, addToDb, courseIdToEdit, description, handleDescription, handleCancel }) => {
   const titleInput = useRef()
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const CourseEdit = ({ title, handleTitle, addCourse, courseIdToEdit, description
   }, [title])
 
   return (
-    <StyledCourseEdit>
+    <StyledManageTitleAndDescription>
       <input
         type="text"
         ref={titleInput}
@@ -27,15 +27,15 @@ const CourseEdit = ({ title, handleTitle, addCourse, courseIdToEdit, description
       />
 
       <StyledActionButtonWrapper>
-        <button onClick={addCourse}>
-          {courseIdToEdit ? 'Save course' : 'Add course'}
+        <button onClick={addToDb}>
+          {courseIdToEdit ? saveLabel : addLabel}
         </button>
         {courseIdToEdit && <button onClick={handleCancel}>
           Cancel
         </button>}
       </StyledActionButtonWrapper>
-    </StyledCourseEdit>
+    </StyledManageTitleAndDescription>
   )
 }
 
-export default CourseEdit
+export default ManageTitleAndDescription

@@ -20,7 +20,7 @@ const CourseItem = ({ id, title, description, deleteItem, handleCourseToEdit, go
       <StyledDescription>
         {description}
         <StyledButtonWrapper>
-          <button onClick={handleEditItem}>💾</button>
+          <button onClick={handleEditItem}>✒️</button>
           <button onClick={handleDeleteItem}>&times;</button>
         </StyledButtonWrapper>
       </StyledDescription>
