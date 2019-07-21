@@ -1,8 +1,15 @@
 import React, { useRef, useEffect } from 'react'
-import { StyledActionButtonWrapper, StyledManageTitleAndDescription } from './manage-title-and-description.style';
+import { StyledActionButtonWrapper, StyledManageTitleAndDescription } from './manage-meta.style';
 
-const ManageTitleAndDescription = ({ addLabel, saveLabel, title, handleTitle, addToDb, courseIdToEdit, description, handleDescription, handleCancel }) => {
+const ManageTitleAndDescription = ({
+  label,
+  save,
+  change,
+  cancel,
+  data
+}) => {
   const titleInput = useRef()
+  const { id, title, description } = data
 
   useEffect(() => {
     if (!title.length) {
@@ -16,23 +23,19 @@ const ManageTitleAndDescription = ({ addLabel, saveLabel, title, handleTitle, ad
         type="text"
         ref={titleInput}
         value={title}
-        onChange={handleTitle}
+        onChange={e => change({ title: e.target.value })}
         autoFocus
         placeholder="Course title"/>
 
       <textarea
         value={description}
-        onChange={handleDescription}
+        onChange={e => change({ description: e.target.value })}
         placeholder="Course description"
       />
 
       <StyledActionButtonWrapper>
-        <button onClick={addToDb}>
-          {courseIdToEdit ? saveLabel : addLabel}
-        </button>
-        {courseIdToEdit && <button onClick={handleCancel}>
-          Cancel
-        </button>}
+        <button onClick={save}>{label}</button>
+        {id && <button onClick={cancel}>Cancel</button>}
       </StyledActionButtonWrapper>
     </StyledManageTitleAndDescription>
   )

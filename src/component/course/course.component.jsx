@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { WebInfoState } from '../web-info/web-info.context';
 import { db } from '../data/firebase'
 import PanelTitle from '../panel-title';
-import ManageTitleAndDescription from '../manage-title-and-description/manage-title-and-description.component';
+import ManageTitleAndDescription from '../manage-meta';
 
 const Course = ({ courseId }) => {
   const { sectionList } = WebInfoState()
