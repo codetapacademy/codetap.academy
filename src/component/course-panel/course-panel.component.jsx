@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { db } from '../data/firebase'
 import CourseList from '../course-list/course-list.component'
-import ManageTitleAndDescription from '../manage-meta/manage-meta.component'
+import ManageMeta from '../manage-meta/manage-meta.component'
 import { navigate } from '@reach/router'
 import { StyledControlPanel } from './course-panel.style';
 import { WebInfoState } from '../web-info/web-info.context'
@@ -75,7 +75,7 @@ const CoursePanel = () => {
   return (
     <StyledControlPanel>
       <PanelTitle>Add Course</PanelTitle>
-      <ManageTitleAndDescription
+      <ManageMeta
         label={getSaveLabel()}
         save={save}
         change={change}

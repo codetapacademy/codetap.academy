@@ -4,13 +4,19 @@ import { StyledCourseList } from './course-list.style';
 
 
 const CourseList = ({ courseList = [], deleteItem, handleUpdate, goToCourse }) => {
+  const courseItemPropList = {...course, deleteItem, handleUpdate, goToCourse }
+
+  renderCourseList = courseList
+    .map(course =>
+      <CourseItem
+        key={course.id}
+        {...courseItemPropList}
+      />
+    )
+
   return (
     <StyledCourseList>
-      {courseList.map(course => <CourseItem
-        key={course.id}
-        {...{...course, deleteItem, handleUpdate, goToCourse }}
-        />
-      )}
+      {renderCourseList()}
     </StyledCourseList>
   )
 }

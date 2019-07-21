@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { WebInfoState } from '../web-info/web-info.context';
 import { db } from '../data/firebase'
 import PanelTitle from '../panel-title';
-import ManageTitleAndDescription from '../manage-meta';
+import ManageMeta from '../manage-meta';
 
 const Course = ({ courseId }) => {
   const { sectionList } = WebInfoState()
@@ -57,7 +57,7 @@ const Course = ({ courseId }) => {
       <PanelTitle>{title}</PanelTitle>
       <p>{description}</p>
       <PanelTitle>Add section</PanelTitle>
-      <ManageTitleAndDescription
+      <ManageMeta
         addToDb={addSection}
         title={title}
         saveLabel="Save section"
