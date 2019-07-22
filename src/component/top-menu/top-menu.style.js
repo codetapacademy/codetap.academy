@@ -5,8 +5,8 @@ export const StyledButton = styled.button`
   background-color: rgba(114, 137, 218, 0.4);
   border-radius: 14px;
   /* border-radius: ${({ theme }) => theme.layout.borderRadius}; */
-  border: none;
   color: ${({ theme }) => theme.layout.text};
+  border: 1px solid ${({ theme }) => theme.layout.borderColor};
   font-weight: bold;
   height: 28px;
   padding: 0 1rem;

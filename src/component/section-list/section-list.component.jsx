@@ -1,10 +1,12 @@
 import React from 'react'
+import { StyledSectionList } from './section-list.style';
+import SectionItem from '../section-item';
 
 const SectionList = ({ data = [] }) => {
   return (
-    <div>
-      {data.map(({ title}) => <div>{title}</div>)}
-    </div>
+    <StyledSectionList>
+      {data.map(({ title }) => <SectionItem title={title} />)}
+    </StyledSectionList>
   )
 }
 

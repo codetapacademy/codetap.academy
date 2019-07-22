@@ -4,6 +4,8 @@ const layout = {
   logo: '#d52027',
   borderRadius: '0.5rem',
   text: '#fff',
+  borderColor: '#f1f1f1',
+  defaultPadding: '0.5rem',
 }
 
 const menu = {

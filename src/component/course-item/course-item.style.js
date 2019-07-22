@@ -17,7 +17,7 @@ export const StyledDescription = styled.div`
 export const StyledCourseItem = styled.div`
   height: 180px;
   border-radius: 0.5rem;
-  border: 1px solid #f1f1f1;
+  border: 1px solid ${({ theme }) => theme.layout.borderColor};
   display: flex;
   flex-direction: column;
   overflow: hidden;
