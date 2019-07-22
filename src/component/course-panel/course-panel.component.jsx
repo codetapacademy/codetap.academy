@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { db } from '../data/firebase'
 import CourseList from '../course-list/course-list.component'
-import CourseEdit from '../course-edit/course-edit.component'
+import ManageMeta from '../manage-meta/manage-meta.component'
 import { navigate } from '@reach/router'
 import { StyledControlPanel } from './course-panel.style';
 import { WebInfoState } from '../web-info/web-info.context'
 import PanelTitle from '../panel-title';
 
 const CoursePanel = () => {
-  const [ title, setTitle ] = useState('')
-  const [ description, setDescription ] = useState('change me!!! :p sa nu moarahhh gigi')
-  const [ courseIdToEdit, setCourseIdToEdit ] = useState(null)
-  const [ editInputUpdated, setEditInputUpdated ] = useState(false)
+  const defaultCourse = {
+    title: '',
+    description: '',
+    id: null,
+  }
+  const [ course, setCourse ] = useState(defaultCourse)
   const { courseList } = WebInfoState()
 
   const deleteItem = id => {
@@ -27,11 +29,12 @@ const CoursePanel = () => {
       .catch(message => console.log(`Weird message!`, message))
   }
 
-  const addCourse = () => {
+  const save = () => {
     const courseCollection = db.collection('course')
-    if (courseIdToEdit) {
+    const { id, title, description } = course
+    if (id) {
       // it means we want to update a course
-      courseCollection.doc(courseIdToEdit).set(
+      courseCollection.doc(id).set(
         { title, description },
         { merge: true }
       )
@@ -40,51 +43,26 @@ const CoursePanel = () => {
       // we want to add a course
       courseCollection.add({ title, description })
     }
-    setTitle('')
-    setDescription('')
+    setCourse(defaultCourse)
   }
 
-  const getCourseToEdit = (courseList, courseToEdit) => {
-    setEditInputUpdated(false)
-    return courseList
-      .filter(({ id }) => id === courseToEdit)
+  const getUpdateValue = (list, updateId) => {
+    return list
+      .filter(({ id }) => id === updateId)
       .map(({ title, description }) => ({ title, description }))[0] || {}
   }
 
-  const courseEditValue = editInputUpdated
-    // get the course title value from the list
-    ? getCourseToEdit(courseList, courseIdToEdit)
-    // the value from the input or empty string
-    : { title, description }
-
-  const handleCourseToEdit = courseId => {
-    setEditInputUpdated(true)
-    setCourseIdToEdit(courseId)
-    const { title, description } = getCourseToEdit(courseList, courseId)
-    setTitle(title)
-    setDescription(description)
+  const handleUpdate = id => {
+    const { title, description } = getUpdateValue(courseList, id)
+    setCourse({ id, title, description })
   }
 
-  const handleTitle = e => {
-    let value = ''
-    if (e.target.value) {
-      value = e.target.value
-    }
-    else {
-      setCourseIdToEdit(null)
-    }
-    setTitle(value)
-  }
-  
-  const handleCancel = () => {
-    setCourseIdToEdit(null)
-    setTitle('')
-    setDescription('')
+  const change = what => {
+    setCourse({ ...course, ...what })
   }
 
-  const handleDescription = e => {
-    const { value } = e.target
-    setDescription(value)
+  const cancel = () => {
+    setCourse(defaultCourse)
   }
 
   const goToCourse = id => {
@@ -92,22 +70,22 @@ const CoursePanel = () => {
     navigate(`/course/${id}`)
   }
 
+  const getSaveLabel = () => course.id ? "Update course" : "Add course"
+
   return (
     <StyledControlPanel>
       <PanelTitle>Add Course</PanelTitle>
-      <CourseEdit
-        addCourse={addCourse}
-        handleTitle={handleTitle}
-        handleCancel={handleCancel}
-        courseIdToEdit={courseIdToEdit}
-        description={courseEditValue.description}
-        handleDescription={handleDescription}
-        title={courseEditValue.title}
+      <ManageMeta
+        label={getSaveLabel()}
+        save={save}
+        change={change}
+        cancel={cancel}
+        data={course}
       />
       <PanelTitle>Manage course</PanelTitle>
       <CourseList
         courseList={courseList}
-        handleCourseToEdit={handleCourseToEdit}
+        handleUpdate={handleUpdate}
         deleteItem={deleteItem}
         goToCourse={goToCourse}
       />

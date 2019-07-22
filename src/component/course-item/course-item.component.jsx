@@ -1,18 +1,10 @@
 import React from 'react'
 import { StyledCourseItem, StyledButtonWrapper, StyledTitle, StyledDescription } from './course-item.style'
 
-const CourseItem = ({ id, title, description, deleteItem, handleCourseToEdit, goToCourse }) => {
-  const handleDeleteItem = () => {
-    deleteItem && deleteItem(id)
-  }
-
-  const handleEditItem = () => {
-    handleCourseToEdit(id)
-  }
-
-  const handleGoToCourse = () => {
-    goToCourse(id)
-  }
+const CourseItem = ({ id, title, description, deleteItem, handleUpdate, goToCourse }) => {
+  const handleDeleteItem = () => deleteItem && deleteItem(id)
+  const handleEditItem = () =>  handleUpdate(id)
+  const handleGoToCourse = () =>  goToCourse(id)
 
   return (
     <StyledCourseItem>
@@ -20,7 +12,7 @@ const CourseItem = ({ id, title, description, deleteItem, handleCourseToEdit, go
       <StyledDescription>
         {description}
         <StyledButtonWrapper>
-          <button onClick={handleEditItem}>💾</button>
+          <button onClick={handleEditItem}>✒️</button>
           <button onClick={handleDeleteItem}>&times;</button>
         </StyledButtonWrapper>
       </StyledDescription>

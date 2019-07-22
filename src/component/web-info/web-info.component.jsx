@@ -15,7 +15,7 @@ const WebInfo = () => {
         <StyledRouter>
           <Home path="/" />
           <CoursePanel path="dashboard" />
-          <Course path="/course/:id" />
+          <Course path="/course/:courseId" />
         </StyledRouter>
         <TopMenu />
       </StyledWebInfo>
