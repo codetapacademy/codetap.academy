@@ -1,14 +1,23 @@
 import React, { createContext, useContext, useReducer } from 'react'
 import { courseListReducer } from '../course-panel/course-panel.reducer'
 import { sectionListReducer } from '../course/section.reducer'
+import { topMenuReducer } from '../top-menu/top-menu.reducer'
 
 const WebInfoContext = createContext()
 
 export const WebInfoProvider = ({ children }) => {
   const [ courseList, updateCourseList ] = useReducer(courseListReducer, []) 
   const [ sectionList, updateSectionList ] = useReducer(sectionListReducer, []) 
+  const [ toggleChat, updateToggleChat ] = useReducer(topMenuReducer, true)
   return (
-  <WebInfoContext.Provider value={{ courseList, sectionList, updateCourseList, updateSectionList }}>
+  <WebInfoContext.Provider value={{
+    courseList,
+    sectionList,
+    updateCourseList,
+    updateSectionList,
+    toggleChat,
+    updateToggleChat
+  }}>
     {children}
   </WebInfoContext.Provider>
 )}
