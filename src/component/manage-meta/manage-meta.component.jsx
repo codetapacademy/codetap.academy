@@ -25,13 +25,13 @@ const ManageMeta = ({
         value={title}
         onChange={e => change({ title: e.target.value })}
         autoFocus
-        placeholder="Course title"
+        placeholder="Title"
       />
 
       <textarea
         value={description}
         onChange={e => change({ description: e.target.value })}
-        placeholder="Course description"
+        placeholder="Description"
       />
 
       <StyledActionButtonWrapper>

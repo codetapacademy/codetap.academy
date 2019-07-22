@@ -3,10 +3,9 @@ import { StyledSectionList } from './section-list.style';
 import SectionItem from '../section-item';
 import { db } from '../data/firebase'
 
-const SectionList = ({ data = [] }) => {
+const SectionList = ({ data = [], handleUpdate }) => {
 
   const deleteItem = id => {
-    console.log('id to delete:  ' + id)
     db
       .collection('section')
       .doc(id)
@@ -27,6 +26,7 @@ const SectionList = ({ data = [] }) => {
           description,
           id,
           deleteItem,
+          handleUpdate
         }
         return <SectionItem key={id} {...sectionItemPropList} />
       })}

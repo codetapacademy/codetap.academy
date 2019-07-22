@@ -66,7 +66,6 @@ const CoursePanel = () => {
   }
 
   const goToCourse = id => {
-    console.log(`Go to course with id: ${id}`)
     navigate(`/course/${id}`)
   }
 

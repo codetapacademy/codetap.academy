@@ -1,12 +1,12 @@
 import React from 'react'
 import { StyledSectionItem, StyledSectionButton } from './section-item.style';
 
-const SectionItem = ({ title, id, update, deleteItem }) => {
+const SectionItem = ({ title, id, handleUpdate, deleteItem }) => {
   return (
     <StyledSectionItem>
       <StyledSectionButton
         side="left"
-        onClick={() => update(id)}
+        onClick={() => handleUpdate(id)}
       >
         Edit
       </StyledSectionButton>

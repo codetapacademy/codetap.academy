@@ -14,7 +14,6 @@ const SectionPanel = ({ course }) => {
   }
   const { sectionList } = WebInfoState()
   const [ section, setSection ] = useState(defaultSection)
-  console.log(sectionList)
 
   const change = what => {
     setSection({ ...section, ...what })
@@ -41,6 +40,17 @@ const SectionPanel = ({ course }) => {
     setSection(defaultSection)
   }
 
+  const getUpdateValue = (list, updateId) => {
+    return list
+      .filter(({ id }) => id === updateId)
+      .map(({ title, description }) => ({ title, description }))[0] || {}
+  }
+
+  const handleUpdate = id => {
+    const { title, description } = getUpdateValue(sectionList, id)
+    setSection({ ...section, id, title, description })
+  }
+
   const getSaveLabel = () => section.id ? "Update section" : "Add section"
 
   return (
@@ -54,7 +64,10 @@ const SectionPanel = ({ course }) => {
         data={section}
       />
       <PanelTitle>Manage section</PanelTitle>
-      <SectionList data={sectionList} />
+      <SectionList
+        data={sectionList}
+        handleUpdate={handleUpdate}
+      />
 
     </div>
   )
