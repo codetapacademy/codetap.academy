@@ -4,12 +4,15 @@ import { CodeTapAcademy } from './component/app'
 import './index.css'
 import { ThemeProvider } from 'styled-components'
 import theme from './component/theme'
+import { WebInfoProvider } from './component/web-info/web-info.context';
 
 const tagId = '#react-will-render-here-and-it-is-really-awesome'
 
 render(
-    <ThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
+    <WebInfoProvider>
         <CodeTapAcademy />
-    </ThemeProvider>,
-    document.querySelector(tagId)
+    </WebInfoProvider>
+  </ThemeProvider>,
+  document.querySelector(tagId)
 )
