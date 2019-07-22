@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyledSectionList } from './section-list.style';
-import SectionItem from '../section-item';
+import { StyledSectionList, StyledSectionItem } from './section-list.style';
 import { db } from '../data/firebase'
+import SectionItem from '../section-item';
 
 const SectionList = ({ data = [], handleUpdate }) => {
 
@@ -28,7 +28,11 @@ const SectionList = ({ data = [], handleUpdate }) => {
           deleteItem,
           handleUpdate
         }
-        return <SectionItem key={id} {...sectionItemPropList} />
+        return (
+          <StyledSectionItem key={id}>
+            <SectionItem {...sectionItemPropList} />
+          </StyledSectionItem>
+        )
       })}
     </StyledSectionList>
   )
