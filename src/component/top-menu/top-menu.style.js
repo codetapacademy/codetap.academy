@@ -1,6 +1,17 @@
 import styled from 'styled-components'
 import { Link } from '@reach/router'
 
+export const StyledButton = styled.button`
+  background-color: rgba(114, 137, 218, 0.4);
+  border-radius: 14px;
+  /* border-radius: ${({ theme }) => theme.layout.borderRadius}; */
+  border: none;
+  color: ${({ theme }) => theme.layout.text};
+  font-weight: bold;
+  height: 28px;
+  padding: 0 1rem;
+`
+
 export const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 0.5rem 1rem;
@@ -17,6 +28,7 @@ export const StyledTopMenu = styled.div`
   background-color: ${({ theme }) => theme.menu.background};
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   position: fixed;
   top: 0;
   width: 100%;
