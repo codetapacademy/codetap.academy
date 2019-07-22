@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+export const StyledWidgetWrapper = styled.div`
+  padding: 3.5rem 1rem 1rem 0;
+`
+
 export const StyledApp = styled.div`
   min-height: 100%;
   display: grid;
