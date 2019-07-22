@@ -3,70 +3,81 @@ import { WebInfoState } from '../web-info/web-info.context';
 import { db } from '../data/firebase'
 import PanelTitle from '../panel-title';
 import ManageMeta from '../manage-meta';
+import SectionList from '../section-list';
 
-const Course = ({ courseId }) => {
-  const { sectionList } = WebInfoState()
-  const [ sectionIdToEdit, setSectionIdToEdit ] = useState(null)
-  const [ title, setTitle ] = useState('')
-  const [ description, setDescription ] = useState('')
+const Section = ({ courseId }) => {
+  const defaultSection = {
+    title: '',
+    description: '',
+    id: null,
+    course: {
+      id: courseId,
+      title: 'Course '
+    },
+  }
+  const { sectionList, courseList } = WebInfoState()
+  const [ section, setSection ] = useState(defaultSection)
+  console.log(sectionList)
 
   useEffect(() => {
     // sectionList
-    //   .filter(course => course.id === courseId)
+    //   .filter(Section => Section.id === SectionId)
     //   .forEach(({ title, description }) => {
     //     setDescription(description)
     //     setTitle(title)
     //   })
-  }, [])
+    const course = courseList.filter(({ id }) => id === courseId)[0]
+    if (course && courseList.length) {
+      setSection({
+        ...section,
+        course,
+      })
+    }
+  }, [courseList])
 
-  const addSection = () => {
-    const collection = db.collection('section')
-    if (sectionIdToEdit) {
-      // it means we want to update a section
-      collection.doc(sectionIdToEdit).set(
-        { title, description, courseId },
+  const save = () => {
+    const sectionCollection = db.collection('section')
+    const { id, title, description, course } = section
+    if (id) {
+      // it means we want to update a Section
+      sectionCollection.doc(id).set(
+        { title, description, course },
         { merge: true }
       )
     }
     else {
-      // we want to add a section
-      collection.add({ title, description })
+      // we want to add a Section
+      sectionCollection.add({ title, description, course })
     }
-    setTitle('')
-    setDescription('')
+    setSection(defaultSection)
   }
 
-  const handleTitle = e => {
-    let value = ''
-    if (e.target.value) {
-      value = e.target.value
-    }
-    else {
-      setSectionIdToEdit(null)
-    }
-    setTitle(value)
+  const change = what => {
+    setSection({ ...section, ...what })
   }
 
-  const handleDescription = e => {
-    const { value } = e.target
-    setDescription(value)
+  const cancel = () => {
+    setSection(defaultSection)
   }
+
+  const getSaveLabel = () => section.id ? "Update section" : "Add section"
 
   return (
     <div>
-      <PanelTitle>{title}</PanelTitle>
-      <p>{description}</p>
+      <PanelTitle>{section.course.title}</PanelTitle>
+      <p>{section.course.description}</p>
       <PanelTitle>Add section</PanelTitle>
       <ManageMeta
-        addToDb={addSection}
-        title={title}
-        saveLabel="Save section"
-        addLabel="Add Section"
-        handleTitle={handleTitle}
-        handleDescription={handleDescription}
+        label={getSaveLabel()}
+        save={save}
+        change={change}
+        cancel={cancel}
+        data={section}
       />
+      <PanelTitle>Manage section</PanelTitle>
+      <SectionList data={sectionList} />
     </div>
   )
 }
 
-export default Course
+export default Section

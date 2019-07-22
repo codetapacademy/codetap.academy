@@ -5,10 +5,10 @@ import { sectionListReducer } from '../course/section.reducer'
 const WebInfoContext = createContext()
 
 export const WebInfoProvider = ({ children }) => {
-  const [ courseList, dispatch ] = useReducer(courseListReducer, []) 
-  const [ sectionList ] = useReducer(sectionListReducer, []) 
+  const [ courseList, updateCourseList ] = useReducer(courseListReducer, []) 
+  const [ sectionList, updateSectionList ] = useReducer(sectionListReducer, []) 
   return (
-  <WebInfoContext.Provider value={{ courseList, sectionList, dispatch }}>
+  <WebInfoContext.Provider value={{ courseList, sectionList, updateCourseList, updateSectionList }}>
     {children}
   </WebInfoContext.Provider>
 )}

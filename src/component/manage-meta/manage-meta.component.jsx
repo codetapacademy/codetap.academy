@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
-import { StyledActionButtonWrapper, StyledManageTitleAndDescription } from './manage-meta.style';
+import { StyledActionButtonWrapper, StyledManageMeta } from './manage-meta.style';
 
-const ManageTitleAndDescription = ({
+const ManageMeta = ({
   label,
   save,
   change,
@@ -9,7 +9,7 @@ const ManageTitleAndDescription = ({
   data
 }) => {
   const titleInput = useRef()
-  const { id, title, description } = data
+  const { id = null, title = '', description = '' } = data
 
   useEffect(() => {
     if (!title.length) {
@@ -18,14 +18,15 @@ const ManageTitleAndDescription = ({
   }, [title])
 
   return (
-    <StyledManageTitleAndDescription>
+    <StyledManageMeta>
       <input
         type="text"
         ref={titleInput}
         value={title}
         onChange={e => change({ title: e.target.value })}
         autoFocus
-        placeholder="Course title"/>
+        placeholder="Course title"
+      />
 
       <textarea
         value={description}
@@ -37,8 +38,8 @@ const ManageTitleAndDescription = ({
         <button onClick={save}>{label}</button>
         {id && <button onClick={cancel}>Cancel</button>}
       </StyledActionButtonWrapper>
-    </StyledManageTitleAndDescription>
+    </StyledManageMeta>
   )
 }
 
-export default ManageTitleAndDescription
+export default ManageMeta

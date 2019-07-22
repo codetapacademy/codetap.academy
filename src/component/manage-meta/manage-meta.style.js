@@ -13,7 +13,7 @@ export const StyledActionButtonWrapper = styled.div`
   }
 `
 
-export const StyledManageTitleAndDescription = styled.div`
+export const StyledManageMeta = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto 1fr;
