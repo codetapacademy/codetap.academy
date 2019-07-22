@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/codetapacademy/codetap.academy/compare/v0.2.0...v0.3.0) (2019-07-22)
+
+
+### Bug Fixes
+
+* course card overlaps the main menu ([caf5c78](https://github.com/codetapacademy/codetap.academy/commit/caf5c78)), closes [#62](https://github.com/codetapacademy/codetap.academy/issues/62)
+* redux keeps initialising the list over an over ([708286e](https://github.com/codetapacademy/codetap.academy/commit/708286e)), closes [#71](https://github.com/codetapacademy/codetap.academy/issues/71)
+
+
+### Features
+
+* add a button to toggle the discord chat ([eeb0e3b](https://github.com/codetapacademy/codetap.academy/commit/eeb0e3b)), closes [#78](https://github.com/codetapacademy/codetap.academy/issues/78)
+* create reusable title ([6ecfbe8](https://github.com/codetapacademy/codetap.academy/commit/6ecfbe8)), closes [#68](https://github.com/codetapacademy/codetap.academy/issues/68)
+* re-enable the chat bot ([cf8a1d1](https://github.com/codetapacademy/codetap.academy/commit/cf8a1d1)), closes [#76](https://github.com/codetapacademy/codetap.academy/issues/76)
+* refactor the course reducer into web info ([780b420](https://github.com/codetapacademy/codetap.academy/commit/780b420)), closes [#66](https://github.com/codetapacademy/codetap.academy/issues/66)
+* share state between course and dashboard ([dd90205](https://github.com/codetapacademy/codetap.academy/commit/dd90205)), closes [#64](https://github.com/codetapacademy/codetap.academy/issues/64)
+
+
+
 ## [0.2.0](https://github.com/codetapacademy/codetap.academy/compare/v0.1.0...v0.2.0) (2019-07-20)
 
 
