@@ -2,14 +2,16 @@ import React from 'react'
 import { StyledApp, StyledWidgetWrapper } from './app.style';
 import WidgetBot from '@widgetbot/react-embed'
 import WebInfo from '../web-info';
+import { WebInfoState } from '../web-info/web-info.context';
 
 export const CodeTapAcademy = () => {
-  const showWidgetBot = true
+  const { toggleChat } = WebInfoState()
+
   return (
-    <StyledApp showWidgetBot={showWidgetBot}>
+    <StyledApp showWidgetBot={toggleChat}>
       <WebInfo />
       <StyledWidgetWrapper>
-        {showWidgetBot && <WidgetBot
+        {toggleChat && <WidgetBot
           server="591067148403867650"
           channel="591067149108379692"
           shard="https://disweb.deploys.io"

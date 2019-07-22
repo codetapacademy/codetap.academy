@@ -4,12 +4,11 @@ import TopMenu from '../top-menu'
 import Home from '../home';
 import Course from '../course';
 import { StyledWebInfo, StyledRouter } from './web-info.style';
-import { WebInfoProvider } from './web-info.context';
 import WebData from '../web-data';
 
 const WebInfo = () => {
   return (
-    <WebInfoProvider>
+    <>
       <WebData />
       <StyledWebInfo>
         <StyledRouter>
@@ -19,7 +18,7 @@ const WebInfo = () => {
         </StyledRouter>
         <TopMenu />
       </StyledWebInfo>
-    </WebInfoProvider>
+    </>
   )
 }
 

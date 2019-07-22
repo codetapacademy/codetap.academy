@@ -14,7 +14,9 @@ const TopMenu = () => {
       <StyledLink to="/">Home</StyledLink>
       <StyledLink to="/dashboard">Dashboard</StyledLink>
       <button>Log in</button>
-      <StyledButton onClick={handleToggleChat}>Invizi Chat</StyledButton>
+      <StyledButton onClick={handleToggleChat}>{
+        toggleChat ? 'Invizi Chat' : 'Gimme chat now!'
+      }</StyledButton>
     </StyledTopMenu>
   )
 }
