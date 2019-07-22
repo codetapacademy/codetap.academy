@@ -46,7 +46,6 @@ const WebData = () => {
 
         snapList.docChanges().forEach(change => {
           const course = change.doc.data()
-          console.log(course.title, change.type, change.doc.id)
           if (change.type === 'added') {
             updateCourseList(addCourseAction({
               title: course.title,
@@ -82,7 +81,6 @@ const WebData = () => {
 
         snapList.docChanges().forEach(change => {
           const section = change.doc.data()
-          console.log(section.title, change.type, change.doc.id)
           if (change.type === 'added') {
             updateSectionList(addSectionAction({
               title: section.title,
