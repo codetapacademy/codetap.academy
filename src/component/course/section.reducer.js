@@ -5,7 +5,6 @@ export const sectionListReducer = (state = [], action) => {
   switch(action.type) {
     case INIT_SECTION_LIST:
       return [
-        ...state,
         ...action.sectionList
       ]
     case ADD_SECTION:
