@@ -24,7 +24,7 @@ const Course = ({ courseId }) => {
     <div>
       <PanelTitle>{course.title}</PanelTitle>
       <p>{course.description}</p>
-      <SectionPanel course={course} />
+      {course && course.id && <SectionPanel course={course} />}
     </div>
   )
 }
