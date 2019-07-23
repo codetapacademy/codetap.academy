@@ -19,34 +19,23 @@ const WebData = () => {
     const sectionCollection = db
       .collection('section')
 
-    // TODO, create some sort of initialising only once
-    // or check if an element exists by id, or whatever
-    // works so you get the list once and on snapshot change
-    // only adds the first ones if the list hasn't been initialised.
-      // const courseList = snapList.docs.map(d => {
-      //   return {
-      //     id: d.id,
-      //     ...d.data()
-      //   }
-      // })
 
-      // dispatch(initCourseListAction(courseList))
-    // courseCollection.get().then((snapList => {
-    // }))
+    courseCollection.get().then((snapList => {
+      const courseList = snapList.docs.map(d => {
+        return {
+          id: d.id,
+          ...d.data()
+        }
+      })
+
+      updateCourseList(initCourseListAction(courseList))
+    }))
     const unsubscribeCourse = courseCollection
       .onSnapshot(snapList => {
-        // const courseList = snapList.docs.map(d => {
-        //   return {
-        //     id: d.id,
-        //     ...d.data()
-        //   }
-        // })
-
-        // dispatch(initCourseListAction(courseList))
-
         snapList.docChanges().forEach(change => {
           const course = change.doc.data()
-          if (change.type === 'added') {
+
+          if (change.type === 'added' && change.doc.metadata.hasPendingWrites) {
             updateCourseList(addCourseAction({
               title: course.title,
               description: course.description,
