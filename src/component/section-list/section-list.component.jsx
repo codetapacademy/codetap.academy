@@ -2,8 +2,9 @@ import React from 'react'
 import { StyledSectionList, StyledSectionItem } from './section-list.style';
 import { db } from '../data/firebase'
 import SectionItem from '../section-item';
+import LecturePanel from '../lecture-panel';
 
-const SectionList = ({ data = [], handleUpdate }) => {
+const SectionList = ({ data = [], handleUpdate, course = {} }) => {
 
   const deleteItem = id => {
     db
@@ -21,16 +22,21 @@ const SectionList = ({ data = [], handleUpdate }) => {
   return (
     <StyledSectionList>
       {data.map(({ title, description, id }) => {
-        const sectionItemPropList = {
+        const section = {
           title,
           description,
           id,
+        }
+
+        const sectionItemPropList = {
+          ...section,
           deleteItem,
           handleUpdate
         }
         return (
           <StyledSectionItem key={id}>
             <SectionItem {...sectionItemPropList} />
+            <LecturePanel section={section} course={course} />
           </StyledSectionItem>
         )
       })}
