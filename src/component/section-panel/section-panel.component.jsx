@@ -66,6 +66,7 @@ const SectionPanel = ({ course }) => {
       <PanelTitle>Manage section</PanelTitle>
       <SectionList
         data={sectionList}
+        course={course}
         handleUpdate={handleUpdate}
       />
 
