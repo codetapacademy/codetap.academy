@@ -19,10 +19,10 @@ const TopMenu = () => {
       auth
         .signInWithPopup(GitHubProvider)
         .then(user => {
-          console.log(user)
+          // console.log(user)
         })
         .catch(error => {
-          console.error(error)
+          // console.error(error)
         })
     }
   }
