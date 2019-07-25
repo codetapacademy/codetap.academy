@@ -1,25 +1,35 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyledTopMenu, StyledLink, StyledButton } from './top-menu.style'
 import { WebInfoState } from '../web-info/web-info.context';
 import { auth, GitHubProvider } from '../data/firebase';
 
 const TopMenu = () => {
-  const { toggleChat, updateToggleChat } = WebInfoState()
-  const [ loggedIn, setLoggedIn ] = useState(false) 
+  const { toggleChat, updateToggleChat, user, updateUser } = WebInfoState()
 
   const handleToggleChat = () => {
     updateToggleChat({ type: 'TOGGLE_CHAT' });
   }
 
   const handleLogInAndOut = () => {
-    if (loggedIn) {
+    if (user) {
       auth.signOut();
+      updateUser({
+        type: 'USER_AUTHENTICATE',
+        user: null
+      })
     }
     else {
       auth
         .signInWithPopup(GitHubProvider)
-        .then(user => {
-          // console.log(user)
+        .then(({ user: { uid, displayName, photoURL }}) => {
+          updateUser({
+            type: 'USER_AUTHENTICATE',
+            user: {
+              uid,
+              displayName,
+              photoURL
+            }
+          })
         })
         .catch(error => {
           // console.error(error)
@@ -27,12 +37,13 @@ const TopMenu = () => {
     }
   }
 
-  const getLogInOutLabel = () => loggedIn ? 'Ba Bye' : 'Let me in!'
+  const getLogInOutLabel = () => user ? 'Ba Bye' : 'Let me in!'
 
   return (
     <StyledTopMenu>
       <StyledLink to="/">Home</StyledLink>
       <StyledLink to="/dashboard">Dashboard</StyledLink>
+      <div>{user && user.displayName}</div>
       <button onClick={handleLogInAndOut}>
         {getLogInOutLabel()}
       </button>
