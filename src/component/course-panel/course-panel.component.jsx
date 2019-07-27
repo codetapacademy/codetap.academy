@@ -24,53 +24,55 @@ const CoursePanel = () => {
   useEffect(() => {
     let unsubscribe;
 
-    (async () => {
-      // I want to get a list of courses from FireStore
-      const courseCollection = db
-        .collection('course')
-  
-      try {
-        const snapList = await courseCollection.get()
-        const courseList = snapList.docs.map(d => {
-          return {
-            id: d.id,
-            ...d.data()
-          }
-        })
-
-        updateCourseList(initCourseListAction(courseList))
-
-        unsubscribe = await courseCollection
-          .onSnapshot(snapList => {
-            snapList.docChanges().forEach(change => {
-              const course = change.doc.data()
-
-              if (change.type === 'added' && change.doc.metadata.hasPendingWrites) {
-                updateCourseList(addCourseAction({
-                  title: course.title,
-                  description: course.description,
-                  id: change.doc.id,
-                }))
-              }
-              else if (change.type === 'removed') {
-                updateCourseList(removeCourseAction({
-                  id: change.doc.id,
-                }))
-              }
-              else if (change.type === 'modified') {
-                updateCourseList(modifyCourseAction({
-                  title: course.title,
-                  description: course.description,
-                  id: change.doc.id,
-                }))
-                // setCourseIdToEdit(null)
-              }
-            })
+    if (!courseList.length) {
+      (async () => {
+        // I want to get a list of courses from FireStore
+        const courseCollection = db
+          .collection('course')
+    
+        try {
+          const snapList = await courseCollection.get()
+          const courseList = snapList.docs.map(d => {
+            return {
+              id: d.id,
+              ...d.data()
+            }
           })
-      } catch(e) {
-        console.error('getCourseCollection() failed!', e)
-      }
-    })()
+  
+          updateCourseList(initCourseListAction(courseList))
+  
+          unsubscribe = await courseCollection
+            .onSnapshot(snapList => {
+              snapList.docChanges().forEach(change => {
+                const course = change.doc.data()
+  
+                if (change.type === 'added' && change.doc.metadata.hasPendingWrites) {
+                  updateCourseList(addCourseAction({
+                    title: course.title,
+                    description: course.description,
+                    id: change.doc.id,
+                  }))
+                }
+                else if (change.type === 'removed') {
+                  updateCourseList(removeCourseAction({
+                    id: change.doc.id,
+                  }))
+                }
+                else if (change.type === 'modified') {
+                  updateCourseList(modifyCourseAction({
+                    title: course.title,
+                    description: course.description,
+                    id: change.doc.id,
+                  }))
+                  // setCourseIdToEdit(null)
+                }
+              })
+            })
+        } catch(e) {
+          console.error('getCourseCollection() failed!', e)
+        }
+      })()
+    }
 
     return unsubscribe
   }, [])

@@ -5,7 +5,6 @@ export const courseListReducer = (state = [], action) => {
   switch(action.type) {
     case INIT_COURSE_LIST:
       return [
-        ...state,
         ...action.courseList
       ]
     case ADD_COURSE:
