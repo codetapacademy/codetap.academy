@@ -20,9 +20,17 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
       .catch(message => console.log(`Weird message!`, message))
   }
 
+  const renderLectureList = lectureList => {
+    return lectureList.map(({ id, title, description }) => {
+      return (
+        <div key={id}>{title}</div>
+      )
+    })
+  }
+
   return (
     <StyledSectionList>
-      {data.map(({ title, description, id }) => {
+      {data.map(({ title, description, id, lectureList }) => {
         const section = {
           title,
           description,
@@ -47,6 +55,7 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
           <StyledSectionItem key={id}>
             <SectionItem {...sectionItemPropList} />
             {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
+            {renderLectureList(lectureList)}
           </StyledSectionItem>
         )
       })}
