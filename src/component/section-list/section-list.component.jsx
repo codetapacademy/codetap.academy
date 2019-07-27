@@ -3,9 +3,13 @@ import { StyledSectionList, StyledSectionItem } from './section-list.style';
 import { db } from '../data/firebase'
 import SectionItem from '../section-item';
 import LecturePanel from '../lecture-panel';
+import LectureItem from '../lecture-item/lecture-item.component';
+import { removeLectureFromSectionAction } from '../course/section.action';
+import { WebInfoState } from '../web-info/web-info.context';
 
 const SectionList = ({ data = [], handleUpdate, course = {} }) => {
   const [ showAddLectureId, setShowAddLectureId ] = useState('nimic')
+  const { updateSectionList } = WebInfoState()
 
   const deleteItem = id => {
     db
@@ -20,10 +24,22 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
       .catch(message => console.log(`Weird message!`, message))
   }
 
-  const renderLectureList = lectureList => {
-    return lectureList.map(({ id, title, description }) => {
+  const deleteLectureItem = (id, sectionId) => {
+    db
+      .collection('lecture')
+      .doc(id)
+      .delete()
+      .then(aaa => {
+        // console.log(`Item with id: ${id} is no longer with us`, aaa)
+        updateSectionList(removeLectureFromSectionAction(id, sectionId))
+      })
+      .catch(message => console.log(`Weird message!`, message))
+  }
+
+  const renderLectureList = (lectureList, sectionId) => {
+    return lectureList.map(lecture => {
       return (
-        <div key={id}>{title}</div>
+        <LectureItem {...lecture} sectionId={sectionId} remove={deleteLectureItem} />
       )
     })
   }
@@ -55,7 +71,7 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
           <StyledSectionItem key={id}>
             <SectionItem {...sectionItemPropList} />
             {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
-            {renderLectureList(lectureList)}
+            {renderLectureList(lectureList, id)}
           </StyledSectionItem>
         )
       })}
