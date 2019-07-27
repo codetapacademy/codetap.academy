@@ -2,6 +2,7 @@ import React from 'react'
 import { StyledTopMenu, StyledLink, StyledButton } from './top-menu.style'
 import { WebInfoState } from '../web-info/web-info.context';
 import { auth, GitHubProvider } from '../data/firebase';
+import Avatar from '../avatar';
 
 const TopMenu = () => {
   const { toggleChat, updateToggleChat, user, updateUser } = WebInfoState()
@@ -43,7 +44,7 @@ const TopMenu = () => {
     <StyledTopMenu>
       <StyledLink to="/">Home</StyledLink>
       <StyledLink to="/dashboard">Dashboard</StyledLink>
-      <div>{user && user.displayName}</div>
+      <Avatar user={user} />
       <button onClick={handleLogInAndOut}>
         {getLogInOutLabel()}
       </button>
