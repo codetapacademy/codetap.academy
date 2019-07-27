@@ -1,22 +1,30 @@
 import React from 'react'
-import { StyledSectionItem, StyledSectionButton } from './section-item.style';
+import { StyledSectionItem, StyledSectionButtonGroup } from './section-item.style';
 
-const SectionItem = ({ title, id, handleUpdate, deleteItem }) => {
+const SectionItem = ({ title, id, handleUpdate, deleteItem, showAddLecture, setShowAddLectureId }) => {
   return (
     <StyledSectionItem>
-      <StyledSectionButton
-        side="left"
-        onClick={() => handleUpdate(id)}
-      >
-        Edit
-      </StyledSectionButton>
       {title}
-      <StyledSectionButton
-        side="right"
-        onClick={() => deleteItem(id)}
-      >
-        Delete
-      </StyledSectionButton>
+
+      <StyledSectionButtonGroup side="right" columns="3">
+        <button
+          onClick={() => setShowAddLectureId(id)}
+        >
+          Add Lecture
+        </button>
+
+        <button
+          onClick={() => handleUpdate(id)}
+        >
+          Edit
+        </button>
+
+        <button
+          onClick={() => deleteItem(id)}
+        >
+          Delete
+        </button>
+      </StyledSectionButtonGroup>
     </StyledSectionItem>
   )
 }

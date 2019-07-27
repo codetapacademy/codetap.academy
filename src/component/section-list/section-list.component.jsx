@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyledSectionList, StyledSectionItem } from './section-list.style';
 import { db } from '../data/firebase'
 import SectionItem from '../section-item';
 import LecturePanel from '../lecture-panel';
 
 const SectionList = ({ data = [], handleUpdate, course = {} }) => {
+  const [ showAddLectureId, setShowAddLectureId ] = useState('nimic')
 
   const deleteItem = id => {
     db
@@ -30,13 +31,22 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
 
         const sectionItemPropList = {
           ...section,
+          showAddLectureId,
+          setShowAddLectureId,
           deleteItem,
           handleUpdate
+        }
+
+        const lecturePanelPropList = {
+          section,
+          course,
+          showAddLectureId,
+          setShowAddLectureId,
         }
         return (
           <StyledSectionItem key={id}>
             <SectionItem {...sectionItemPropList} />
-            <LecturePanel section={section} course={course} />
+            {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
           </StyledSectionItem>
         )
       })}

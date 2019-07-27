@@ -17,7 +17,6 @@ const SectionPanel = ({ course }) => {
   const { sectionList, updateSectionList } = WebInfoState()
 
   useEffect(() => {
-    console.log(course)
     const sectionCollection = db
       .collection('section')
       .where('course.id', '==', course.id)

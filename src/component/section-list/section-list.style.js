@@ -7,7 +7,6 @@ export const StyledSectionList = styled.div`
 `
 
 export const StyledSectionItem = styled.div`
-  padding: ${({ theme }) => theme.layout.defaultPadding};
   background-color: ${({ theme }) => theme.layout.background};
   &:nth-child(even) {
     background-color: ${({ theme }) => theme.layout.backgroundText};

@@ -3,7 +3,7 @@ import ManageMeta from '../manage-meta'
 import { StyledLecturePanel } from './lecture-panel.style';
 import { db } from '../data/firebase'
 
-const LecturePanel = ({ section = {}, course = {} }) => {
+const LecturePanel = ({ section = {}, course = {}, setShowAddLectureId, showAddLectureId }) => {
   const defaultLecture = {
     id: null,
     title: '',
@@ -11,10 +11,12 @@ const LecturePanel = ({ section = {}, course = {} }) => {
     section,
     course,
   }
-  const [ showAddLecture, toggleShowAddLecture ] = useState(false)
+
   const [ lecture, setLecture ] = useState(defaultLecture)
   const label = 'Add lecture'
   const data = lecture
+  const showCancel = true
+
   const save = () => {
     const lectureCollection = db.collection('lecture')
     const { id, title, description } = lecture
@@ -32,7 +34,9 @@ const LecturePanel = ({ section = {}, course = {} }) => {
     }
     setLecture(defaultLecture)
   }
-  const cancel = () => {}
+  const cancel = () => {
+    setShowAddLectureId('')
+  }
   const change = object => {
     setLecture({
       ...lecture,
@@ -45,18 +49,13 @@ const LecturePanel = ({ section = {}, course = {} }) => {
     save,
     change,
     cancel,
-    data
+    data,
+    showCancel
   }
 
   return (
     <StyledLecturePanel>
-      {/* <pre>{JSON.stringify(lecture, null, 2)}</pre> */}
-      <button
-        onClick={() => toggleShowAddLecture(!showAddLecture)}
-      >
-        {showAddLecture ? 'Cancel adding a' : 'Add'} Lecture
-      </button>
-      {showAddLecture && <ManageMeta {...lecturePropList} />}
+      <ManageMeta {...lecturePropList} />
     </StyledLecturePanel>
   )
 }

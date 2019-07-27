@@ -6,6 +6,7 @@ const layout = {
   text: '#fff',
   borderColor: '#f1f1f1',
   defaultPadding: '0.5rem',
+  bigPadding: '1rem',
 }
 
 const menu = {

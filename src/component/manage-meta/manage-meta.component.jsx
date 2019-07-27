@@ -6,7 +6,8 @@ const ManageMeta = ({
   save,
   change,
   cancel,
-  data
+  data,
+  showCancel = false,
 }) => {
   const titleInput = useRef()
   const { id = null, title = '', description = '' } = data
@@ -36,7 +37,7 @@ const ManageMeta = ({
 
       <StyledActionButtonWrapper>
         <button onClick={save}>{label}</button>
-        {id && <button onClick={cancel}>Cancel</button>}
+        {(id || showCancel) && <button onClick={cancel}>Cancel</button>}
       </StyledActionButtonWrapper>
     </StyledManageMeta>
   )
