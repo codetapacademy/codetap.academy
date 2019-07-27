@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyledTopMenu, StyledLink, StyledButton } from './top-menu.style'
 import { WebInfoState } from '../web-info/web-info.context';
-import { auth, GitHubProvider } from '../data/firebase';
+import { auth, GitHubProvider, db } from '../data/firebase';
 import Avatar from '../avatar';
 
 const TopMenu = () => {
@@ -22,7 +22,8 @@ const TopMenu = () => {
     else {
       auth
         .signInWithPopup(GitHubProvider)
-        .then(({ user: { uid, displayName, photoURL }}) => {
+        .then(({ user: { uid, displayName, photoURL, email }}) => {
+          db.collection('user').doc(uid).set({ displayName, photoURL, email }, { merge: true })
           updateUser({
             type: 'USER_AUTHENTICATE',
             user: {
