@@ -1,4 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import {
+  addCourseAction,
+  removeCourseAction,
+  modifyCourseAction,
+  initCourseListAction,
+} from '../course-panel/course-panel.action'
 import { db } from '../data/firebase'
 import CourseList from '../course-list/course-list.component'
 import ManageMeta from '../manage-meta/manage-meta.component'
@@ -14,19 +20,72 @@ const CoursePanel = () => {
     id: null,
   }
   const [ course, setCourse ] = useState(defaultCourse)
-  const { courseList } = WebInfoState()
+  const { courseList, updateCourseList } = WebInfoState()
+  useEffect(() => {
+    let unsubscribe;
+
+    (async () => {
+      // I want to get a list of courses from FireStore
+      const courseCollection = db
+        .collection('course')
+  
+      try {
+        const snapList = await courseCollection.get()
+        const courseList = snapList.docs.map(d => {
+          return {
+            id: d.id,
+            ...d.data()
+          }
+        })
+
+        updateCourseList(initCourseListAction(courseList))
+
+        unsubscribe = await courseCollection
+          .onSnapshot(snapList => {
+            snapList.docChanges().forEach(change => {
+              const course = change.doc.data()
+
+              if (change.type === 'added' && change.doc.metadata.hasPendingWrites) {
+                updateCourseList(addCourseAction({
+                  title: course.title,
+                  description: course.description,
+                  id: change.doc.id,
+                }))
+              }
+              else if (change.type === 'removed') {
+                updateCourseList(removeCourseAction({
+                  id: change.doc.id,
+                }))
+              }
+              else if (change.type === 'modified') {
+                updateCourseList(modifyCourseAction({
+                  title: course.title,
+                  description: course.description,
+                  id: change.doc.id,
+                }))
+                // setCourseIdToEdit(null)
+              }
+            })
+          })
+      } catch(e) {
+        console.error('getCourseCollection() failed!', e)
+      }
+    })()
+
+    return unsubscribe
+  }, [])
 
   const deleteItem = id => {
-    db
-      .collection('course')
-      .doc(id)
-      // TODO, mark as deleted and never delete
-      // some other logic should display data only if not marked as deleted
-      .delete()
-      .then(aaa => {
-        // console.log(`Item with id: ${id} is no longer with us`, aaa)
-      })
-      .catch(message => console.log(`Weird message!`, message))
+    (async () => {
+      try {
+        await db
+          .collection('course')
+          .doc(id)
+          .delete()
+      } catch (message) {
+        console.log(`Weird message!`, message)
+      }
+    })()
   }
 
   const save = () => {

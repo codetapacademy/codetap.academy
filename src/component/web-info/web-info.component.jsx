@@ -4,12 +4,10 @@ import TopMenu from '../top-menu'
 import Home from '../home';
 import Course from '../course';
 import { StyledWebInfo, StyledRouter } from './web-info.style';
-import WebData from '../web-data';
 
 const WebInfo = () => {
   return (
     <>
-      <WebData />
       <StyledWebInfo>
         <StyledRouter>
           <Home path="/" />
