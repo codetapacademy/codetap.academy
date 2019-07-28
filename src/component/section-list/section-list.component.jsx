@@ -37,7 +37,7 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
   }
 
   const renderLectureList = (lectureList, sectionId) => {
-    return lectureList.map(lecture => {
+    return (lectureList || []).map(lecture => {
       return (
         <LectureItem {...lecture} sectionId={sectionId} remove={deleteLectureItem} />
       )

@@ -11,6 +11,7 @@ const Course = ({ courseId }) => {
   const [ course, setCourse ] = useState({})
 
   useEffect(() => {
+    let unsubscribe;
     (async () => {
       const lectureKeyList = {}
       // I want to get the course info
@@ -18,8 +19,6 @@ const Course = ({ courseId }) => {
         .collection('course')
         .doc(courseId)
         .get()
-      
-      console.log('useEffect', courseId)
 
       setCourse({
         id: courseId,
@@ -65,14 +64,41 @@ const Course = ({ courseId }) => {
         }
       })
 
+      unsubscribe = sectionCollection
+        .onSnapshot(snapList => {
+          snapList.docChanges().forEach(change => {
+            const section = change.doc.data()
+            if (change.type === 'added' && change.doc.metadata.hasPendingWrites) {
+              updateSectionList(addSectionAction({
+                title: section.title,
+                description: section.description,
+                id: change.doc.id,
+              }))
+            }
+            else if (change.type === 'removed') {
+              updateSectionList(removeSectionAction({
+                id: change.doc.id,
+              }))
+            }
+            else if (change.type === 'modified') {
+              updateSectionList(modifySectionAction({
+                title: section.title,
+                description: section.description,
+                id: change.doc.id,
+              }))
+              // setSectionIdToEdit(null)
+            }
+          })
+        })
+
       updateSectionList(initSectionListAction(sectionList))
     })()
+    return unsubscribe
   }, [])
 
   return (
     <div>
       <PanelTitle>{course.title}</PanelTitle>
-      {console.log(course)}
       <p>{course.description}</p>
       {course && <SectionPanel course={course} />}
     </div>
