@@ -24,7 +24,7 @@ const Lecture = ({ lectureId }) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
     } else {
-      setImage(null);
+      setImage("");
     }
   };
 
