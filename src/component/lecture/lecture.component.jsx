@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../data/firebase";
 import { Link } from "@reach/router";
-import firebase from "firebase";
-import FileUploader from "react-firebase-file-uploader";
+import { storage } from "firebase";
 
 const Lecture = ({ lectureId }) => {
   const [lecture, setLecture] = useState();
+  const [image, setImage] = useState("");
+  const [imageURL, setImageURL] = useState(null);
+  const [imageUploadProgress, setImageUploadProgress] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -18,6 +20,38 @@ const Lecture = ({ lectureId }) => {
     })();
   }, [lectureId]);
 
+  const handleImageChange = e => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    } else {
+      setImage(null);
+    }
+  };
+
+  const handleImageUpload = () => {
+    storage()
+      .ref(`lecture-pictures/${image.name}`)
+      .put(image)
+      .on(
+        "state_changed",
+        snapshot => {
+          setImageUploadProgress(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+        },
+        error => {
+          console.log(`Woops! ${error.message} while uploading ${image.name}`);
+        },
+        () => {
+          storage()
+            .ref("lecture-pictures")
+            .child(image.name)
+            .getDownloadURL()
+            .then(url => setImageURL(url));
+        }
+      );
+  };
+
   return (
     <div>
       <h1>Lecture {lectureId}</h1>
@@ -29,10 +63,14 @@ const Lecture = ({ lectureId }) => {
           </Link>
         </p>
       )}
-      <FileUploader
-        accept="image/*"
-        name="image"
-        storageRef={firebase.storage().ref("lecture-pictures")}
+      <progress value={imageUploadProgress} max="100" />
+      <input type="file" onChange={handleImageChange} />
+      <button onClick={handleImageUpload}>Upload Image</button>
+      <img
+        src={imageURL || "http://via.placeholder.com/600x300"}
+        alt={image.name}
+        height="300"
+        width="600"
       />
     </div>
   );
