@@ -1,0 +1,1 @@
+export { default } from './manage-meta.component'
