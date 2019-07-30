@@ -1,0 +1,1 @@
+export { userReducer, defaultUser } from './user.reducer'

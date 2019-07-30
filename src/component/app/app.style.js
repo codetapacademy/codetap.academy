@@ -1,16 +1,15 @@
 import styled from 'styled-components'
 
-export const StyledApp = styled.div`
-  background-color: #dfdfdf;
-  background-image: linear-gradient(180deg,#dddbd1,#d2dbdc);
+export const StyledWidgetWrapper = styled.div`
+  padding: 3.5rem 1rem 1rem 0;
+`
 
-  ::before {
-    position: fixed;
-    content: '';
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 200px;
-    background-color: #009688;
-  }
+export const StyledApp = styled.div`
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: ${({ showWidgetBot }) => showWidgetBot 
+    ? '2fr 1fr' 
+    : '1fr'};
+  background-color: ${({ theme }) => theme.layout.background};
+  color: ${({ theme }) => theme.layout.text}
 `
