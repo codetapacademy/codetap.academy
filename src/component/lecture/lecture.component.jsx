@@ -13,11 +13,10 @@ const Lecture = ({ lectureId }) => {
 
       setLecture(lectureSnapshot.data())
     })()
-  }, [])
+  }, [lectureId])
 
   return (
     <div>
-      {console.log(lecture)}
       <h1>Lecture {lectureId}</h1>
       {lecture && lecture.course && <p>Back to <Link to={`/course/${lecture.course.id}`}>{lecture.course.title}</Link></p> }
     </div>
