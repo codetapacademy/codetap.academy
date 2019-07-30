@@ -30,7 +30,7 @@ const Lecture = ({ lectureId }) => {
 
   const handleImageUpload = () => {
     storage()
-      .ref(`lecture-pictures/${image.name}`)
+      .ref(`lecture-picture/${image.name}`)
       .put(image)
       .on(
         "state_changed",
@@ -44,7 +44,7 @@ const Lecture = ({ lectureId }) => {
         },
         () => {
           storage()
-            .ref("lecture-pictures")
+            .ref("lecture-picture")
             .child(image.name)
             .getDownloadURL()
             .then(url => setImageURL(url));
