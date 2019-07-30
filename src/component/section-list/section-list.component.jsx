@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyledSectionList, StyledSectionItem } from './section-list.style';
 import { db } from '../data/firebase'
 import SectionItem from '../section-item';
 import LecturePanel from '../lecture-panel';
+import LectureItem from '../lecture-item/lecture-item.component';
+import { removeLectureFromSectionAction } from '../course/section.action';
+import { WebInfoState } from '../web-info/web-info.context';
 
 const SectionList = ({ data = [], handleUpdate, course = {} }) => {
+  const [ showAddLectureId, setShowAddLectureId ] = useState('nimic')
+  const { updateSectionList } = WebInfoState()
 
   const deleteItem = id => {
     db
@@ -19,9 +24,29 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
       .catch(message => console.log(`Weird message!`, message))
   }
 
+  const deleteLectureItem = (id, sectionId) => {
+    db
+      .collection('lecture')
+      .doc(id)
+      .delete()
+      .then(aaa => {
+        // console.log(`Item with id: ${id} is no longer with us`, aaa)
+        updateSectionList(removeLectureFromSectionAction(id, sectionId))
+      })
+      .catch(message => console.log(`Weird message!`, message))
+  }
+
+  const renderLectureList = (lectureList, sectionId) => {
+    return (lectureList || []).map(lecture => {
+      return (
+        <LectureItem key={lecture.id} {...lecture} sectionId={sectionId} remove={deleteLectureItem} />
+      )
+    })
+  }
+
   return (
     <StyledSectionList>
-      {data.map(({ title, description, id }) => {
+      {data.map(({ title, description, id, lectureList }) => {
         const section = {
           title,
           description,
@@ -30,13 +55,23 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
 
         const sectionItemPropList = {
           ...section,
+          showAddLectureId,
+          setShowAddLectureId,
           deleteItem,
           handleUpdate
+        }
+
+        const lecturePanelPropList = {
+          section,
+          course,
+          showAddLectureId,
+          setShowAddLectureId,
         }
         return (
           <StyledSectionItem key={id}>
             <SectionItem {...sectionItemPropList} />
-            <LecturePanel section={section} course={course} />
+            {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
+            {renderLectureList(lectureList, id)}
           </StyledSectionItem>
         )
       })}

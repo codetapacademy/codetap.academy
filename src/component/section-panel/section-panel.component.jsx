@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PanelTitle from '../panel-title';
 import { db } from '../data/firebase'
 import ManageMeta from '../manage-meta';
 import SectionList from '../section-list';
 import { WebInfoState } from '../web-info/web-info.context';
-import { addSectionAction, removeSectionAction, modifySectionAction, initSectionListAction } from '../course/section.action';
 
 const SectionPanel = ({ course }) => {
   const defaultSection = {
@@ -13,55 +12,9 @@ const SectionPanel = ({ course }) => {
     id: null,
     course,
   }
+
   const [ section, setSection ] = useState(defaultSection)
-  const { sectionList, updateSectionList } = WebInfoState()
-
-  useEffect(() => {
-    console.log(course)
-    const sectionCollection = db
-      .collection('section')
-      .where('course.id', '==', course.id)
-
-    sectionCollection
-      .get()
-      .then((snapList => {
-        const sectionList = snapList.docs.map(d => {
-          return {
-            id: d.id,
-            ...d.data()
-          }
-        })
-
-        updateSectionList(initSectionListAction(sectionList))
-      }))
-
-    return sectionCollection
-      .onSnapshot(snapList => {
-        snapList.docChanges().forEach(change => {
-          const section = change.doc.data()
-          if (change.type === 'added' && change.doc.metadata.hasPendingWrites) {
-            updateSectionList(addSectionAction({
-              title: section.title,
-              description: section.description,
-              id: change.doc.id,
-            }))
-          }
-          else if (change.type === 'removed') {
-            updateSectionList(removeSectionAction({
-              id: change.doc.id,
-            }))
-          }
-          else if (change.type === 'modified') {
-            updateSectionList(modifySectionAction({
-              title: section.title,
-              description: section.description,
-              id: change.doc.id,
-            }))
-            // setSectionIdToEdit(null)
-          }
-        })
-      })
-  }, [])
+  const { sectionList } = WebInfoState()
 
   const change = what => {
     setSection({ ...section, ...what })

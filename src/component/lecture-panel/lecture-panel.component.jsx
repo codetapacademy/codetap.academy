@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import ManageMeta from '../manage-meta'
 import { StyledLecturePanel } from './lecture-panel.style';
 import { db } from '../data/firebase'
+import { addLectureToSectionAction } from '../course/section.action';
+import { WebInfoState } from '../web-info/web-info.context';
 
-const LecturePanel = ({ section = {}, course = {} }) => {
+const LecturePanel = ({ section = {}, course = {}, setShowAddLectureId, showAddLectureId }) => {
   const defaultLecture = {
     id: null,
     title: '',
@@ -11,11 +13,15 @@ const LecturePanel = ({ section = {}, course = {} }) => {
     section,
     course,
   }
-  const [ showAddLecture, toggleShowAddLecture ] = useState(false)
+
+  const { updateSectionList } = WebInfoState();
+
   const [ lecture, setLecture ] = useState(defaultLecture)
   const label = 'Add lecture'
   const data = lecture
-  const save = () => {
+  const showCancel = true
+
+  const save = async () => {
     const lectureCollection = db.collection('lecture')
     const { id, title, description } = lecture
     if (id) {
@@ -26,13 +32,23 @@ const LecturePanel = ({ section = {}, course = {} }) => {
       )
     }
     else {
+      // take out the id, as it sould be null
       const { id, ...restOfLecture } = lecture
+
       // we want to add a lecture
-      lectureCollection.add(restOfLecture)
+      const newLecture = await lectureCollection.add(restOfLecture)
+      updateSectionList(
+        addLectureToSectionAction({
+          id: newLecture.id,
+          ...restOfLecture
+        })
+      )
     }
     setLecture(defaultLecture)
   }
-  const cancel = () => {}
+  const cancel = () => {
+    setShowAddLectureId('')
+  }
   const change = object => {
     setLecture({
       ...lecture,
@@ -45,18 +61,13 @@ const LecturePanel = ({ section = {}, course = {} }) => {
     save,
     change,
     cancel,
-    data
+    data,
+    showCancel
   }
 
   return (
     <StyledLecturePanel>
-      {/* <pre>{JSON.stringify(lecture, null, 2)}</pre> */}
-      <button
-        onClick={() => toggleShowAddLecture(!showAddLecture)}
-      >
-        {showAddLecture ? 'Cancel adding a' : 'Add'} Lecture
-      </button>
-      {showAddLecture && <ManageMeta {...lecturePropList} />}
+      <ManageMeta {...lecturePropList} />
     </StyledLecturePanel>
   )
 }
