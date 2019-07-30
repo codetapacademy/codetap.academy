@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from '@reach/router'
 import { StyledLectureItem } from './lecture-item.style';
 
 const LectureItem = ({ id, title, description, remove, sectionId }) => {
@@ -8,7 +9,7 @@ const LectureItem = ({ id, title, description, remove, sectionId }) => {
   return (
     <StyledLectureItem>
       <button>☰</button>
-      <span title={description}>{title}</span>
+      <Link to={`/lecture/${id}`} title={description}>{title}</Link>
       <button onClick={handleRemove}>&times;</button>
     </StyledLectureItem>
   )
