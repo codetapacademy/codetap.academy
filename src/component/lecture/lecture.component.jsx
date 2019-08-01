@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../data/firebase";
 import { Link } from "@reach/router";
-import { storage } from "firebase";
+import ImageUploader from "../image-uploader/image-uploader.component";
 
 const Lecture = ({ lectureId }) => {
   const [lecture, setLecture] = useState();
-  const [image, setImage] = useState("");
-  const [imageURL, setImageURL] = useState(null);
-  const [imageUploadProgress, setImageUploadProgress] = useState(0);
+  const lectureCollection = db.collection("lecture")
 
   useEffect(() => {
     (async () => {
-      const lectureSnapshot = await db
-        .collection("lecture")
+      const lectureSnapshot = await lectureCollection
         .doc(lectureId)
         .get();
 
@@ -20,37 +17,11 @@ const Lecture = ({ lectureId }) => {
     })();
   }, [lectureId]);
 
-  const handleImageChange = e => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    } else {
-      setImage("");
-    }
-  };
-
-  const handleImageUpload = () => {
-    storage()
-      .ref(`lecture-picture/${image.name}`)
-      .put(image)
-      .on(
-        "state_changed",
-        snapshot => {
-          setImageUploadProgress(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-        },
-        error => {
-          console.log(`Woops! ${error.message} while uploading ${image.name}`);
-        },
-        () => {
-          storage()
-            .ref("lecture-picture")
-            .child(image.name)
-            .getDownloadURL()
-            .then(url => setImageURL(url));
-        }
-      );
-  };
+  const updateImagePath = imagePath => {
+    lectureCollection
+      .doc(lectureId)
+      .set({ imagePath }, { merge: true })
+  }
 
   return (
     <div>
@@ -63,15 +34,7 @@ const Lecture = ({ lectureId }) => {
           </Link>
         </p>
       )}
-      <progress value={imageUploadProgress} max="100" />
-      <input type="file" onChange={handleImageChange} />
-      <button onClick={handleImageUpload}>Upload Image</button>
-      <img
-        src={imageURL || "http://via.placeholder.com/600x300"}
-        alt={image.name}
-        height="300"
-        width="600"
-      />
+      <ImageUploader onSuccess={updateImagePath} />
     </div>
   );
 };
