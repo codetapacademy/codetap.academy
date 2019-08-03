@@ -11,7 +11,7 @@ const LectureInfo = ({ title, id, description, imagePath }) => {
       </div>
       <HeaderTitle
         text={title}
-        level="4"
+        tag="h4"
       />
     </StyledLectureInfo>
   )

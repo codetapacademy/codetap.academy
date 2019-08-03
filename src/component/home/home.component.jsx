@@ -40,19 +40,16 @@ const Home = () => {
   const renderCourseList = () => {
     return data.courseList.map(({ title, id }) => (
       <Fragment key={id}>
-        <HeaderTitle text={title} level="2" />
+        <HeaderTitle text={title} tag="h2" />
         {renderLectureSlider(id, data.lectureList)}
       </Fragment>
     ))
   }
 
   return (
-    <div>
-      <HeaderTitle
-        text="Info about course released, mentoring and much more"
-      />
+    <>
       {renderCourseList()}
-    </div>
+    </>
   )
 }
 

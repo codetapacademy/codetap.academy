@@ -1,8 +1,8 @@
 import React from 'react'
+import { DynamicStyledTitle } from './header-title.style';
 
-const HeaderTitle = ({ text = 'Change Me', level = 1 }) => {
-  const Tag = `h${level}`
-  return <Tag>{text}</Tag>
+const HeaderTitle = ({ text = 'Change Me', tag = 'h1' }) => {
+  return <DynamicStyledTitle tag={tag}>{text}</DynamicStyledTitle>
 }
 
 export default HeaderTitle
