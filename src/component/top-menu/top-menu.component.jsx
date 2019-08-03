@@ -45,14 +45,16 @@ const TopMenu = () => {
 
   return (
     <StyledTopMenu>
-      <StyledLogoWrapper>
-        <Logo />
-        <HeaderTitle
-          text="CodeTap Academy"
-          title="The Web Developer Factory - Super Boost Your Career from Zero to Hired"
-        />
-      </StyledLogoWrapper>
-      <StyledLink to="/">Home</StyledLink>
+
+      <StyledLink to="/">
+        <StyledLogoWrapper>
+          <Logo />
+          <HeaderTitle
+            text="CodeTap Academy"
+            title="The Web Developer Factory - Super Boost Your Career from Zero to Hired"
+          />
+        </StyledLogoWrapper>
+      </StyledLink>
       <StyledLink to="/dashboard">Dashboard</StyledLink>
       <Avatar user={user} />
       <button onClick={handleLogInAndOut}>
