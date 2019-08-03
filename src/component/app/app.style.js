@@ -7,9 +7,9 @@ export const StyledWidgetWrapper = styled.div`
 export const StyledApp = styled.div`
   min-height: 100%;
   display: grid;
-  grid-template-columns: ${({ showWidgetBot }) => showWidgetBot 
-    ? '2fr 1fr' 
-    : '1fr'};
+  grid-template-columns: ${({ showWidgetBot }) => showWidgetBot
+    ? 'minmax(200px, 2fr) minmax(100px, 1fr)'
+    : 'minmax(100px, 1fr)'};
   background-color: ${({ theme }) => theme.layout.background};
   color: ${({ theme }) => theme.layout.text}
 `
