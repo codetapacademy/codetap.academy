@@ -27,14 +27,16 @@ const Lecture = ({ lectureId }) => {
     <div>
       <h1>Lecture {lectureId}</h1>
       {lecture && lecture.course && (
-        <p>
-          Back to{" "}
-          <Link to={`/course/${lecture.course.id}`}>
-            {lecture.course.title}
-          </Link>
-        </p>
+        <>
+          <p>
+            Back to{" "}
+            <Link to={`/course/${lecture.course.id}`}>
+              {lecture.course.title}
+            </Link>
+          </p>
+          <ImageUploader imagePath={lecture.imagePath} onSuccess={updateImagePath} />
+        </>
       )}
-      <ImageUploader onSuccess={updateImagePath} />
     </div>
   );
 };

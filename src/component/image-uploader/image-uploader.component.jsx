@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { storage } from "firebase";
 import { StyledImageUploader, StyledProgressBar } from './image-uploader.style';
 
-const ImageUploader = ({ onSuccess }) => {
+const ImageUploader = ({ onSuccess, imagePath }) => {
   const [image, setImage] = useState("");
-  const [imageURL, setImageURL] = useState('http://via.placeholder.com/600x300');
+  const [imageURL, setImageURL] = useState(imagePath || 'http://via.placeholder.com/600x300');
   const [imageUploadProgress, setImageUploadProgress] = useState(0);
 
   const handleImageChange = e => {
