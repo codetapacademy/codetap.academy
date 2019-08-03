@@ -3,6 +3,7 @@ import { StyledApp, StyledWidgetWrapper } from './app.style';
 import WidgetBot from '@widgetbot/react-embed'
 import WebInfo from '../web-info';
 import { WebInfoState } from '../web-info/web-info.context';
+import TopMenu from '../top-menu/top-menu.component';
 
 export const CodeTapAcademy = () => {
   const { toggleChat } = WebInfoState()
@@ -24,6 +25,7 @@ export const CodeTapAcademy = () => {
           height="100%"
         />
       </StyledWidgetWrapper>}
+      <TopMenu />
     </StyledApp>
   )
 }

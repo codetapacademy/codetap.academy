@@ -1,6 +1,5 @@
 import React from 'react'
 import CoursePanel from '../course-panel'
-import TopMenu from '../top-menu'
 import Home from '../home';
 import Course from '../course';
 import { StyledWebInfo, StyledRouter } from './web-info.style';
@@ -16,7 +15,6 @@ const WebInfo = () => {
           <Course path="/course/:courseId" />
           <Lecture path="/lecture/:lectureId" />
         </StyledRouter>
-        <TopMenu />
       </StyledWebInfo>
     </>
   )
