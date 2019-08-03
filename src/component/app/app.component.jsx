@@ -10,8 +10,8 @@ export const CodeTapAcademy = () => {
   return (
     <StyledApp showWidgetBot={toggleChat}>
       <WebInfo />
-      <StyledWidgetWrapper>
-        {toggleChat && <WidgetBot
+      {toggleChat && <StyledWidgetWrapper>
+        <WidgetBot
           server="591067148403867650"
           channel="591067149108379692"
           shard="https://disweb.deploys.io"
@@ -22,8 +22,8 @@ export const CodeTapAcademy = () => {
           color="#d52027"
           width="100%"
           height="100%"
-          />}
-      </StyledWidgetWrapper>
+        />
+      </StyledWidgetWrapper>}
     </StyledApp>
   )
 }
