@@ -11,7 +11,7 @@ const wrapTitle = Component => {
 
 export const StyledTitle = styled.h1`
   margin: 0;
-  font-size: 1rem;
+  font-size: ${({ fontSize }) => fontSize};
 `
 
 export const DynamicStyledTitle = wrapTitle(StyledTitle)
