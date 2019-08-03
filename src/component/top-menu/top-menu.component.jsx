@@ -1,8 +1,10 @@
 import React from 'react'
-import { StyledTopMenu, StyledLink, StyledButton } from './top-menu.style'
+import { StyledTopMenu, StyledLink, StyledButton, StyledLogoWrapper } from './top-menu.style'
 import { WebInfoState } from '../web-info/web-info.context';
 import { auth, GitHubProvider, db } from '../data/firebase';
 import Avatar from '../avatar';
+import Logo from '../_dumb/logo/logo.component';
+import HeaderTitle from '../_dumb/header-title';
 
 const TopMenu = () => {
   const { toggleChat, updateToggleChat, user, updateUser } = WebInfoState()
@@ -22,7 +24,7 @@ const TopMenu = () => {
     else {
       auth
         .signInWithPopup(GitHubProvider)
-        .then(({ user: { uid, displayName, photoURL, email }}) => {
+        .then(({ user: { uid, displayName, photoURL, email } }) => {
           db.collection('user').doc(uid).set({ displayName, photoURL, email }, { merge: true })
           updateUser({
             type: 'USER_AUTHENTICATE',
@@ -43,7 +45,16 @@ const TopMenu = () => {
 
   return (
     <StyledTopMenu>
-      <StyledLink to="/">Home</StyledLink>
+
+      <StyledLink to="/">
+        <StyledLogoWrapper>
+          <Logo />
+          <HeaderTitle
+            text="CodeTap Academy"
+            title="The Web Developer Factory - Super Boost Your Career from Zero to Hired"
+          />
+        </StyledLogoWrapper>
+      </StyledLink>
       <StyledLink to="/dashboard">Dashboard</StyledLink>
       <Avatar user={user} />
       <button onClick={handleLogInAndOut}>

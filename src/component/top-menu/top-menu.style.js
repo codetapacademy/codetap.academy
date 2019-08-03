@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 import { Link } from '@reach/router'
 
+export const StyledLogoWrapper = styled.div`
+  display: flex;
+`
+
 export const StyledButton = styled.button`
   background-color: rgba(114, 137, 218, 0.4);
   border-radius: 14px;
@@ -26,8 +30,9 @@ export const StyledLink = styled(Link)`
 
 export const StyledTopMenu = styled.div`
   background-color: ${({ theme }) => theme.menu.background};
+  padding: 0 ${({ theme }) => theme.layout.bigPadding};
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   position: fixed;
   top: 0;
