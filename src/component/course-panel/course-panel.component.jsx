@@ -11,7 +11,7 @@ import ManageMeta from '../manage-meta/manage-meta.component'
 import { navigate } from '@reach/router'
 import { StyledControlPanel } from './course-panel.style';
 import { WebInfoState } from '../web-info/web-info.context'
-import PanelTitle from '../panel-title';
+import HeaderTitle from '../_dumb/header-title/header-title.component';
 
 const CoursePanel = () => {
   const defaultCourse = {
@@ -19,7 +19,7 @@ const CoursePanel = () => {
     description: '',
     id: null,
   }
-  const [ course, setCourse ] = useState(defaultCourse)
+  const [course, setCourse] = useState(defaultCourse)
   const { courseList, updateCourseList } = WebInfoState()
   useEffect(() => {
     let unsubscribe;
@@ -29,7 +29,7 @@ const CoursePanel = () => {
         // I want to get a list of courses from FireStore
         const courseCollection = db
           .collection('course')
-    
+
         try {
           const snapList = await courseCollection.get()
           const courseList = snapList.docs.map(d => {
@@ -38,14 +38,14 @@ const CoursePanel = () => {
               ...d.data()
             }
           })
-  
+
           updateCourseList(initCourseListAction(courseList))
-  
+
           unsubscribe = await courseCollection
             .onSnapshot(snapList => {
               snapList.docChanges().forEach(change => {
                 const course = change.doc.data()
-  
+
                 if (change.type === 'added' && change.doc.metadata.hasPendingWrites) {
                   updateCourseList(addCourseAction({
                     title: course.title,
@@ -68,7 +68,7 @@ const CoursePanel = () => {
                 }
               })
             })
-        } catch(e) {
+        } catch (e) {
           console.error('getCourseCollection() failed!', e)
         }
       })()
@@ -132,9 +132,21 @@ const CoursePanel = () => {
 
   const getSaveLabel = () => course.id ? "Update course" : "Add course"
 
+  const addCourseTitlePropList = {
+    text: 'Add Course',
+    tag: 'h1',
+    fontSize: '22px',
+  }
+
+  const manageCourseTitlePropList = {
+    text: 'Manage Course',
+    tag: 'h1',
+    fontSize: '22px',
+  }
+
   return (
     <StyledControlPanel>
-      <PanelTitle>Add Course</PanelTitle>
+      <HeaderTitle {...addCourseTitlePropList} />
       <ManageMeta
         label={getSaveLabel()}
         save={save}
@@ -142,7 +154,8 @@ const CoursePanel = () => {
         cancel={cancel}
         data={course}
       />
-      <PanelTitle>Manage course</PanelTitle>
+
+      <HeaderTitle {...manageCourseTitlePropList} />
       <CourseList
         courseList={courseList}
         handleUpdate={handleUpdate}
