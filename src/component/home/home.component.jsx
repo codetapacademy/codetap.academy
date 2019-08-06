@@ -18,7 +18,10 @@ const Home = () => {
         ...doc.data()
       }))
 
-      const courseSnapshot = await db.collection('course').get()
+      const courseSnapshot = await db
+        .collection('course')
+        .where('published', '==', true)
+        .get()
       const courseList = courseSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()

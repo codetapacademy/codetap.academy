@@ -11,19 +11,21 @@ const Course = ({ courseId }) => {
   const [course, setCourse] = useState({})
 
   useEffect(() => {
-    let unsubscribe;
+    let unsubscribe,
+      unsubscribeToCourse
     (async () => {
       const lectureKeyList = {}
       // I want to get the course info
-      const course = await db
+      unsubscribeToCourse = db
         .collection('course')
         .doc(courseId)
-        .get()
-
-      setCourse({
-        id: courseId,
-        ...course.data()
-      })
+        // .get()
+        .onSnapshot(snapshot => {
+          setCourse({
+            id: courseId,
+            ...snapshot.data()
+          })
+        })
 
       // I want to get all the lectures based on the courseId
       try {
@@ -93,7 +95,10 @@ const Course = ({ courseId }) => {
 
       updateSectionList(initSectionListAction(sectionList))
     })()
-    return unsubscribe
+    return () => {
+      unsubscribe()
+      unsubscribeToCourse()
+    }
   }, [])
 
   const courseTitlePropList = {
@@ -102,10 +107,33 @@ const Course = ({ courseId }) => {
     fontSize: '22px',
   }
 
+  const courseSettingsPropList = {
+    text: 'Course Settings',
+    tag: 'h2',
+    fontSize: '20px',
+  }
+
+  const handlePublish = () => {
+    db
+      .collection('course')
+      .doc(courseId)
+      .set({ published: !course.published }, { merge: true })
+      .then(() => {
+        setCourse({ ...course, published: !course.published })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   return (
     <div>
       <HeaderTitle {...courseTitlePropList} />
       <p>{course.description}</p>
+      <HeaderTitle {...courseSettingsPropList} />
+      <button onClick={handlePublish}>
+        {course.published ? 'Unp' : 'P'}ublish Course
+      </button>
       {course && <SectionPanel course={course} />}
     </div>
   )
