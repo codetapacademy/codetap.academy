@@ -11,7 +11,10 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const lectureSnapshot = await db.collection('lecture').get()
+      const lectureSnapshot = await db
+        .collection('lecture')
+        .where('published', '==', true)
+        .get()
 
       const lectureList = lectureSnapshot.docs.map(doc => ({
         id: doc.id,

@@ -118,12 +118,6 @@ const Course = ({ courseId }) => {
       .collection('course')
       .doc(courseId)
       .set({ published: !course.published }, { merge: true })
-      .then(() => {
-        setCourse({ ...course, published: !course.published })
-      })
-      .catch(error => {
-        console.log(error)
-      })
   }
 
   return (
