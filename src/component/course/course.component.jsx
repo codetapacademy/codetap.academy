@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../data/firebase'
 import { WebInfoState } from '../web-info/web-info.context';
-import PanelTitle from '../panel-title';
 import SectionPanel from '../section-panel/section-panel.component';
 import { addSectionAction, removeSectionAction, modifySectionAction, initSectionListAction } from '../course/section.action';
+import HeaderTitle from '../_dumb/header-title/header-title.component';
 
 const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState()
-  const [ lectureBySectionIdList, setLectureBySectioIdList ] = useState({})
-  const [ course, setCourse ] = useState({})
+  const [lectureBySectionIdList, setLectureBySectioIdList] = useState({})
+  const [course, setCourse] = useState({})
 
   useEffect(() => {
     let unsubscribe;
@@ -96,9 +96,15 @@ const Course = ({ courseId }) => {
     return unsubscribe
   }, [])
 
+  const courseTitlePropList = {
+    text: course.title,
+    tag: 'h1',
+    fontSize: '22px',
+  }
+
   return (
     <div>
-      <PanelTitle>{course.title}</PanelTitle>
+      <HeaderTitle {...courseTitlePropList} />
       <p>{course.description}</p>
       {course && <SectionPanel course={course} />}
     </div>
