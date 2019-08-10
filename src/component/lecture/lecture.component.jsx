@@ -43,7 +43,7 @@ const Lecture = ({ lectureId }) => {
               {lecture.course.title}
             </Link>
           </p>
-          <ImageUploader imagePath={lecture.imagePath} onSuccess={updateImagePath} />
+          <ImageUploader lectureId={lectureId} imagePath={lecture.imagePath} onSuccess={updateImagePath} />
         </>
       )}
     </div>
