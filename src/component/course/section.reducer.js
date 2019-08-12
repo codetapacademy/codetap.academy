@@ -9,7 +9,7 @@ import {
 
 
 export const sectionListReducer = (state = [], action) => {
-  switch(action.type) {
+  switch (action.type) {
     case INIT_SECTION_LIST:
       return [
         ...action.sectionList
@@ -26,15 +26,15 @@ export const sectionListReducer = (state = [], action) => {
     case ADD_LECTURE_TO_SECTION:
       return state
         .map(section => section.id === action.lecture.section.id
-          ? ({ ...section, lectureList: [ ...section.lectureList, action.lecture ]})
+          ? ({ ...section, lectureList: [...(section && section.lectureList || []), action.lecture] })
           : section
-      )
+        )
     case REMOVE_LECTURE_FROM_SECTION:
       return state
         .map(section => section.id === action.sectionId
           ? ({ ...section, lectureList: section.lectureList.filter(({ id }) => id !== action.id) })
           : section
-      )
+        )
     case REMOVE_SECTION:
       return state.filter(section => section.id !== action.section.id)
     case MODIFY_SECTION:

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyledSectionList, StyledSectionItem } from './section-list.style';
-import { db } from '../data/firebase'
+import { db, storage } from '../data/firebase'
 import SectionItem from '../section-item';
 import LecturePanel from '../lecture-panel';
 import LectureItem from '../lecture-item/lecture-item.component';
@@ -8,7 +8,7 @@ import { removeLectureFromSectionAction } from '../course/section.action';
 import { WebInfoState } from '../web-info/web-info.context';
 
 const SectionList = ({ data = [], handleUpdate, course = {} }) => {
-  const [ showAddLectureId, setShowAddLectureId ] = useState('nimic')
+  const [showAddLectureId, setShowAddLectureId] = useState('nimic')
   const { updateSectionList } = WebInfoState()
 
   const deleteItem = id => {
@@ -32,6 +32,14 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
       .then(aaa => {
         // console.log(`Item with id: ${id} is no longer with us`, aaa)
         updateSectionList(removeLectureFromSectionAction(id, sectionId))
+        // remove image if it exists
+        const imageRef = storage
+          .ref("lecture-picture")
+          .child(id)
+          .delete()
+          .then(console.log)
+          .catch(console.log)
+
       })
       .catch(message => console.log(`Weird message!`, message))
   }
