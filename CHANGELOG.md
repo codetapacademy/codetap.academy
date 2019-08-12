@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/codetapacademy/codetap.academy/compare/v0.5.0...v0.6.0) (2019-08-12)
+
+
+### Features
+
+* delete image when parent is removed ([aff1081](https://github.com/codetapacademy/codetap.academy/commit/aff1081)), closes [#128](https://github.com/codetapacademy/codetap.academy/issues/128)
+* implement replace image feature ([5023be4](https://github.com/codetapacademy/codetap.academy/commit/5023be4)), closes [#122](https://github.com/codetapacademy/codetap.academy/issues/122)
+* improve labels in github ([68292b1](https://github.com/codetapacademy/codetap.academy/commit/68292b1)), closes [#129](https://github.com/codetapacademy/codetap.academy/issues/129)
+* update chat to self host ([de50d92](https://github.com/codetapacademy/codetap.academy/commit/de50d92))
+
+
+
 ## [0.5.0](https://github.com/codetapacademy/codetap.academy/compare/v0.4.0...v0.5.0) (2019-08-06)
 
 
