@@ -15,7 +15,7 @@ export const CodeTapAcademy = () => {
         <WidgetBot
           server="591067148403867650"
           channel="591067149108379692"
-          shard="https://disweb.deploys.io"
+          shard="https://chat.codetap.academy"
           location={[
             'bottom',
             'right'
