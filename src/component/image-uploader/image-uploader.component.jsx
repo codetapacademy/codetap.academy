@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { storage } from "firebase";
+import { storage } from '../data/firebase';
 import { StyledImageUploader, StyledProgressBar } from './image-uploader.style';
 
 const ImageUploader = ({ onSuccess, imagePath, lectureId }) => {
@@ -17,7 +17,7 @@ const ImageUploader = ({ onSuccess, imagePath, lectureId }) => {
   };
 
   const handleImageUpload = () => {
-    storage()
+    storage
       .ref(`lecture-picture/${lectureId}`)
       .put(image)
       .on(
@@ -31,7 +31,7 @@ const ImageUploader = ({ onSuccess, imagePath, lectureId }) => {
           console.log(`Woops! ${error.message} while uploading ${lectureId}`);
         },
         () => {
-          storage()
+          storage
             .ref("lecture-picture")
             .child(lectureId)
             .getDownloadURL()
