@@ -55,7 +55,7 @@ const TopMenu = () => {
           />
         </StyledLogoWrapper>
       </StyledLink>
-      <StyledLink to="/dashboard">Dashboard</StyledLink>
+      {user && <StyledLink to="/dashboard">Dashboard</StyledLink>}
       <Avatar user={user} />
       <button onClick={handleLogInAndOut}>
         {getLogInOutLabel()}
