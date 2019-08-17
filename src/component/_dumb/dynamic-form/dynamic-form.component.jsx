@@ -8,18 +8,14 @@ const DynamicForm = ({ schema, data, dbItem }) => {
   useEffect(() => {
     Object.keys(data).map(key => {
       if (filedList.hasOwnProperty(key)) {
-        // console.log(
-        //   `The fieldList has the peroperty ${key} and we want to take from the data the value of "${data[key]}" and assign it to that property`
-        // );
         filedList[key].value = data[key];
-      } else {
-        // console.log(`The field list doesn't have the property ${key}`);
       }
     });
+
+    setFormSchema({ ...formSchema, filedList });
   }, [data]);
 
   const onEvent = (value, field, type) => {
-    console.log('onEvent', value, field, type);
     switch (type) {
       case 'change':
         setFormSchema({

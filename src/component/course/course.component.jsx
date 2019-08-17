@@ -9,21 +9,21 @@ import {
   initSectionListAction
 } from '../course/section.action';
 import HeaderTitle from '../_dumb/header-title/header-title.component';
-import CourseSchema from './course.schema';
+import courseSchema from './course.schema';
 import DynamicForm from '../_dumb/dynamic-form/dynamic-form.component';
 
 const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState();
   const [lectureBySectionIdList, setLectureBySectioIdList] = useState({});
   const [course, setCourse] = useState({});
-  const dbCourse = db.collection('course').doc(courseId);
+  const courseDocument = db.collection('course').doc(courseId);
 
   useEffect(() => {
     let unsubscribe, unsubscribeToCourse;
     (async () => {
       const lectureKeyList = {};
       // I want to get the course info
-      unsubscribeToCourse = dbCourse
+      unsubscribeToCourse = courseDocument
         // .get()
         .onSnapshot(snapshot => {
           setCourse({
@@ -124,14 +124,15 @@ const Course = ({ courseId }) => {
   };
 
   const handlePublish = () => {
-    dbCourse.set({ published: !course.published }, { merge: true });
+    courseDocument.set({ published: !course.published }, { merge: true });
   };
 
   return (
     <div>
       <HeaderTitle {...courseTitlePropList} />
       <p>{course.description}</p>
-      <DynamicForm schema={CourseSchema} data={course} dbItem={dbCourse} />
+      {console.log(course)}
+      <DynamicForm schema={courseSchema} data={course} dbItem={courseDocument} />
       <HeaderTitle {...courseSettingsPropList} />
       <button onClick={handlePublish}>{course.published ? 'Unp' : 'P'}ublish Course</button>
       {course && <SectionPanel course={course} />}
