@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0-alpha.0](https://github.com/codetapacademy/codetap.academy/compare/v0.6.0...v0.7.0-alpha.0) (2019-08-17)
+
+
+### Bug Fixes
+
+* add navigate from reach/router ([e2c830f](https://github.com/codetapacademy/codetap.academy/commit/e2c830f))
+
+
+### Features
+
+* Bogdan is super eager to start with updating this component to hide the dashboard button when the user is not logged in ([a1674b0](https://github.com/codetapacademy/codetap.academy/commit/a1674b0))
+* log in or out to dashboard ([c072dad](https://github.com/codetapacademy/codetap.academy/commit/c072dad)), closes [#137](https://github.com/codetapacademy/codetap.academy/issues/137)
+* update the top-menu by changing the dashboard dipplay off ([d447e70](https://github.com/codetapacademy/codetap.academy/commit/d447e70))
+
+
+
 ## [0.6.0](https://github.com/codetapacademy/codetap.academy/compare/v0.5.0...v0.6.0) (2019-08-12)
 
 
