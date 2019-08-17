@@ -5,6 +5,7 @@ import { auth, GitHubProvider, db } from '../data/firebase';
 import Avatar from '../avatar';
 import Logo from '../_dumb/logo/logo.component';
 import HeaderTitle from '../_dumb/header-title';
+import { navigate } from '@reach/router';
 
 const TopMenu = () => {
   const { toggleChat, updateToggleChat, user, updateUser } = WebInfoState();
