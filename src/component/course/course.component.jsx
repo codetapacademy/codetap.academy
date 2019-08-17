@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../data/firebase'
 import { WebInfoState } from '../web-info/web-info.context';
-import PanelTitle from '../panel-title';
 import SectionPanel from '../section-panel/section-panel.component';
 import { addSectionAction, removeSectionAction, modifySectionAction, initSectionListAction } from '../course/section.action';
+import HeaderTitle from '../_dumb/header-title/header-title.component';
 
 const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState()
-  const [ lectureBySectionIdList, setLectureBySectioIdList ] = useState({})
-  const [ course, setCourse ] = useState({})
+  const [lectureBySectionIdList, setLectureBySectioIdList] = useState({})
+  const [course, setCourse] = useState({})
 
   useEffect(() => {
-    let unsubscribe;
+    let unsubscribe,
+      unsubscribeToCourse
     (async () => {
       const lectureKeyList = {}
       // I want to get the course info
-      const course = await db
+      unsubscribeToCourse = db
         .collection('course')
         .doc(courseId)
-        .get()
-
-      setCourse({
-        id: courseId,
-        ...course.data()
-      })
+        // .get()
+        .onSnapshot(snapshot => {
+          setCourse({
+            id: courseId,
+            ...snapshot.data()
+          })
+        })
 
       // I want to get all the lectures based on the courseId
       try {
@@ -93,13 +95,39 @@ const Course = ({ courseId }) => {
 
       updateSectionList(initSectionListAction(sectionList))
     })()
-    return unsubscribe
+    return () => {
+      unsubscribe()
+      unsubscribeToCourse()
+    }
   }, [])
+
+  const courseTitlePropList = {
+    text: course.title,
+    tag: 'h1',
+    fontSize: '22px',
+  }
+
+  const courseSettingsPropList = {
+    text: 'Course Settings',
+    tag: 'h2',
+    fontSize: '20px',
+  }
+
+  const handlePublish = () => {
+    db
+      .collection('course')
+      .doc(courseId)
+      .set({ published: !course.published }, { merge: true })
+  }
 
   return (
     <div>
-      <PanelTitle>{course.title}</PanelTitle>
+      <HeaderTitle {...courseTitlePropList} />
       <p>{course.description}</p>
+      <HeaderTitle {...courseSettingsPropList} />
+      <button onClick={handlePublish}>
+        {course.published ? 'Unp' : 'P'}ublish Course
+      </button>
       {course && <SectionPanel course={course} />}
     </div>
   )

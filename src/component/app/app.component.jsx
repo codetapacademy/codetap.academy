@@ -3,6 +3,7 @@ import { StyledApp, StyledWidgetWrapper } from './app.style';
 import WidgetBot from '@widgetbot/react-embed'
 import WebInfo from '../web-info';
 import { WebInfoState } from '../web-info/web-info.context';
+import TopMenu from '../top-menu/top-menu.component';
 
 export const CodeTapAcademy = () => {
   const { toggleChat } = WebInfoState()
@@ -10,11 +11,11 @@ export const CodeTapAcademy = () => {
   return (
     <StyledApp showWidgetBot={toggleChat}>
       <WebInfo />
-      <StyledWidgetWrapper>
-        {toggleChat && <WidgetBot
+      {toggleChat && <StyledWidgetWrapper>
+        <WidgetBot
           server="591067148403867650"
           channel="591067149108379692"
-          shard="https://disweb.deploys.io"
+          shard="https://chat.codetap.academy"
           location={[
             'bottom',
             'right'
@@ -22,8 +23,9 @@ export const CodeTapAcademy = () => {
           color="#d52027"
           width="100%"
           height="100%"
-          />}
-      </StyledWidgetWrapper>
+        />
+      </StyledWidgetWrapper>}
+      <TopMenu />
     </StyledApp>
   )
 }

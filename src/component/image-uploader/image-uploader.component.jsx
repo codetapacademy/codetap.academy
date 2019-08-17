@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { storage } from "firebase";
+import { storage } from '../data/firebase';
 import { StyledImageUploader, StyledProgressBar } from './image-uploader.style';
 
-const ImageUploader = ({ onSuccess }) => {
+const ImageUploader = ({ onSuccess, imagePath, lectureId }) => {
   const [image, setImage] = useState("");
-  const [imageURL, setImageURL] = useState('http://via.placeholder.com/600x300');
+  const [imageURL, setImageURL] = useState(imagePath || 'http://via.placeholder.com/600x300');
   const [imageUploadProgress, setImageUploadProgress] = useState(0);
 
   const handleImageChange = e => {
@@ -17,8 +17,8 @@ const ImageUploader = ({ onSuccess }) => {
   };
 
   const handleImageUpload = () => {
-    storage()
-      .ref(`lecture-picture/${image.name}`)
+    storage
+      .ref(`lecture-picture/${lectureId}`)
       .put(image)
       .on(
         "state_changed",
@@ -28,12 +28,12 @@ const ImageUploader = ({ onSuccess }) => {
           );
         },
         error => {
-          console.log(`Woops! ${error.message} while uploading ${image.name}`);
+          console.log(`Woops! ${error.message} while uploading ${lectureId}`);
         },
         () => {
-          storage()
+          storage
             .ref("lecture-picture")
-            .child(image.name)
+            .child(lectureId)
             .getDownloadURL()
             .then(url => {
               setImageURL(url)

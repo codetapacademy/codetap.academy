@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import PanelTitle from '../panel-title';
 import { db } from '../data/firebase'
 import ManageMeta from '../manage-meta';
 import SectionList from '../section-list';
 import { WebInfoState } from '../web-info/web-info.context';
+import HeaderTitle from '../_dumb/header-title/header-title.component';
 
 const SectionPanel = ({ course }) => {
   const defaultSection = {
@@ -13,7 +13,7 @@ const SectionPanel = ({ course }) => {
     course,
   }
 
-  const [ section, setSection ] = useState(defaultSection)
+  const [section, setSection] = useState(defaultSection)
   const { sectionList } = WebInfoState()
 
   const change = what => {
@@ -54,9 +54,21 @@ const SectionPanel = ({ course }) => {
 
   const getSaveLabel = () => section.id ? "Update section" : "Add section"
 
+  const addSectionTitlePropList = {
+    text: 'Add Section',
+    tag: 'h1',
+    fontSize: '22px',
+  }
+
+  const manageSectionTitlePropList = {
+    text: 'Manage Section',
+    tag: 'h1',
+    fontSize: '22px',
+  }
+
   return (
     <div>
-      <PanelTitle>Add section</PanelTitle>
+      <HeaderTitle {...addSectionTitlePropList} />
       <ManageMeta
         label={getSaveLabel()}
         save={save}
@@ -64,7 +76,8 @@ const SectionPanel = ({ course }) => {
         cancel={cancel}
         data={section}
       />
-      <PanelTitle>Manage section</PanelTitle>
+
+      <HeaderTitle {...addSectionTitlePropList} />
       <SectionList
         data={sectionList}
         course={course}
