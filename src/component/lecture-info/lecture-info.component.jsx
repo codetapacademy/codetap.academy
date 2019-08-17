@@ -3,17 +3,18 @@ import HeaderTitle from '../_dumb/header-title';
 import ResponsiveThumbnail from '../_dumb/responsive-thumbnail';
 import { StyledLectureInfo } from './lecture-info.style';
 
-const LectureInfo = ({ title, id, description, imagePath, youtubeVideoId }) => {
-  console.log(youtubeVideoId, imagePath);
-  // http://img.youtube.com/vi/A-iTEtt6SN8/0.jpg
-  const headerTitlePropList = {
-    text: title,
-    tag: 'h4',
-    fontSize: '13px'
-  };
-
+const LectureInfo = ({ title, id, description, imagePath, youtubeVideoId, youtubePlaylistId }) => {
   const getImagePath = () =>
     imagePath ? imagePath : `http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`;
+  const getToutubePath = () =>
+    `https://www.youtube.com/watch?v=${youtubeVideoId}&list=${youtubePlaylistId}&t=0s`;
+
+  const headerTitlePropList = {
+    text: title,
+    tag: 'a',
+    fontSize: '13px',
+    link: getToutubePath()
+  };
 
   return (
     <StyledLectureInfo>
