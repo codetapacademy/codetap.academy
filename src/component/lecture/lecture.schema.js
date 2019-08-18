@@ -43,6 +43,15 @@ export default {
       edit: true,
       visible: true,
       value: ''
+    },
+    commentVideo: {
+      type: 'string',
+      placeholder: 'Add comment',
+      label: 'Add a comment',
+      defaultValue: '',
+      edit: true,
+      visible: true,
+      value: ''
     }
   }
 };
