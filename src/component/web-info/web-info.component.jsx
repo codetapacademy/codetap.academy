@@ -1,5 +1,5 @@
 import React from 'react';
-import CoursePanel from '../course-panel';
+import Dashboard from '../dashboard';
 import Home from '../home';
 import Course from '../course';
 import { StyledWebInfo, StyledRouter } from './web-info.style';
@@ -12,7 +12,7 @@ const WebInfo = () => {
       <StyledWebInfo>
         <StyledRouter>
           <Home path="/" />
-          <CoursePanel path="dashboard" />
+          <Dashboard path="dashboard" />
           <Course path="/course/:courseId" />
           <Lecture path="/lecture/:lectureId" />
           <PlayVideo path="/video/:youtubeVideoId" />

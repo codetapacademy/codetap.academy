@@ -50,12 +50,9 @@ const TopMenu = () => {
   return (
     <StyledTopMenu>
       <StyledLink to="/">
-        <StyledLogoWrapper>
+        <StyledLogoWrapper title="The Web Developer Factory - Super Boost Your Career from Zero to Hired">
           <Logo />
-          <HeaderTitle
-            text="CodeTap Academy"
-            title="The Web Developer Factory - Super Boost Your Career from Zero to Hired"
-          />
+          <span>CodeTap Academy</span>
         </StyledLogoWrapper>
       </StyledLink>
       {user && <StyledLink to="/dashboard">Dashboard</StyledLink>}

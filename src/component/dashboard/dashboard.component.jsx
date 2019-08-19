@@ -4,16 +4,16 @@ import {
   removeCourseAction,
   modifyCourseAction,
   initCourseListAction,
-} from '../course-panel/course-panel.action'
+} from './dashboard.action'
 import { db } from '../data/firebase'
 import CourseList from '../course-list/course-list.component'
 import ManageMeta from '../manage-meta/manage-meta.component'
 import { navigate } from '@reach/router'
-import { StyledControlPanel } from './course-panel.style';
+import { StyledControlPanel } from './dashboard.style';
 import { WebInfoState } from '../web-info/web-info.context'
 import HeaderTitle from '../_dumb/header-title/header-title.component';
 
-const CoursePanel = () => {
+const Dashboard = () => {
   const defaultCourse = {
     title: '',
     description: '',
@@ -166,4 +166,4 @@ const CoursePanel = () => {
   )
 }
 
-export default CoursePanel
+export default Dashboard

@@ -3,7 +3,7 @@ import {
   REMOVE_COURSE,
   MODIFY_COURSE,
   INIT_COURSE_LIST
-} from './course-panel.const'
+} from './dashboard.const'
 
 export const initCourseListAction = courseList => ({
   type: INIT_COURSE_LIST,
