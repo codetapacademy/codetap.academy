@@ -77,19 +77,6 @@ const Dashboard = () => {
     return unsubscribe
   }, [])
 
-  const deleteItem = id => {
-    (async () => {
-      try {
-        await db
-          .collection('course')
-          .doc(id)
-          .delete()
-      } catch (message) {
-        console.log(`Weird message!`, message)
-      }
-    })()
-  }
-
   const save = () => {
     const courseCollection = db.collection('course')
     const { id, title, description } = course
@@ -111,11 +98,6 @@ const Dashboard = () => {
     return list
       .filter(({ id }) => id === updateId)
       .map(({ title, description }) => ({ title, description }))[0] || {}
-  }
-
-  const handleUpdate = id => {
-    const { title, description } = getUpdateValue(courseList, id)
-    setCourse({ id, title, description })
   }
 
   const change = what => {
@@ -158,8 +140,6 @@ const Dashboard = () => {
       <HeaderTitle {...manageCourseTitlePropList} />
       <CourseList
         courseList={courseList}
-        handleUpdate={handleUpdate}
-        deleteItem={deleteItem}
         goToCourse={goToCourse}
       />
     </StyledControlPanel>
