@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react'
-import { courseListReducer } from '../course-panel/course-panel.reducer'
+import { courseListReducer } from '../dashboard/dashboard.reducer'
 import { sectionListReducer } from '../course/section.reducer'
 import { topMenuReducer, intialToggleMenu } from '../top-menu/top-menu.reducer'
 import { userReducer, defaultUser } from '../user';

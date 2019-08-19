@@ -23,6 +23,7 @@ const Home = () => {
 
       const courseSnapshot = await db
         .collection('course')
+        .orderBy('order', 'asc')
         .where('published', '==', true)
         .get();
       const courseList = courseSnapshot.docs.map(doc => ({

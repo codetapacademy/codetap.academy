@@ -1,11 +1,18 @@
-import { ADD_COURSE, REMOVE_COURSE, MODIFY_COURSE, INIT_COURSE_LIST } from './course-panel.const'
+import {
+  ADD_COURSE,
+  REMOVE_COURSE,
+  MODIFY_COURSE,
+  INIT_COURSE_LIST,
+} from './dashboard.const'
 
 
 export const courseListReducer = (state = [], action) => {
   switch(action.type) {
     case INIT_COURSE_LIST:
       return [
-        ...action.courseList
+        ...action
+          .courseList
+          .map((course, order) => ({ order, ...course }))
       ]
     case ADD_COURSE:
       return [
