@@ -21,17 +21,18 @@ const Dashboard = () => {
   }
   const [course, setCourse] = useState(defaultCourse)
   const { courseList, updateCourseList } = WebInfoState()
+  const courseCollection = db.collection('course')
   useEffect(() => {
     let unsubscribe;
 
     if (!courseList.length) {
       (async () => {
         // I want to get a list of courses from FireStore
-        const courseCollection = db
-          .collection('course')
 
         try {
-          const snapList = await courseCollection.get()
+          const snapList = await courseCollection
+            .orderBy('order', 'asc')
+            .get()
           const courseList = snapList.docs.map(d => {
             return {
               id: d.id,
@@ -126,6 +127,27 @@ const Dashboard = () => {
     fontSize: '22px',
   }
 
+  const updateOrder = (a, b) => {
+    const list = [...courseList]
+    const [ first ] = list.splice(a, 1)
+    list
+      .splice(b, 0, first)
+      
+    const batch = db.batch()
+    list
+      .map((o, order) => ({ ...o, order}))
+      .forEach(({ id, order }) => {
+        batch.set(
+          courseCollection.doc(id),
+          { order },
+          { merge: true }
+        )
+      })
+    batch.commit().then(r => {
+      updateCourseList(initCourseListAction(list))
+    })
+  }
+
   return (
     <StyledControlPanel>
       <HeaderTitle {...addCourseTitlePropList} />
@@ -141,6 +163,7 @@ const Dashboard = () => {
       <CourseList
         courseList={courseList}
         goToCourse={goToCourse}
+        updateOrder={updateOrder}
       />
     </StyledControlPanel>
   )
