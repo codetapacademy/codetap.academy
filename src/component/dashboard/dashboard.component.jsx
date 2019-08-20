@@ -4,16 +4,16 @@ import {
   removeCourseAction,
   modifyCourseAction,
   initCourseListAction,
-} from '../course-panel/course-panel.action'
+} from './dashboard.action'
 import { db } from '../data/firebase'
 import CourseList from '../course-list/course-list.component'
 import ManageMeta from '../manage-meta/manage-meta.component'
 import { navigate } from '@reach/router'
-import { StyledControlPanel } from './course-panel.style';
+import { StyledControlPanel } from './dashboard.style';
 import { WebInfoState } from '../web-info/web-info.context'
 import HeaderTitle from '../_dumb/header-title/header-title.component';
 
-const CoursePanel = () => {
+const Dashboard = () => {
   const defaultCourse = {
     title: '',
     description: '',
@@ -21,17 +21,18 @@ const CoursePanel = () => {
   }
   const [course, setCourse] = useState(defaultCourse)
   const { courseList, updateCourseList } = WebInfoState()
+  const courseCollection = db.collection('course')
   useEffect(() => {
     let unsubscribe;
 
     if (!courseList.length) {
       (async () => {
         // I want to get a list of courses from FireStore
-        const courseCollection = db
-          .collection('course')
 
         try {
-          const snapList = await courseCollection.get()
+          const snapList = await courseCollection
+            .orderBy('order', 'asc')
+            .get()
           const courseList = snapList.docs.map(d => {
             return {
               id: d.id,
@@ -77,19 +78,6 @@ const CoursePanel = () => {
     return unsubscribe
   }, [])
 
-  const deleteItem = id => {
-    (async () => {
-      try {
-        await db
-          .collection('course')
-          .doc(id)
-          .delete()
-      } catch (message) {
-        console.log(`Weird message!`, message)
-      }
-    })()
-  }
-
   const save = () => {
     const courseCollection = db.collection('course')
     const { id, title, description } = course
@@ -111,11 +99,6 @@ const CoursePanel = () => {
     return list
       .filter(({ id }) => id === updateId)
       .map(({ title, description }) => ({ title, description }))[0] || {}
-  }
-
-  const handleUpdate = id => {
-    const { title, description } = getUpdateValue(courseList, id)
-    setCourse({ id, title, description })
   }
 
   const change = what => {
@@ -144,6 +127,27 @@ const CoursePanel = () => {
     fontSize: '22px',
   }
 
+  const updateOrder = (a, b) => {
+    const list = [...courseList]
+    const [ first ] = list.splice(a, 1)
+    list
+      .splice(b, 0, first)
+      
+    const batch = db.batch()
+    list
+      .map((o, order) => ({ ...o, order}))
+      .forEach(({ id, order }) => {
+        batch.set(
+          courseCollection.doc(id),
+          { order },
+          { merge: true }
+        )
+      })
+    batch.commit().then(r => {
+      updateCourseList(initCourseListAction(list))
+    })
+  }
+
   return (
     <StyledControlPanel>
       <HeaderTitle {...addCourseTitlePropList} />
@@ -158,12 +162,11 @@ const CoursePanel = () => {
       <HeaderTitle {...manageCourseTitlePropList} />
       <CourseList
         courseList={courseList}
-        handleUpdate={handleUpdate}
-        deleteItem={deleteItem}
         goToCourse={goToCourse}
+        updateOrder={updateOrder}
       />
     </StyledControlPanel>
   )
 }
 
-export default CoursePanel
+export default Dashboard

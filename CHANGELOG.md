@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/codetapacademy/codetap.academy/compare/v0.7.0-alpha.0...v0.7.0) (2019-08-17)
+
+
+### Features
+
+* add a **Watch this Course NOW** button next to the title of the course in the home page ([9047fd4](https://github.com/codetapacademy/codetap.academy/commit/9047fd4)), closes [#147](https://github.com/codetapacademy/codetap.academy/issues/147)
+* add youtube presentation features ([a2f0e71](https://github.com/codetapacademy/codetap.academy/commit/a2f0e71)), closes [#144](https://github.com/codetapacademy/codetap.academy/issues/144) [#148](https://github.com/codetapacademy/codetap.academy/issues/148) [#149](https://github.com/codetapacademy/codetap.academy/issues/149)
+* add YouTube video Id to the lecture ([7cdc435](https://github.com/codetapacademy/codetap.academy/commit/7cdc435)), closes [#145](https://github.com/codetapacademy/codetap.academy/issues/145)
+* generate YouTube preview using the default image from YouTube thumbnail if no image is currently uploaded for the current lecture ([59ca3d6](https://github.com/codetapacademy/codetap.academy/commit/59ca3d6)), closes [#146](https://github.com/codetapacademy/codetap.academy/issues/146)
+
+
+
 ## [0.7.0-alpha.0](https://github.com/codetapacademy/codetap.academy/compare/v0.6.0...v0.7.0-alpha.0) (2019-08-17)
 
 

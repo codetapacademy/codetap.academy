@@ -1,6 +1,6 @@
 {
   "name": "codetap.academy",
-  "version": "0.7.0-alpha.0",
+  "version": "0.7.0",
   "private": true,
   "dependencies": {
     "@reach/router": "^1.2.1",
@@ -9,6 +9,7 @@
     "firebase": "^6.3.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
+    "react-beautiful-dnd": "^11.0.5",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "styled-components": "^4.3.2"

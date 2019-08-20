@@ -1,8 +1,13 @@
 import styled from 'styled-components'
 import { Link } from '@reach/router'
 
-export const StyledLogoWrapper = styled.div`
+export const StyledLogoWrapper = styled.span`
   display: flex;
+  align-items: center;
+/* 
+  &:hover {
+    color: black;
+  } */
 `
 
 export const StyledButton = styled.button`
