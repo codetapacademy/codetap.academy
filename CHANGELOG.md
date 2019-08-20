@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/codetapacademy/codetap.academy/compare/v0.7.0...v0.8.0) (2019-08-20)
+
+
+### Bug Fixes
+
+* home button readability and refactor course panel into dashboard ([ca56e0b](https://github.com/codetapacademy/codetap.academy/commit/ca56e0b))
+
+
+### Features
+
+* add order to course ([ca02b61](https://github.com/codetapacademy/codetap.academy/commit/ca02b61)), closes [#121](https://github.com/codetapacademy/codetap.academy/issues/121)
+* show a video to be played that is loaded from YouTube in an embed ([8cecdf0](https://github.com/codetapacademy/codetap.academy/commit/8cecdf0)), closes [#160](https://github.com/codetapacademy/codetap.academy/issues/160)
+* style the play-video component to be 16/9 ratio ([bbf176a](https://github.com/codetapacademy/codetap.academy/commit/bbf176a))
+
+
+
 ## [0.7.0](https://github.com/codetapacademy/codetap.academy/compare/v0.7.0-alpha.0...v0.7.0) (2019-08-17)
 
 
