@@ -9,4 +9,18 @@ export const StyledThumbnail = styled.div`
   background-image: url(${({ imagePath }) => imagePath || defaultImage});
   background-size: cover;
   background-position: center center;
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: 'Free';
+    position: absolute;
+    top: 3px;
+    right: -26px;
+    background: linear-gradient(to bottom, #a90329 0%,#d52027 39%,#6d0019 100%);
+    transform: rotate(45deg);
+    padding: 5px 10px;
+    width: 70px;
+    text-align: center;
+  }
 `
