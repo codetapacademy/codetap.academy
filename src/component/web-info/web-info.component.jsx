@@ -5,6 +5,7 @@ import Course from '../course';
 import { StyledWebInfo, StyledRouter } from './web-info.style';
 import Lecture from '../lecture';
 import PlayVideo from '../play-video';
+import ManageUser from '../manage-user';
 
 const WebInfo = () => {
   return (
@@ -16,6 +17,7 @@ const WebInfo = () => {
           <Course path="/course/:courseId" />
           <Lecture path="/lecture/:lectureId" />
           <PlayVideo path="/video/:youtubeVideoId" />
+          <ManageUser path="/user/:userId" />
         </StyledRouter>
       </StyledWebInfo>
     </>
