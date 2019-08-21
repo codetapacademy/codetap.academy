@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from '@reach/router'
-import { StyledLectureItem } from './lecture-item.style';
+import { StyledLectureItem, StyledLink } from './lecture-item.style';
 
 const LectureItem = ({ id, title, description, remove, sectionId }) => {
   const handleRemove = () => {
@@ -9,7 +9,7 @@ const LectureItem = ({ id, title, description, remove, sectionId }) => {
   return (
     <StyledLectureItem>
       <button>☰</button>
-      <Link to={`/lecture/${id}`} title={description}>{title}</Link>
+      <StyledLink to={`/lecture/${id}`} title={description}>{title}</StyledLink>
       <button onClick={handleRemove}>&times;</button>
     </StyledLectureItem>
   )
