@@ -4,16 +4,17 @@ import { db, storage } from '../data/firebase'
 import SectionItem from '../section-item';
 import LecturePanel from '../lecture-panel';
 import LectureItem from '../lecture-item/lecture-item.component';
-import { removeLectureFromSectionAction } from '../course/section.action';
+import { removeLectureFromSectionAction, initSectionListAction } from '../course/section.action';
 import { WebInfoState } from '../web-info/web-info.context';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 const SectionList = ({ data = [], handleUpdate, course = {} }) => {
   const [showAddLectureId, setShowAddLectureId] = useState('nimic')
   const { updateSectionList } = WebInfoState()
+  const sectionCollection = db.collection('section')
 
   const deleteItem = id => {
-    db
-      .collection('section')
+    sectionCollection
       .doc(id)
       // TODO, mark as deleted and never delete
       // some other logic should display data only if not marked as deleted
@@ -52,37 +53,83 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
     })
   }
 
+  const updateOrder = (a, b) => {
+    const list = [...data]
+    const [ first ] = list.splice(a, 1)
+    list
+      .splice(b, 0, first)
+      
+    const batch = db.batch()
+    list
+      .map((o, order) => ({ ...o, order}))
+      .forEach(({ id, order }) => {
+        batch.set(
+          sectionCollection.doc(id),
+          { order },
+          { merge: true }
+        )
+      })
+    batch.commit().then(r => {
+      updateSectionList(initSectionListAction(list))
+    })
+  }
+
+  const onDragEnd = ({ destination, source }) => {
+    if (!destination || destination.index === source.index) return
+    updateOrder(source.index, destination.index)
+  }
+  console.log(data)
+
   return (
     <StyledSectionList>
-      {data.map(({ title, description, id, lectureList }) => {
-        const section = {
-          title,
-          description,
-          id,
-        }
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="list">
+          {(droppableProvided) => (
+            <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
+              {data.map(({ title, description, id, lectureList }, index) => {
+                const section = {
+                  title,
+                  description,
+                  id,
+                }
 
-        const sectionItemPropList = {
-          ...section,
-          showAddLectureId,
-          setShowAddLectureId,
-          deleteItem,
-          handleUpdate
-        }
+                const sectionItemPropList = {
+                  ...section,
+                  showAddLectureId,
+                  setShowAddLectureId,
+                  deleteItem,
+                  handleUpdate
+                }
 
-        const lecturePanelPropList = {
-          section,
-          course,
-          showAddLectureId,
-          setShowAddLectureId,
-        }
-        return (
-          <StyledSectionItem key={id}>
-            <SectionItem {...sectionItemPropList} />
-            {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
-            {renderLectureList(lectureList, id)}
-          </StyledSectionItem>
-        )
-      })}
+                const lecturePanelPropList = {
+                  section,
+                  course,
+                  showAddLectureId,
+                  setShowAddLectureId,
+                }
+                return (
+                  <Draggable key={section.id} draggableId={section.id} index={index}>
+                    {(draggableProvided, draggableSnapshot) => (
+                      <div
+                        ref={draggableProvided.innerRef}
+                        {...draggableProvided.draggableProps}
+                        {...draggableProvided.dragHandleProps}
+                      >
+                        <StyledSectionItem key={id}>
+                        <SectionItem {...sectionItemPropList} />
+                        {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
+                        {renderLectureList(lectureList, id)}
+                      </StyledSectionItem>
+                    </div>
+                  )}
+                  </Draggable>
+                )
+              })}
+              {droppableProvided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </StyledSectionList>
   )
 }

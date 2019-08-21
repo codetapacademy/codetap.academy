@@ -62,7 +62,10 @@ const Course = ({ courseId }) => {
         console.error('Get lectureSnapshotList failed', e);
       }
 
-      const sectionCollection = db.collection('section').where('course.id', '==', courseId);
+      const sectionCollection = db
+        .collection('section')
+        .orderBy('order', 'asc')
+        .where('course.id', '==', courseId);
 
       const sectionSnapshotList = await sectionCollection.get();
       const sectionList = sectionSnapshotList.docs.map(d => {
@@ -131,7 +134,6 @@ const Course = ({ courseId }) => {
     <div>
       <HeaderTitle {...courseTitlePropList} />
       <p>{course.description}</p>
-      {console.log(course)}
       <DynamicForm schema={courseSchema} data={course} dbItem={courseDocument} />
       <HeaderTitle {...courseSettingsPropList} />
       <button onClick={handlePublish}>{course.published ? 'Unp' : 'P'}ublish Course</button>
