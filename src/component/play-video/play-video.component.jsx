@@ -15,7 +15,7 @@ const PlayVideo = ({ youtubeVideoId }) => {
           allowfullscreen
         ></iframe>
       </StyledVideo>
-      <CommentSection/>
+      <CommentSection youtubeVideoId={youtubeVideoId} />
     </div>
   );
 };

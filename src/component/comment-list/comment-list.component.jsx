@@ -1,14 +1,18 @@
 import React from 'react'
-import { StyledCommentList } from './comment-list.style'
+import { StyledCommentList, StyledComment } from './comment-list.style'
+import Avatar from '../avatar'
 
-const CommentList = ({commentList}) => {
-  console.log(commentList)
-  return ( commentList === null ?
+const CommentList = ({ commentList }) => {
+  // console.log(commentList)
+  return (commentList === null ?
     '' :
     <StyledCommentList>
-      {commentList.map((c,key) => 
-          (<div key={key}>{c}</div>)
-      )}
+      {commentList.map(({ value, user }, key) => (
+        <StyledComment key={key}>
+          <Avatar user={user} showUser={false} />
+          {value}
+        </StyledComment>
+      ))}
     </StyledCommentList>
   )
 }
