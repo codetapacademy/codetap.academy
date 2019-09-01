@@ -1,8 +1,12 @@
 import React from 'react';
-import { StyledVideo } from './play-video.style';
+import { StyledVideo, StyledVideoOverlay } from './play-video.style';
 import CommentSection from '../comment-section';
 
 const PlayVideo = ({ youtubeVideoId }) => {
+  const handleRightClick = e => {
+    e.preventDefault();
+    return;
+  }
   return (
     <div>
       <StyledVideo>
@@ -14,6 +18,7 @@ const PlayVideo = ({ youtubeVideoId }) => {
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
+        <StyledVideoOverlay onContextMenu={handleRightClick} />
       </StyledVideo>
       <CommentSection youtubeVideoId={youtubeVideoId} />
     </div>

@@ -32,6 +32,7 @@ const CommentSection = ({ youtubeVideoId }) => {
         .where('youtubeVideoId', '==', youtubeVideoId)
         .orderBy('ts', 'desc')
         .onSnapshot(snapList => {
+          // get new comments
           snapList.docChanges().forEach(change => {
             if (change.type == 'added' && change.doc.metadata.hasPendingWrites) {
               setCommentList([change.doc.data(), ...commentList])
@@ -39,7 +40,7 @@ const CommentSection = ({ youtubeVideoId }) => {
           })
         })
     })()
-    // get new comments
+    return unsubscribe
   }, [])
 
   const handleOnChange = (e) => {
