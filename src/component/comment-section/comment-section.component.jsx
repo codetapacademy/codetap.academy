@@ -34,14 +34,14 @@ const CommentSection = ({ youtubeVideoId }) => {
         .onSnapshot(snapList => {
           // get new comments
           snapList.docChanges().forEach(change => {
-            if (change.type == 'added' && change.doc.metadata.hasPendingWrites) {
+            if (change.type === 'added' && change.doc.metadata.hasPendingWrites) {
               setCommentList([change.doc.data(), ...commentList])
             }
           })
         })
     })()
     return unsubscribe
-  }, [])
+  }, [commentCollection, youtubeVideoId])
 
   const handleOnChange = (e) => {
     const { value } = e.target

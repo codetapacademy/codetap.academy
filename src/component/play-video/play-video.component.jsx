@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyledVideo, StyledVideoOverlay } from './play-video.style';
 import CommentSection from '../comment-section';
 
 const PlayVideo = ({ youtubeVideoId }) => {
+  useEffect(() => {
+    (async () => {
+      console.log(youtubeVideoId)
+    })()
+  }, [youtubeVideoId])
   const handleRightClick = e => {
     e.preventDefault();
     return;
@@ -14,9 +19,10 @@ const PlayVideo = ({ youtubeVideoId }) => {
           width="100%"
           height="100%"
           src={`https://www.youtube.com/embed/${youtubeVideoId}`}
-          frameborder="0"
+          frameBorder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
+          allowFullScreen
+          title="YouTube Video Player in an iFrame"
         ></iframe>
         <StyledVideoOverlay onContextMenu={handleRightClick} />
       </StyledVideo>

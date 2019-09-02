@@ -6,14 +6,14 @@ const DynamicForm = ({ schema, data, dbItem }) => {
   const { formId, filedList } = formSchema;
 
   useEffect(() => {
-    Object.keys(data).map(key => {
+    Object.keys(data).forEach(key => {
       if (filedList.hasOwnProperty(key)) {
         filedList[key].value = data[key];
       }
     });
 
     setFormSchema({ ...formSchema, filedList });
-  }, [data]);
+  }, [data, filedList, formSchema]);
 
   const onEvent = (value, field, type) => {
     switch (type) {
@@ -51,6 +51,8 @@ const DynamicForm = ({ schema, data, dbItem }) => {
               placeholder={placeholder}
             />
           );
+        default:
+          return null
       }
     });
 

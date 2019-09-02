@@ -14,7 +14,6 @@ import DynamicForm from '../_dumb/dynamic-form/dynamic-form.component';
 
 const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState();
-  const [lectureBySectionIdList, setLectureBySectioIdList] = useState({});
   const [course, setCourse] = useState({});
   const courseDocument = db.collection('course').doc(courseId);
 
@@ -112,7 +111,7 @@ const Course = ({ courseId }) => {
       unsubscribe();
       unsubscribeToCourse();
     };
-  }, []);
+  }, [courseId, courseDocument, updateSectionList]);
 
   const courseTitlePropList = {
     text: course.title,
