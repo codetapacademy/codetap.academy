@@ -34,7 +34,7 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
         // console.log(`Item with id: ${id} is no longer with us`, aaa)
         updateSectionList(removeLectureFromSectionAction(id, sectionId))
         // remove image if it exists
-        const imageRef = storage
+        storage
           .ref("lecture-picture")
           .child(id)
           .delete()
@@ -55,13 +55,13 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
 
   const updateOrder = (a, b) => {
     const list = [...data]
-    const [ first ] = list.splice(a, 1)
+    const [first] = list.splice(a, 1)
     list
       .splice(b, 0, first)
-      
+
     const batch = db.batch()
     list
-      .map((o, order) => ({ ...o, order}))
+      .map((o, order) => ({ ...o, order }))
       .forEach(({ id, order }) => {
         batch.set(
           sectionCollection.doc(id),
@@ -116,12 +116,12 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
                         {...draggableProvided.dragHandleProps}
                       >
                         <StyledSectionItem key={id}>
-                        <SectionItem {...sectionItemPropList} />
-                        {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
-                        {renderLectureList(lectureList, id)}
-                      </StyledSectionItem>
-                    </div>
-                  )}
+                          <SectionItem {...sectionItemPropList} />
+                          {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
+                          {renderLectureList(lectureList, id)}
+                        </StyledSectionItem>
+                      </div>
+                    )}
                   </Draggable>
                 )
               })}

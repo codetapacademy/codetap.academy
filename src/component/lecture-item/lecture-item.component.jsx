@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from '@reach/router'
 import { StyledLectureItem, StyledLink } from './lecture-item.style';
 
 const LectureItem = ({ id, title, description, remove, sectionId }) => {
