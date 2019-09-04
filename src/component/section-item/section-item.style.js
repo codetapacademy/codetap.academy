@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const StyledSectionItem = styled.div.attrs({'data-id': 'section-item'})`
+export const StyledSectionItem = styled.div.attrs({ 'data-id': 'section-item' })`
   position: relative;
   overflow: hidden;
   padding: ${({ theme }) => theme.layout.bigPadding};
@@ -14,7 +14,8 @@ export const StyledSectionButtonGroup = styled.div`
   top: 1rem;
   transition: 0.25s;
 
-  ${({ side }) => side}: -100%;
+  ${({ side }) => side}: 0.5rem;
+  /* ${({ side }) => side}: -100%; */
 
   ${StyledSectionItem}:hover > & {
     ${({ side }) => side}: 1rem;

@@ -13,7 +13,7 @@ const DynamicForm = ({ schema, data, dbItem }) => {
     });
 
     setFormSchema({ ...formSchema, filedList });
-  }, [data, filedList, formSchema]);
+  }, [data]);
 
   const onEvent = (value, field, type) => {
     switch (type) {

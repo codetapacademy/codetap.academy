@@ -11,6 +11,7 @@ import {
 import HeaderTitle from '../_dumb/header-title/header-title.component';
 import courseSchema from './course.schema';
 import DynamicForm from '../_dumb/dynamic-form/dynamic-form.component';
+import { getCourseTitlePropList, getCourseSettingsPropList } from './course.config';
 
 const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState();
@@ -67,6 +68,7 @@ const Course = ({ courseId }) => {
         .where('course.id', '==', courseId);
 
       const sectionSnapshotList = await sectionCollection.get();
+      console.log(sectionSnapshotList.query)
       const sectionList = sectionSnapshotList.docs.map(d => {
         return {
           id: d.id,
@@ -111,19 +113,11 @@ const Course = ({ courseId }) => {
       unsubscribe();
       unsubscribeToCourse();
     };
-  }, [courseId, courseDocument, updateSectionList]);
+  }, []);
 
-  const courseTitlePropList = {
-    text: course.title,
-    tag: 'h1',
-    fontSize: '22px'
-  };
+  const courseTitlePropList = getCourseTitlePropList(course.title);
 
-  const courseSettingsPropList = {
-    text: 'Course Settings',
-    tag: 'h2',
-    fontSize: '20px'
-  };
+  const courseSettingsPropList = getCourseSettingsPropList()
 
   const handlePublish = () => {
     courseDocument.set({ published: !course.published }, { merge: true });

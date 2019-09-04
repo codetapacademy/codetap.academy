@@ -4,14 +4,10 @@ import ManageMeta from '../manage-meta';
 import SectionList from '../section-list';
 import { WebInfoState } from '../web-info/web-info.context';
 import HeaderTitle from '../_dumb/header-title/header-title.component';
+import { getAddSectionTitlePropList, getManageSectionTitlePropList, getDefaultSection } from './section-panel.config';
 
 const SectionPanel = ({ course }) => {
-  const defaultSection = {
-    title: '',
-    description: '',
-    id: null,
-    course,
-  }
+  const defaultSection = getDefaultSection(course)
 
   const [section, setSection] = useState(defaultSection)
   const { sectionList } = WebInfoState()
@@ -54,17 +50,8 @@ const SectionPanel = ({ course }) => {
 
   const getSaveLabel = () => section.id ? "Update section" : "Add section"
 
-  const addSectionTitlePropList = {
-    text: 'Add Section',
-    tag: 'h1',
-    fontSize: '22px',
-  }
-
-  const manageSectionTitlePropList = {
-    text: 'Manage Section',
-    tag: 'h1',
-    fontSize: '22px',
-  }
+  const addSectionTitlePropList = getAddSectionTitlePropList()
+  const manageSectionTitlePropList = getManageSectionTitlePropList()
 
   return (
     <div>
