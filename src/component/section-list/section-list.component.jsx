@@ -110,17 +110,17 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
                 return (
                   <Draggable key={section.id} draggableId={section.id} index={index}>
                     {(draggableProvided, draggableSnapshot) => (
-                      <div
+                      <StyledSectionItem
                         ref={draggableProvided.innerRef}
                         {...draggableProvided.draggableProps}
                         {...draggableProvided.dragHandleProps}
                       >
-                        <StyledSectionItem key={id}>
+                        <div key={id}>
                           <SectionItem {...sectionItemPropList} />
                           {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
                           {renderLectureList(lectureList, id)}
-                        </StyledSectionItem>
-                      </div>
+                        </div>
+                      </StyledSectionItem>
                     )}
                   </Draggable>
                 )
