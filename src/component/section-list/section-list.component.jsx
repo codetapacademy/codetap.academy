@@ -46,11 +46,39 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
   }
 
   const renderLectureList = (lectureList, sectionId) => {
-    return (lectureList || []).map(lecture => {
-      return (
-        <LectureItem key={lecture.id} {...lecture} sectionId={sectionId} remove={deleteLectureItem} />
-      )
-    })
+    return (
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId={`list-${sectionId}`}>
+          {(droppableProvided) => (
+            <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
+
+              {(lectureList || []).map((lecture, index) => {
+                return (
+                  <Draggable key={lecture.id} draggableId={lecture.id} index={index}>
+                    {(draggableProvided, draggableSnapshot) => (
+                      <div
+                        ref={draggableProvided.innerRef}
+                        {...draggableProvided.draggableProps}
+                        {...draggableProvided.dragHandleProps}
+                      >
+                        <LectureItem
+                          key={lecture.id}
+                          {...lecture}
+                          sectionId={sectionId}
+                          remove={deleteLectureItem}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                )
+              })}
+
+              {droppableProvided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    )
   }
 
   const updateOrder = (a, b) => {
@@ -76,7 +104,9 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
 
   const onDragEnd = ({ destination, source }) => {
     if (!destination || destination.index === source.index) return
-    updateOrder(source.index, destination.index)
+    console.log(source.index, destination.index)
+    console.log(source, destination)
+    // updateOrder(source.index, destination.index)
   }
   console.log(data)
 
