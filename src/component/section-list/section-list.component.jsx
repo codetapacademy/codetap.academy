@@ -47,37 +47,35 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
 
   const renderLectureList = (lectureList, sectionId) => {
     return (
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId={`list-${sectionId}`}>
-          {(droppableProvided) => (
-            <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
+      <Droppable droppableId={`list-${sectionId}`}>
+        {(droppableProvided) => (
+          <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
 
-              {(lectureList || []).map((lecture, index) => {
-                return (
-                  <Draggable key={lecture.id} draggableId={lecture.id} index={index}>
-                    {(draggableProvided, draggableSnapshot) => (
-                      <div
-                        ref={draggableProvided.innerRef}
-                        {...draggableProvided.draggableProps}
-                        {...draggableProvided.dragHandleProps}
-                      >
-                        <LectureItem
-                          key={lecture.id}
-                          {...lecture}
-                          sectionId={sectionId}
-                          remove={deleteLectureItem}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                )
-              })}
+            {(lectureList || []).map((lecture, index) => {
+              return (
+                <Draggable key={lecture.id} draggableId={lecture.id} index={index}>
+                  {(draggableProvided, draggableSnapshot) => (
+                    <div
+                      ref={draggableProvided.innerRef}
+                      {...draggableProvided.draggableProps}
+                      {...draggableProvided.dragHandleProps}
+                    >
+                      <LectureItem
+                        key={lecture.id}
+                        {...lecture}
+                        sectionId={sectionId}
+                        remove={deleteLectureItem}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              )
+            })}
 
-              {droppableProvided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+            {droppableProvided.placeholder}
+          </div>
+        )}
+      </Droppable>
     )
   }
 
@@ -113,9 +111,6 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
   return (
     <StyledSectionList>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="list">
-          {(droppableProvided) => (
-            <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
               {data.map(({ title, description, id, lectureList }, index) => {
                 const section = {
                   title,
@@ -138,27 +133,40 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
                   setShowAddLectureId,
                 }
                 return (
-                  <Draggable key={section.id} draggableId={section.id} index={index}>
-                    {(draggableProvided, draggableSnapshot) => (
-                      <StyledSectionItem
-                        ref={draggableProvided.innerRef}
-                        {...draggableProvided.draggableProps}
-                        {...draggableProvided.dragHandleProps}
+                  <Droppable
+                    droppableId={`section-${section.id}`}
+                    isCombineEnabled={true}
+                    key={section.id}>
+                    {(droppableProvided) => (
+                      <div
+                        ref={droppableProvided.innerRef}
+                        {...droppableProvided.droppableProps}
                       >
-                        <div key={id}>
-                          <SectionItem {...sectionItemPropList} />
-                          {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
-                          {renderLectureList(lectureList, id)}
-                        </div>
-                      </StyledSectionItem>
+                        <Draggable draggableId={section.id} index={index}>
+                          {(draggableProvided, draggableSnapshot) => (
+                            <StyledSectionItem
+                              ref={draggableProvided.innerRef}
+                              {...draggableProvided.draggableProps}
+                              {...draggableProvided.dragHandleProps}
+                            >
+                              <div key={id}>
+                                <SectionItem {...sectionItemPropList} />
+                                {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
+                                {renderLectureList(lectureList, id)}
+                              </div>
+                            </StyledSectionItem>
+                          )}
+                        </Draggable>
+                        {droppableProvided.placeholder}
+                      </div>
                     )}
-                  </Draggable>
+                  </Droppable>
                 )
-              })}
-              {droppableProvided.placeholder}
-            </div>
-          )}
-        </Droppable>
+
+                
+              })
+              
+              }
       </DragDropContext>
     </StyledSectionList>
   )
