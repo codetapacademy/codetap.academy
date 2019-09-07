@@ -47,7 +47,6 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
   }
 
   const renderLectureList = (lectureList, sectionId) => {
-    // console.log(lectureList)
     return (
       <Droppable droppableId={`list-${sectionId}`} type="lecture">
         {(droppableProvided) => (
@@ -151,9 +150,11 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
     <StyledSectionList>
       <DragDropContext onDragEnd={onDragEnd}>
         {data.map(({ title, description, id, lectureList }, index) => {
+          const lectureListLength = lectureList && lectureList.length || 0
           const section = { title, description, id, }
           const sectionItemPropList = { ...section, showAddLectureId, setShowAddLectureId, deleteItem, handleUpdate }
-          const lecturePanelPropList = { section, course, showAddLectureId, setShowAddLectureId, lectureListLength: lectureList.length }
+          const lecturePanelPropList = { section, course, showAddLectureId, setShowAddLectureId, lectureListLength }
+          const showLecturelist = lectureList && lectureList.length || null
 
           return (
             <Droppable
@@ -176,7 +177,7 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
                         <div key={id}>
                           <SectionItem {...sectionItemPropList} />
                           {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
-                          {renderLectureList(lectureList.sort((a, b) => a.order - b.order), id)}
+                          {showLecturelist && renderLectureList(lectureList.sort((a, b) => a.order - b.order), id)}
                         </div>
                       </StyledSectionItem>
                     )}

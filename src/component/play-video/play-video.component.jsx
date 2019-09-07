@@ -18,7 +18,7 @@ const PlayVideo = ({ youtubeVideoId }) => {
       })
 
       const lectureListSnap = await lectureCollection
-        .where('course.youtubePlaylistId', '==', youtubePlaylistId)
+        .where('course.youtubePlaylistId', '==', youtubePlaylistId || '')
         // .orderBy('order', 'asc')
         .get()
       lectureListSnap.docs.forEach((doc, key) => {

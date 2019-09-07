@@ -68,7 +68,6 @@ const Course = ({ courseId }) => {
         .where('course.id', '==', courseId);
 
       const sectionSnapshotList = await sectionCollection.get();
-      console.log(sectionSnapshotList.query)
       const sectionList = sectionSnapshotList.docs.map(d => {
         return {
           id: d.id,
