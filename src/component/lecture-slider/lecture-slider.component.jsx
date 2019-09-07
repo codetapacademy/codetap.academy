@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import LectureInfo from '../lecture-info';
 import { StyledLectureSlider } from './lecture-slider.style';
 
@@ -7,15 +7,21 @@ const LectureSlider = ({ lectureList, courseId, youtubePlaylistId, sectionList }
     <StyledLectureSlider>
       {sectionList.map(section => {
         return (
-          <div key={section.id}>
-            <div>{section.title}</div>
+          <Fragment key={section.id}>
             {
               lectureList
                 .filter(lecture => lecture.section.id === section.id)
                 .sort((a, b) => a.order - b.order)
-                .map(({ id, ...lecture }) => <LectureInfo key={id} {...lecture} youtubePlaylistId={youtubePlaylistId} />)
+                .map(({ id, ...lecture }) => (
+                  <LectureInfo
+                    key={id}
+                    {...lecture}
+                    sectionOrder={section.order}
+                    youtubePlaylistId={youtubePlaylistId}
+                  />
+                ))
             }
-          </div>
+          </Fragment>
         )
       })}
     </StyledLectureSlider>
