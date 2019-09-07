@@ -47,7 +47,7 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
 
   const renderLectureList = (lectureList, sectionId) => {
     return (
-      <Droppable droppableId={`list-${sectionId}`}>
+      <Droppable droppableId={`list-${sectionId}`} type="lecture">
         {(droppableProvided) => (
           <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
 
@@ -111,62 +111,43 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
   return (
     <StyledSectionList>
       <DragDropContext onDragEnd={onDragEnd}>
-              {data.map(({ title, description, id, lectureList }, index) => {
-                const section = {
-                  title,
-                  description,
-                  id,
-                }
+        {data.map(({ title, description, id, lectureList }, index) => {
+          const section = { title, description, id, }
+          const sectionItemPropList = { ...section, showAddLectureId, setShowAddLectureId, deleteItem, handleUpdate }
+          const lecturePanelPropList = { section, course, showAddLectureId, setShowAddLectureId, }
 
-                const sectionItemPropList = {
-                  ...section,
-                  showAddLectureId,
-                  setShowAddLectureId,
-                  deleteItem,
-                  handleUpdate
-                }
-
-                const lecturePanelPropList = {
-                  section,
-                  course,
-                  showAddLectureId,
-                  setShowAddLectureId,
-                }
-                return (
-                  <Droppable
-                    droppableId={`section-${section.id}`}
-                    isCombineEnabled={true}
-                    key={section.id}>
-                    {(droppableProvided) => (
-                      <div
-                        ref={droppableProvided.innerRef}
-                        {...droppableProvided.droppableProps}
+          return (
+            <Droppable
+              droppableId={`section-${section.id}`}
+              isCombineEnabled={true}
+              type="section"
+              key={section.id}>
+              {(droppableProvided) => (
+                <div
+                  ref={droppableProvided.innerRef}
+                  {...droppableProvided.droppableProps}
+                >
+                  <Draggable draggableId={section.id} index={index}>
+                    {(draggableProvided, draggableSnapshot) => (
+                      <StyledSectionItem
+                        ref={draggableProvided.innerRef}
+                        {...draggableProvided.draggableProps}
+                        {...draggableProvided.dragHandleProps}
                       >
-                        <Draggable draggableId={section.id} index={index}>
-                          {(draggableProvided, draggableSnapshot) => (
-                            <StyledSectionItem
-                              ref={draggableProvided.innerRef}
-                              {...draggableProvided.draggableProps}
-                              {...draggableProvided.dragHandleProps}
-                            >
-                              <div key={id}>
-                                <SectionItem {...sectionItemPropList} />
-                                {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
-                                {renderLectureList(lectureList, id)}
-                              </div>
-                            </StyledSectionItem>
-                          )}
-                        </Draggable>
-                        {droppableProvided.placeholder}
-                      </div>
+                        <div key={id}>
+                          <SectionItem {...sectionItemPropList} />
+                          {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
+                          {renderLectureList(lectureList, id)}
+                        </div>
+                      </StyledSectionItem>
                     )}
-                  </Droppable>
-                )
-
-                
-              })
-              
-              }
+                  </Draggable>
+                  {droppableProvided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          )
+        })}
       </DragDropContext>
     </StyledSectionList>
   )
