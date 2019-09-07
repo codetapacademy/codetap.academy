@@ -6,17 +6,20 @@ import { db } from '../data/firebase';
 const PlayVideo = ({ youtubeVideoId }) => {
   const [video, setVideo] = useState('')
   const lectureCollection = db.collection('lecture')
+  const courseCollection = db.collection('course')
   useEffect(() => {
     (async () => {
       const lectureSnap = await lectureCollection
         .where('youtubeVideoId', '==', youtubeVideoId)
         .get()
-      let youtubePlaylistId, order = 0
+      let order = 0, courseId
       lectureSnap.forEach(doc => {
         const data = doc.data()
-        youtubePlaylistId = data.course.youtubePlaylistId
+        courseId = data.course.id
       })
 
+      const course = await courseCollection.doc(courseId).get()
+      const { youtubePlaylistId } = course.data()
       const lectureListSnap = await lectureCollection
         .where('course.youtubePlaylistId', '==', youtubePlaylistId || '')
         // .orderBy('order', 'asc')
@@ -29,7 +32,7 @@ const PlayVideo = ({ youtubeVideoId }) => {
       })
       setVideo({ order, youtubePlaylistId })
     })()
-  }, [youtubeVideoId, lectureCollection])
+  }, [])
   const handleRightClick = e => {
     e.preventDefault();
     return;
@@ -37,7 +40,7 @@ const PlayVideo = ({ youtubeVideoId }) => {
   return (
     <div>
       <StyledVideo>
-        <iframe
+        {video && <iframe
           width="100%"
           height="100%"
           src={`https://www.youtube.com/embed/videoseries?list=${video.youtubePlaylistId}&index=${video.order}&modestbranding=1&rel=0&showinfo=1&loop=0&fs=0&hl=en&enablejsapi=1`}
@@ -45,7 +48,7 @@ const PlayVideo = ({ youtubeVideoId }) => {
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           title="YouTube Video Player in an iFrame"
-        ></iframe>
+        ></iframe>}
         <StyledVideoOverlay onContextMenu={handleRightClick} />
       </StyledVideo>
       <CommentSection youtubeVideoId={youtubeVideoId} />
