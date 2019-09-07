@@ -95,12 +95,6 @@ const Dashboard = () => {
     setCourse(defaultCourse)
   }
 
-  const getUpdateValue = (list, updateId) => {
-    return list
-      .filter(({ id }) => id === updateId)
-      .map(({ title, description }) => ({ title, description }))[0] || {}
-  }
-
   const change = what => {
     setCourse({ ...course, ...what })
   }
@@ -129,13 +123,13 @@ const Dashboard = () => {
 
   const updateOrder = (a, b) => {
     const list = [...courseList]
-    const [ first ] = list.splice(a, 1)
+    const [first] = list.splice(a, 1)
     list
       .splice(b, 0, first)
-      
+
     const batch = db.batch()
     list
-      .map((o, order) => ({ ...o, order}))
+      .map((o, order) => ({ ...o, order }))
       .forEach(({ id, order }) => {
         batch.set(
           courseCollection.doc(id),

@@ -1,4 +1,10 @@
 import styled from 'styled-components'
+import { Link } from '@reach/router';
+
+export const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+`
 
 export const StyledLectureItem = styled.div`
   display: grid;

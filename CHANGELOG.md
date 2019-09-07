@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0](https://github.com/codetapacademy/codetap.academy/compare/v0.8.0...v0.9.0) (2019-08-20)
+
+
+### Features
+
+* create a route to manage users ([ebf29cf](https://github.com/codetapacademy/codetap.academy/commit/ebf29cf)), closes [#155](https://github.com/codetapacademy/codetap.academy/issues/155)
+* implement a CSS corner ribbon on the home page ([4d0ca2b](https://github.com/codetapacademy/codetap.academy/commit/4d0ca2b)), closes [#176](https://github.com/codetapacademy/codetap.academy/issues/176)
+
+
+
 ## [0.8.0](https://github.com/codetapacademy/codetap.academy/compare/v0.7.0...v0.8.0) (2019-08-20)
 
 

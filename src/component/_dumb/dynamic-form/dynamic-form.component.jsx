@@ -6,7 +6,7 @@ const DynamicForm = ({ schema, data, dbItem }) => {
   const { formId, filedList } = formSchema;
 
   useEffect(() => {
-    Object.keys(data).map(key => {
+    Object.keys(data).forEach(key => {
       if (filedList.hasOwnProperty(key)) {
         filedList[key].value = data[key];
       }
@@ -51,6 +51,8 @@ const DynamicForm = ({ schema, data, dbItem }) => {
               placeholder={placeholder}
             />
           );
+        default:
+          return null
       }
     });
 

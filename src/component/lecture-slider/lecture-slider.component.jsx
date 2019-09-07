@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import LectureInfo from '../lecture-info';
 import { StyledLectureSlider } from './lecture-slider.style';
 
-const LectureSlider = ({ lectureList, courseId, youtubePlaylistId }) => {
+const LectureSlider = ({ lectureList, courseId, youtubePlaylistId, sectionList }) => {
   return (
     <StyledLectureSlider>
-      {lectureList.map(({ id, ...lecture }) => (
-        <LectureInfo key={id} {...lecture} youtubePlaylistId={youtubePlaylistId} />
-      ))}
+      {sectionList.map(section => {
+        return (
+          <Fragment key={section.id}>
+            {
+              lectureList
+                .filter(lecture => lecture.section.id === section.id)
+                .sort((a, b) => a.order - b.order)
+                .map(({ id, ...lecture }) => (
+                  <LectureInfo
+                    key={id}
+                    {...lecture}
+                    sectionOrder={section.order}
+                    youtubePlaylistId={youtubePlaylistId}
+                  />
+                ))
+            }
+          </Fragment>
+        )
+      })}
     </StyledLectureSlider>
   );
 };

@@ -26,7 +26,7 @@ export const sectionListReducer = (state = [], action) => {
     case ADD_LECTURE_TO_SECTION:
       return state
         .map(section => section.id === action.lecture.section.id
-          ? ({ ...section, lectureList: [...(section && section.lectureList || []), action.lecture] })
+          ? ({ ...section, lectureList: [...((section && section.lectureList) || []), action.lecture] })
           : section
         )
     case REMOVE_LECTURE_FROM_SECTION:

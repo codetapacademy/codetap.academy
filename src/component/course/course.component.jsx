@@ -11,10 +11,10 @@ import {
 import HeaderTitle from '../_dumb/header-title/header-title.component';
 import courseSchema from './course.schema';
 import DynamicForm from '../_dumb/dynamic-form/dynamic-form.component';
+import { getCourseTitlePropList, getCourseSettingsPropList } from './course.config';
 
 const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState();
-  const [lectureBySectionIdList, setLectureBySectioIdList] = useState({});
   const [course, setCourse] = useState({});
   const courseDocument = db.collection('course').doc(courseId);
 
@@ -62,7 +62,10 @@ const Course = ({ courseId }) => {
         console.error('Get lectureSnapshotList failed', e);
       }
 
-      const sectionCollection = db.collection('section').where('course.id', '==', courseId);
+      const sectionCollection = db
+        .collection('section')
+        .orderBy('order', 'asc')
+        .where('course.id', '==', courseId);
 
       const sectionSnapshotList = await sectionCollection.get();
       const sectionList = sectionSnapshotList.docs.map(d => {
@@ -111,17 +114,9 @@ const Course = ({ courseId }) => {
     };
   }, []);
 
-  const courseTitlePropList = {
-    text: course.title,
-    tag: 'h1',
-    fontSize: '22px'
-  };
+  const courseTitlePropList = getCourseTitlePropList(course.title);
 
-  const courseSettingsPropList = {
-    text: 'Course Settings',
-    tag: 'h2',
-    fontSize: '20px'
-  };
+  const courseSettingsPropList = getCourseSettingsPropList()
 
   const handlePublish = () => {
     courseDocument.set({ published: !course.published }, { merge: true });
@@ -131,7 +126,6 @@ const Course = ({ courseId }) => {
     <div>
       <HeaderTitle {...courseTitlePropList} />
       <p>{course.description}</p>
-      {console.log(course)}
       <DynamicForm schema={courseSchema} data={course} dbItem={courseDocument} />
       <HeaderTitle {...courseSettingsPropList} />
       <button onClick={handlePublish}>{course.published ? 'Unp' : 'P'}ublish Course</button>
