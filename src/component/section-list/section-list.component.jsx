@@ -4,14 +4,15 @@ import { db, storage } from '../data/firebase'
 import SectionItem from '../section-item';
 import LecturePanel from '../lecture-panel';
 import LectureItem from '../lecture-item/lecture-item.component';
-import { removeLectureFromSectionAction, initSectionListAction } from '../course/section.action';
+import { removeLectureFromSectionAction, initSectionListAction, modifySectionAction } from '../course/section.action';
 import { WebInfoState } from '../web-info/web-info.context';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-const SectionList = ({ data = [], handleUpdate, course = {} }) => {
+const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSectionList }) => {
   const [showAddLectureId, setShowAddLectureId] = useState('nimic')
   const { updateSectionList } = WebInfoState()
   const sectionCollection = db.collection('section')
+  const lectureCollection = db.collection('lecture')
 
   const deleteItem = id => {
     sectionCollection
@@ -46,6 +47,7 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
   }
 
   const renderLectureList = (lectureList, sectionId) => {
+    console.log(lectureList)
     return (
       <Droppable droppableId={`list-${sectionId}`} type="lecture">
         {(droppableProvided) => (
@@ -79,7 +81,7 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
     )
   }
 
-  const updateOrder = (a, b) => {
+  const updateOrderSection = (a, b) => {
     const list = [...data]
     const [first] = list.splice(a, 1)
     list
@@ -100,11 +102,48 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
     })
   }
 
+
+  const updateOrderLecture = (a, b) => {
+    const batch = db.batch()
+    console.log(a, b)
+    if (a.droppableId === b.droppableId) {
+      // it is reordering lectures in the same section
+      const listId = a.droppableId.slice(5)
+      const section = data.find(d => d.id === listId)
+      const { lectureList } = section
+      console.log('it is reordering lectures in the same section', lectureList);
+      const list = [...lectureList]
+      const [first] = list.splice(a.index, 1)
+      list.splice(b.index, 0, first)
+      console.log(list);
+
+      list
+        .forEach(({ id }, order) => {
+          batch.set(
+            lectureCollection.doc(id),
+            { order },
+            { merge: true }
+          )
+        })
+      batch.commit().then(r => {
+        section.lectureList = list.map((o, order) => ({ ...o, order }))
+        updateSectionList(modifySectionAction(section))
+      })
+    } else {
+      // reordering lectures from different sections
+      console.log('reordering lectures from different sections')
+    }
+  }
+
   const onDragEnd = ({ destination, source }) => {
     if (!destination || destination.index === source.index) return
-    console.log(source.index, destination.index)
-    console.log(source, destination)
-    // updateOrder(source.index, destination.index)
+    if (source.droppableId.slice(0, 7) === 'section') {
+      // drag and drop section
+      updateOrderSection(source.index, destination.index)
+    } else {
+      // drag and drop lecture
+      updateOrderLecture(source, destination)
+    }
   }
   console.log(data)
 
@@ -137,7 +176,7 @@ const SectionList = ({ data = [], handleUpdate, course = {} }) => {
                         <div key={id}>
                           <SectionItem {...sectionItemPropList} />
                           {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
-                          {renderLectureList(lectureList, id)}
+                          {renderLectureList(lectureList.sort((a, b) => a.order - b.order), id)}
                         </div>
                       </StyledSectionItem>
                     )}
