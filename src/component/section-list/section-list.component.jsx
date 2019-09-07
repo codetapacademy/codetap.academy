@@ -21,7 +21,7 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
       // some other logic should display data only if not marked as deleted
       .delete()
       .then(aaa => {
-        // console.log(`Item with id: ${id} is no longer with us`, aaa)
+        console.log(`Item with id: ${id} is no longer with us`, aaa)
       })
       .catch(message => console.log(`Weird message!`, message))
   }
@@ -32,22 +32,22 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
       .doc(id)
       .delete()
       .then(aaa => {
-        // console.log(`Item with id: ${id} is no longer with us`, aaa)
+        console.log(`Item with id: ${id} is no longer with us`, aaa)
         updateSectionList(removeLectureFromSectionAction(id, sectionId))
         // remove image if it exists
         storage
           .ref("lecture-picture")
           .child(id)
           .delete()
-          .then(console.log)
-          .catch(console.log)
+        // .then(console.log)
+        // .catch(console.log)
 
       })
-      .catch(message => console.log(`Weird message!`, message))
+    // .catch(message => console.log(`Weird message!`, message))
   }
 
   const renderLectureList = (lectureList, sectionId) => {
-    console.log(lectureList)
+    // console.log(lectureList)
     return (
       <Droppable droppableId={`list-${sectionId}`} type="lecture">
         {(droppableProvided) => (
@@ -105,17 +105,17 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
 
   const updateOrderLecture = (a, b) => {
     const batch = db.batch()
-    console.log(a, b)
+    // console.log(a, b)
     if (a.droppableId === b.droppableId) {
       // it is reordering lectures in the same section
       const listId = a.droppableId.slice(5)
       const section = data.find(d => d.id === listId)
       const { lectureList } = section
-      console.log('it is reordering lectures in the same section', lectureList);
+      // console.log('it is reordering lectures in the same section', lectureList);
       const list = [...lectureList]
       const [first] = list.splice(a.index, 1)
       list.splice(b.index, 0, first)
-      console.log(list);
+      // console.log(list);
 
       list
         .forEach(({ id }, order) => {
@@ -131,7 +131,7 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
       })
     } else {
       // reordering lectures from different sections
-      console.log('reordering lectures from different sections')
+      // console.log('reordering lectures from different sections')
     }
   }
 
@@ -145,7 +145,7 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
       updateOrderLecture(source, destination)
     }
   }
-  console.log(data)
+  // console.log(data)
 
   return (
     <StyledSectionList>
@@ -153,7 +153,7 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
         {data.map(({ title, description, id, lectureList }, index) => {
           const section = { title, description, id, }
           const sectionItemPropList = { ...section, showAddLectureId, setShowAddLectureId, deleteItem, handleUpdate }
-          const lecturePanelPropList = { section, course, showAddLectureId, setShowAddLectureId, }
+          const lecturePanelPropList = { section, course, showAddLectureId, setShowAddLectureId, lectureListLength: lectureList.length }
 
           return (
             <Droppable
