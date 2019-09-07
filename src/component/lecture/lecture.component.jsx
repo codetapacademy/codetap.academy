@@ -16,7 +16,7 @@ const Lecture = ({ lectureId }) => {
         setLecture(l.data());
       }
     })();
-  }, [lecture, lectureDocument]);
+  }, [lecture]);
 
   const updateImagePath = imagePath => {
     lectureDocument.set({ imagePath }, { merge: true });

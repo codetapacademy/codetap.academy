@@ -41,7 +41,7 @@ const CommentSection = ({ youtubeVideoId }) => {
         })
     })()
     return unsubscribe
-  }, [commentCollection, youtubeVideoId])
+  }, [])
 
   const handleOnChange = (e) => {
     const { value } = e.target

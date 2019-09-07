@@ -76,7 +76,7 @@ const Dashboard = () => {
     }
 
     return unsubscribe
-  }, [courseCollection, courseList.length, updateCourseList])
+  }, [])
 
   const save = () => {
     const courseCollection = db.collection('course')
