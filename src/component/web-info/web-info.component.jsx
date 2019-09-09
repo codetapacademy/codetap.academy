@@ -17,7 +17,7 @@ const WebInfo = () => {
           <Course path="/course/:courseId" />
           <Lecture path="/lecture/:lectureId" />
           <PlayVideo path="/video/:youtubeVideoId" />
-          <ManageUser path="/user/:userId" />
+          <ManageUser path="/manage-user" />
         </StyledRouter>
       </StyledWebInfo>
     </>
