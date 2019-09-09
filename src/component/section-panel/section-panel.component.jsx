@@ -11,6 +11,7 @@ const SectionPanel = ({ course }) => {
 
   const [section, setSection] = useState(defaultSection)
   const { sectionList } = WebInfoState()
+  console.log(sectionList)
 
   const change = what => {
     setSection({ ...section, ...what })
@@ -28,7 +29,8 @@ const SectionPanel = ({ course }) => {
     }
     else {
       // we want to add a Section
-      sectionCollection.add({ title, description, course })
+      const order = sectionList.length
+      sectionCollection.add({ title, description, course, order })
     }
     setSection(defaultSection)
   }
