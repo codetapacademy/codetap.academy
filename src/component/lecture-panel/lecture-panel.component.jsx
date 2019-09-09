@@ -35,6 +35,7 @@ const LecturePanel = ({ section = {}, course = {}, setShowAddLectureId, lectureL
       // take out the id, as it sould be null
       let { id, ...restOfLecture } = lecture
       restOfLecture.order = lectureListLength
+      restOfLecture.levelRequired = 0
 
       // we want to add a lecture
       const newLecture = await lectureCollection.add(restOfLecture)

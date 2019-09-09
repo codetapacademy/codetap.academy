@@ -37,6 +37,15 @@ export default {
       visible: true,
       value: false
     },
+    levelRequired: {
+      type: 'number',
+      placeholder: 'Level required to view',
+      label: 'Level required to view',
+      defaultValue: 0,
+      edit: true,
+      visible: true,
+      value: 0
+    },
     order: {
       type: 'number',
       defaultValue: 0,
