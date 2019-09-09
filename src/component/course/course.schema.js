@@ -2,7 +2,7 @@ export default {
   formId: 'course',
   filedList: {
     title: {
-      type: 'string',
+      type: 'text',
       placeholder: 'Change title',
       label: 'Title',
       defaultValue: '',
@@ -11,7 +11,7 @@ export default {
       value: ''
     },
     description: {
-      type: 'string',
+      type: 'text',
       placeholder: 'Change description',
       label: 'Description',
       defaultValue: '',
@@ -36,7 +36,7 @@ export default {
       value: 0
     },
     youtubePlaylistId: {
-      type: 'string',
+      type: 'text',
       placeholder: 'Change YouTube Playlist Id',
       label: 'YouTube Playlist Id',
       defaultValue: '',

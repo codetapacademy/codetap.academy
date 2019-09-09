@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyledTextInput, StyledTextLabel, StyledTextWrapper } from './text-input.style';
 
-const TextInput = ({ id, formId, value, onEvent, placeholder, label }) => {
+const TextInput = ({ id, formId, value, onEvent, placeholder, label, type = 'text' }) => {
   const handleOnChange = e => onEvent(e.target.value, id, 'change');
   const handleOnBlur = e => onEvent(e.target.value, id, 'blur');
 
@@ -11,7 +11,7 @@ const TextInput = ({ id, formId, value, onEvent, placeholder, label }) => {
       <StyledTextInput
         placeholder={placeholder}
         id={`${formId}--${id}`}
-        type="text"
+        type={type}
         value={value}
         onChange={handleOnChange}
         onBlur={handleOnBlur}
