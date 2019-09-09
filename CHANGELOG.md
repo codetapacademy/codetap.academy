@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/codetapacademy/codetap.academy/compare/v0.9.0...v0.10.0) (2019-09-07)
+
+
+### Bug Fixes
+
+* alternating style background for sections ([3ecc368](https://github.com/codetapacademy/codetap.academy/commit/3ecc368))
+* automatic order value ([0ca4608](https://github.com/codetapacademy/codetap.academy/commit/0ca4608)), closes [#194](https://github.com/codetapacademy/codetap.academy/issues/194)
+* drag and drop lecture and section ([23224eb](https://github.com/codetapacademy/codetap.academy/commit/23224eb)), closes [#198](https://github.com/codetapacademy/codetap.academy/issues/198)
+* order in play-video component, now it's called index ([5c0a233](https://github.com/codetapacademy/codetap.academy/commit/5c0a233)), closes [#197](https://github.com/codetapacademy/codetap.academy/issues/197)
+* various react warnings and messages ([ca63d15](https://github.com/codetapacademy/codetap.academy/commit/ca63d15))
+* youtubePlaylistId missing ([e4b55d5](https://github.com/codetapacademy/codetap.academy/commit/e4b55d5))
+
+
+### Features
+
+* add colors to sections in home page ([3122e89](https://github.com/codetapacademy/codetap.academy/commit/3122e89))
+* add oncontextmenu false for video players ([dfb6097](https://github.com/codetapacademy/codetap.academy/commit/dfb6097)), closes [#187](https://github.com/codetapacademy/codetap.academy/issues/187)
+* add order to section ([4cf061b](https://github.com/codetapacademy/codetap.academy/commit/4cf061b)), closes [#170](https://github.com/codetapacademy/codetap.academy/issues/170)
+* allow lectures to be reordered by drag and drop inside sections ([47ccfc3](https://github.com/codetapacademy/codetap.academy/commit/47ccfc3)), closes [#190](https://github.com/codetapacademy/codetap.academy/issues/190)
+* create a Pull Request Template ([41be9d9](https://github.com/codetapacademy/codetap.academy/commit/41be9d9)), closes [#201](https://github.com/codetapacademy/codetap.academy/issues/201)
+* display a list of comments below ([11f8a53](https://github.com/codetapacademy/codetap.academy/commit/11f8a53)), closes [#165](https://github.com/codetapacademy/codetap.academy/issues/165)
+* enable video to play in a playlist on the video page ([e839918](https://github.com/codetapacademy/codetap.academy/commit/e839918))
+* implement sections into the homepage list ([ec01078](https://github.com/codetapacademy/codetap.academy/commit/ec01078)), closes [#120](https://github.com/codetapacademy/codetap.academy/issues/120)
+
+
+
 ## [0.9.0](https://github.com/codetapacademy/codetap.academy/compare/v0.8.0...v0.9.0) (2019-08-20)
 
 

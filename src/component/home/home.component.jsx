@@ -34,12 +34,14 @@ const Home = () => {
 
       const sectionSnapshot = await db
         .collection('section')
-        .orderBy('order', 'asc')
+        // .orderBy('order', 'asc')
         .get();
-      const sectionList = sectionSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      const sectionList = sectionSnapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        .sort((a, b) => a.order - b.order)
 
       updateData({ lectureList, courseList, sectionList });
       // console.log(lectureList.map(x => x.course))
