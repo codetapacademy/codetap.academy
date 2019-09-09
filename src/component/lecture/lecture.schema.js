@@ -2,7 +2,7 @@ export default {
   formId: 'lecture',
   filedList: {
     title: {
-      type: 'string',
+      type: 'text',
       placeholder: 'Change title',
       label: 'Title',
       defaultValue: '',
@@ -11,7 +11,7 @@ export default {
       value: ''
     },
     description: {
-      type: 'string',
+      type: 'text',
       placeholder: 'Change description',
       label: 'Description',
       defaultValue: '',
@@ -28,6 +28,15 @@ export default {
       visible: true,
       value: false
     },
+    publishDate: {
+      type: 'datetime-local',
+      placeholder: 'Set the date when the lecture goes live',
+      label: 'Go live date',
+      defaultValue: false,
+      edit: true,
+      visible: true,
+      value: false
+    },
     order: {
       type: 'number',
       defaultValue: 0,
@@ -36,7 +45,7 @@ export default {
       value: 0
     },
     youtubeVideoId: {
-      type: 'string',
+      type: 'text',
       placeholder: 'Change YouTube Video Id',
       label: 'YouTube Video Id',
       defaultValue: '',

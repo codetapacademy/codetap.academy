@@ -39,11 +39,14 @@ const DynamicForm = ({ schema, data, dbItem }) => {
     Object.keys(filedList).map(field => {
       const { type, value, placeholder, label } = filedList[field];
       switch (type) {
-        case 'string':
+        case 'text':
+        case 'date':
+        case 'datetime-local':
           return (
             <TextInput
               key={field}
               id={field}
+              type={type}
               formId={formId}
               label={label}
               value={value}
