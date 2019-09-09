@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.0](https://github.com/codetapacademy/codetap.academy/compare/v0.10.0...v0.11.0) (2019-09-09)
+
+
+### Features
+
+* automatic order to sections and courses ([8eaa3f2](https://github.com/codetapacademy/codetap.academy/commit/8eaa3f2)), closes [#206](https://github.com/codetapacademy/codetap.academy/issues/206)
+
+
+
 ## [0.10.0](https://github.com/codetapacademy/codetap.academy/compare/v0.9.0...v0.10.0) (2019-09-07)
 
 
