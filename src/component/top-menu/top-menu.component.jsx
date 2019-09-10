@@ -54,7 +54,12 @@ const TopMenu = () => {
           <span>CodeTap Academy</span>
         </StyledLogoWrapper>
       </StyledLink>
-      {user && <StyledLink to="/dashboard">Dashboard</StyledLink>}
+      {user && (
+        <>
+          <StyledLink to="/dashboard">Dashboard</StyledLink>
+          <StyledLink to="/manage-user">Manage user</StyledLink>
+        </>
+      )}
       <Avatar user={user} />
       <button onClick={handleLogInAndOut}>{getLogInOutLabel()}</button>
       <StyledButton onClick={handleToggleChat}>
