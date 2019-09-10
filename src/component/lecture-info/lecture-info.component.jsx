@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import HeaderTitle from '../_dumb/header-title';
 import ResponsiveThumbnail from '../_dumb/responsive-thumbnail';
 import { StyledLectureInfo } from './lecture-info.style';
 
-const LectureInfo = ({ title, id, description, imagePath, youtubeVideoId, sectionOrder }) => {
-  const getImagePath = () =>
-    imagePath ? imagePath : `http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`;
+const LectureInfo = ({ title, id, description, imagePath, youtubeVideoId, sectionOrder, pageY }) => {
+  const [newImagePath, setNewImagePath] = useState('')
   const getYoutubePath = () => `/video/${youtubeVideoId}`;
 
   const headerTitlePropList = {
@@ -15,10 +14,19 @@ const LectureInfo = ({ title, id, description, imagePath, youtubeVideoId, sectio
     link: getYoutubePath()
   };
 
+  const element = useRef()
+
+  useEffect(() => {
+    // console.log(pageY)
+    if (pageY + window.innerHeight - element.current.getBoundingClientRect().top > 0 && !imagePath) {
+      setNewImagePath(imagePath ? imagePath : `http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`)
+    }
+  }, [pageY])
+
   return (
-    <StyledLectureInfo sectionOrder={sectionOrder}>
+    <StyledLectureInfo sectionOrder={sectionOrder} ref={element}>
       <div>
-        <ResponsiveThumbnail imagePath={getImagePath()} />
+        <ResponsiveThumbnail imagePath={newImagePath} />
       </div>
       <HeaderTitle {...headerTitlePropList} />
     </StyledLectureInfo>
