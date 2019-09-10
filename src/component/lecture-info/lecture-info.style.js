@@ -22,6 +22,18 @@ const colorList = [
   "#7f8c8d"
 ].sort((a, b) => Math.random() - 0.5)
 
+export const StyledThumbnailWrapper = styled.div`
+  position: relative;
+  overflow: hidden;
+`
+
+export const StyledThumbnail = styled.img`
+  position: absolute;
+  width: 100%;
+  top: -19px;
+  left: 0;
+`
+
 export const StyledLectureInfo = styled.div`
   width: 220px;
   padding: 6px;

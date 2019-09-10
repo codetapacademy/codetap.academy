@@ -1,7 +1,23 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, memo, useCallback } from 'react';
 import HeaderTitle from '../_dumb/header-title';
 import ResponsiveThumbnail from '../_dumb/responsive-thumbnail';
-import { StyledLectureInfo } from './lecture-info.style';
+import { StyledLectureInfo, StyledThumbnailWrapper, StyledThumbnail } from './lecture-info.style';
+
+const arePropsEqual = (prevProps, nextProps) => {
+  return prevProps.newImagePath == nextProps.newImagePath;
+}
+
+const MemoStyledLectureInfo = memo(({ sectionOrder, element, newImagePath, headerTitlePropList }) => {
+  return (
+    <StyledLectureInfo sectionOrder={sectionOrder} ref={element}>
+      <StyledThumbnailWrapper>
+        <ResponsiveThumbnail />
+        <StyledThumbnail src={newImagePath} alt="" width="100%" />
+      </StyledThumbnailWrapper>
+      <HeaderTitle {...headerTitlePropList} />
+    </StyledLectureInfo>
+  )
+}, arePropsEqual)
 
 const LectureInfo = ({ title, id, description, imagePath, youtubeVideoId, sectionOrder, pageY }) => {
   const [newImagePath, setNewImagePath] = useState('')
@@ -16,20 +32,18 @@ const LectureInfo = ({ title, id, description, imagePath, youtubeVideoId, sectio
 
   const element = useRef()
 
-  useEffect(() => {
-    // console.log(pageY)
-    if (pageY + window.innerHeight - element.current.getBoundingClientRect().top > 0 && !imagePath) {
+  const updateNewImagePath = useCallback(() => {
+    if (pageY + window.innerHeight - element.current.getBoundingClientRect().top > 0 && !newImagePath) {
       setNewImagePath(imagePath ? imagePath : `http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`)
     }
+  }, [newImagePath])
+
+  useEffect(() => {
+    updateNewImagePath()
   }, [pageY])
 
   return (
-    <StyledLectureInfo sectionOrder={sectionOrder} ref={element}>
-      <div>
-        <ResponsiveThumbnail imagePath={newImagePath} />
-      </div>
-      <HeaderTitle {...headerTitlePropList} />
-    </StyledLectureInfo>
+    <MemoStyledLectureInfo {...{ sectionOrder, element, newImagePath, headerTitlePropList }} />
   );
 };
 
