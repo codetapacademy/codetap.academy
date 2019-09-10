@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.12.0](https://github.com/codetapacademy/codetap.academy/compare/v0.11.0...v0.12.0) (2019-09-10)
+
+
+### Features
+
+* add member level required to access the video ([fdc17c6](https://github.com/codetapacademy/codetap.academy/commit/fdc17c6)), closes [#175](https://github.com/codetapacademy/codetap.academy/issues/175)
+* add publish date to lecture ([2e6354c](https://github.com/codetapacademy/codetap.academy/commit/2e6354c)), closes [#174](https://github.com/codetapacademy/codetap.academy/issues/174)
+* create a route to manage users ([922e440](https://github.com/codetapacademy/codetap.academy/commit/922e440)), closes [#155](https://github.com/codetapacademy/codetap.academy/issues/155)
+* grab the users from the database and display them in a vertical list ([faca3fc](https://github.com/codetapacademy/codetap.academy/commit/faca3fc)), closes [#157](https://github.com/codetapacademy/codetap.academy/issues/157)
+* implement a link in the top menu with the label Manage Users ([6cd9149](https://github.com/codetapacademy/codetap.academy/commit/6cd9149)), closes [#156](https://github.com/codetapacademy/codetap.academy/issues/156)
+
+
+
 ## [0.11.0](https://github.com/codetapacademy/codetap.academy/compare/v0.10.0...v0.11.0) (2019-09-09)
 
 

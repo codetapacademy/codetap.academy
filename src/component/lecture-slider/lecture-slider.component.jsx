@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import LectureInfo from '../lecture-info';
 import { StyledLectureSlider } from './lecture-slider.style';
 
-const LectureSlider = ({ lectureList, courseId, youtubePlaylistId, sectionList }) => {
+const LectureSlider = ({ lectureList, courseId, youtubePlaylistId, sectionList, pageY }) => {
   return (
     <StyledLectureSlider>
       {sectionList.map(section => {
@@ -16,6 +16,7 @@ const LectureSlider = ({ lectureList, courseId, youtubePlaylistId, sectionList }
                   <LectureInfo
                     key={id}
                     {...lecture}
+                    pageY={pageY}
                     sectionOrder={section.order}
                     youtubePlaylistId={youtubePlaylistId}
                   />
