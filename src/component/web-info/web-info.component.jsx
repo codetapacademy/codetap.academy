@@ -6,6 +6,7 @@ import { StyledWebInfo, StyledRouter } from './web-info.style';
 import Lecture from '../lecture';
 import PlayVideo from '../play-video';
 import ManageUser from '../manage-user';
+import Subscribe from '../subscribe';
 
 const WebInfo = () => {
   return (
@@ -18,6 +19,7 @@ const WebInfo = () => {
           <Lecture path="/lecture/:lectureId" />
           <PlayVideo path="/video/:youtubeVideoId" />
           <ManageUser path="/manage-user" />
+          <Subscribe path="/subscribe" />
         </StyledRouter>
       </StyledWebInfo>
     </>
