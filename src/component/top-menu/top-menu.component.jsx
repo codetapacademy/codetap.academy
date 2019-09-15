@@ -24,7 +24,9 @@ const TopMenu = () => {
     } else {
       auth
         .signInWithPopup(GitHubProvider)
-        .then(({ user: { uid, displayName, photoURL, email } }) => {
+        .then(data => {
+          const { user: { uid, displayName, photoURL, email } } = data
+
           db.collection('user')
             .doc(uid)
             .set({ displayName, photoURL, email }, { merge: true });
@@ -34,7 +36,8 @@ const TopMenu = () => {
             user: {
               uid,
               displayName,
-              photoURL
+              photoURL,
+              email
             }
           });
         })
@@ -58,6 +61,7 @@ const TopMenu = () => {
         <>
           <StyledLink to="/dashboard">Dashboard</StyledLink>
           <StyledLink to="/manage-user">Manage user</StyledLink>
+          <StyledLink to="/subscribe">Subscribe</StyledLink>
         </>
       )}
       <Avatar user={user} />
