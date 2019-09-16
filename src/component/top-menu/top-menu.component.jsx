@@ -76,7 +76,11 @@ const TopMenu = () => {
           <StyledLink to="/manage-user">Manage user</StyledLink>
         </>
       )}
-      <StyledLink to="/subscribe">Subscribe</StyledLink>
+      {user && (
+        <>
+          <StyledLink to="/subscribe">Subscribe</StyledLink>
+        </>
+      )}
       <Avatar user={user} />
       <button onClick={handleLogInAndOut}>{getLogInOutLabel()}</button>
       <StyledButton onClick={handleToggleChat}>
