@@ -26,8 +26,6 @@ const TopMenu = () => {
         .signInWithPopup(GitHubProvider)
         .then(data => {
           const { user: { uid, displayName, photoURL, email } } = data
-          console.log(data)
-          const plan_id = (data && data.subscription && data.subscription.plan_id) || ''
 
           db.collection('user')
             .doc(uid)
