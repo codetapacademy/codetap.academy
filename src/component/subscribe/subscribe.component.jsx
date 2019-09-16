@@ -80,7 +80,7 @@ const Subscribe = () => {
       <h1>Subscribe</h1>
       <h2>You get to choose how much you pay, literally!</h2>
       <StyledSubscribeList>
-        {subscribeList.map(({ title, selected, value, range: { min, max, step }, featureList, plan_id }, index) => {
+        {subscribeList.map(({ title, selected, value, disabled, range: { min, max, step }, featureList, plan_id }, index) => {
           return (
             <StyledSubscribeItem key={index} selected={selected}>
               <StyledSubscribeTitle>{title}</StyledSubscribeTitle>
@@ -91,6 +91,7 @@ const Subscribe = () => {
                   value={value}
                   min={min}
                   max={max}
+                  disabled={disabled}
                   step={step}
                   onChange={e => onSliderChange(e, index)}
                   onClick={() => handleSelectSubscribe(index)}
@@ -99,7 +100,10 @@ const Subscribe = () => {
               <ul>
                 {featureList.map((feature, k) => <li key={k}>{feature}</li>)}
               </ul>
-              <button onClick={() => handleSubscribe(value, plan_id)}>Subscribe now</button>
+              <button
+                onClick={() => handleSubscribe(value, plan_id)}
+                disabled={disabled}
+              >Subscribe now</button>
             </StyledSubscribeItem>
           )
         })}
