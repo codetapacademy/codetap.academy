@@ -32,7 +32,7 @@ const TopMenu = () => {
             .get()
             .then(snap => {
               const data = snap.data()
-              const { isAdmin } = data
+              const isAdmin = (data && data.isAdmin) || false
               const { current_term_end, plan_id } = data.subscription || {}
               db.collection('user')
                 .doc(uid)
