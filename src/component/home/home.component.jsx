@@ -13,7 +13,6 @@ const Home = () => {
   });
 
   const handleScroll = debounce(() => {
-    console.log('handleScroll()')
     setPageY(window.pageYOffset || document.documentElement.scrollTop)
   }, 500)
 
@@ -51,7 +50,6 @@ const Home = () => {
         .sort((a, b) => a.order - b.order)
 
       updateData({ lectureList, courseList, sectionList });
-      // console.log(lectureList.map(x => x.course))
     })();
 
     window.addEventListener('scroll', handleScroll)

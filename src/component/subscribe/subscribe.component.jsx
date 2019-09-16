@@ -23,7 +23,7 @@ const Subscribe = () => {
   // });
 
   useEffect(() => {
-    const [first_name, last_name] = user.displayName.split(' ')
+    const [first_name, last_name] = ((user && user.displayName) || ' ').split(' ')
     const { email, uid } = user
     const cart = cbInstance.getCart();
     updateCustomer({
