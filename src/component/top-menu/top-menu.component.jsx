@@ -26,20 +26,33 @@ const TopMenu = () => {
         .signInWithPopup(GitHubProvider)
         .then(data => {
           const { user: { uid, displayName, photoURL, email } } = data
+          console.log(data)
+          const plan_id = (data && data.subscription && data.subscription.plan_id) || ''
 
           db.collection('user')
             .doc(uid)
-            .set({ displayName, photoURL, email }, { merge: true });
-          navigate('/dashboard');
-          updateUser({
-            type: 'USER_AUTHENTICATE',
-            user: {
-              uid,
-              displayName,
-              photoURL,
-              email
-            }
-          });
+            .get()
+            .then(snap => {
+              const data = snap.data()
+              const { isAdmin } = data
+              const { current_term_end, plan_id } = data.subscription || {}
+              db.collection('user')
+                .doc(uid)
+                .set({ displayName, photoURL, email }, { merge: true });
+              navigate('/dashboard');
+              updateUser({
+                type: 'USER_AUTHENTICATE',
+                user: {
+                  uid,
+                  displayName,
+                  photoURL,
+                  email,
+                  plan_id,
+                  current_term_end,
+                  isAdmin
+                }
+              });
+            })
         })
         .catch(error => {
           // console.error(error)
@@ -57,13 +70,13 @@ const TopMenu = () => {
           <span>CodeTap Academy</span>
         </StyledLogoWrapper>
       </StyledLink>
-      {user && (
+      {user && user.isAdmin && (
         <>
           <StyledLink to="/dashboard">Dashboard</StyledLink>
           <StyledLink to="/manage-user">Manage user</StyledLink>
-          <StyledLink to="/subscribe">Subscribe</StyledLink>
         </>
       )}
+      <StyledLink to="/subscribe">Subscribe</StyledLink>
       <Avatar user={user} />
       <button onClick={handleLogInAndOut}>{getLogInOutLabel()}</button>
       <StyledButton onClick={handleToggleChat}>
