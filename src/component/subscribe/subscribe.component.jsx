@@ -14,14 +14,6 @@ const Subscribe = () => {
   const [customer, updateCustomer] = useState(subscribeConfig)
   const { user } = WebInfoState();
 
-  // cbInstance.setPortalSession(() => {
-  //   // we have used axios for performing http requests
-  //         // Hit your end point that returns portal session object as response
-  //   // This sample end point will call the below api
-  //   // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
-  //   return axios.post("https://api2.codetap.academy/generate_portal_session", urlEncode({})).then((response) => response.data);
-  // });
-
   useEffect(() => {
     const [first_name, last_name] = ((user && user.displayName) || ' ').split(' ')
     const { email, uid } = user
@@ -38,6 +30,24 @@ const Subscribe = () => {
     });
     cart.setCustomer(customer);
   }, [])
+
+  const handlePortal = () => {
+    console.log('setPortalSession')
+    cbInstance.createChargebeePortal().open({
+      loaded: () => {
+        console.log('createChargebeePortal loaded')
+      }
+    })
+    // cbInstance.setPortalSession(() => {
+    //   // we have used axios for performing http requests
+    //   // Hit your end point that returns portal session object as response
+    //   // This sample end point will call the below api
+    //   // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
+    //   return axios
+    //     .post("https://api2.codetap.academy/generate_portal_session", urlEncode({ customer_id: user.customer_id }))
+    //     .then((response) => response.data);
+    // });
+  }
 
   const handleSubscribe = (value, plan_id) => {
     cbInstance.openCheckout({
@@ -108,6 +118,13 @@ const Subscribe = () => {
           )
         })}
       </StyledSubscribeList>
+      {user && user.customer_id && <>
+        <h2>Manage your subscription</h2>
+        <p>You can update or cancel your subscription. To start, press the Manage Subscription button</p>
+        <button
+          onClick={handlePortal}
+        >Manage your Subscription</button>
+      </>}
     </div>
   )
 }
