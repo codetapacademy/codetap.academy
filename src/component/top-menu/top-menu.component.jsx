@@ -33,7 +33,7 @@ const TopMenu = () => {
             .then(snap => {
               const data = snap.data()
               const isAdmin = (data && data.isAdmin) || false
-              const { current_term_end, plan_id, customer_id } = (data && data.subscription) || {}
+              const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
               db.collection('user')
                 .doc(uid)
                 .set({ displayName, photoURL, email }, { merge: true });
@@ -47,6 +47,7 @@ const TopMenu = () => {
                   email,
                   plan_id,
                   current_term_end,
+                  next_billing_at,
                   customer_id,
                   isAdmin
                 }
