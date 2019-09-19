@@ -15,10 +15,10 @@ const WebInfo = () => {
         <StyledRouter>
           <Home path="/" />
           <Dashboard path="dashboard" />
-          <Course path="/course/:courseId" />
-          <Lecture path="/lecture/:lectureId" />
+          <Course path="/manage/course/:courseId" />
+          <Lecture path="/manage/lecture/:lectureId" />
           <PlayVideo path="/video/:youtubeVideoId" />
-          <ManageUser path="/manage-user" />
+          <ManageUser path="/manage/user" />
           <Subscribe path="/subscribe" />
         </StyledRouter>
       </StyledWebInfo>
