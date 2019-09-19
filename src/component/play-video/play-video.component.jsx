@@ -47,7 +47,6 @@ const PlayVideo = ({ youtubeVideoId }) => {
   }
   return (
     <div>
-      {/* video.index {video.index} */}
       <StyledVideo>
         {video && <iframe
           width="100%"
