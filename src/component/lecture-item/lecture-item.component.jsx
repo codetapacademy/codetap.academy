@@ -8,7 +8,7 @@ const LectureItem = ({ id, title, description, remove, sectionId }) => {
   return (
     <StyledLectureItem>
       <button>☰</button>
-      <StyledLink to={`/lecture/${id}`} title={description}>{title}</StyledLink>
+      <StyledLink to={`/manage/lecture/${id}`} title={description}>{title}</StyledLink>
       <button onClick={handleRemove}>&times;</button>
     </StyledLectureItem>
   )

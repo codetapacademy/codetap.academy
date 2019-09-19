@@ -73,7 +73,7 @@ const TopMenu = () => {
       {user && user.isAdmin && (
         <>
           <StyledLink to="/dashboard">Dashboard</StyledLink>
-          <StyledLink to="/manage-user">Manage user</StyledLink>
+          <StyledLink to="/manage/user">Manage user</StyledLink>
         </>
       )}
       {user && (
