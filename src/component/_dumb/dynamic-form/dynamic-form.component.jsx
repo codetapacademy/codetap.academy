@@ -37,24 +37,28 @@ const DynamicForm = ({ schema, data, dbItem }) => {
 
   const renderForm = () =>
     Object.keys(filedList).map(field => {
-      const { type, value, placeholder, label, visible } = filedList[field];
+      const { type, value, placeholder, label, visible, step } = filedList[field];
+      const textInputPropList = {
+        key: field,
+        id: field,
+        type,
+        formId,
+        label,
+        value,
+        onEvent,
+        placeholder,
+        step,
+      }
+
       if (visible) {
         switch (type) {
           case 'text':
+          case 'time':
           case 'date':
           case 'number':
           case 'datetime-local':
             return (
-              <TextInput
-                key={field}
-                id={field}
-                type={type}
-                formId={formId}
-                label={label}
-                value={value}
-                onEvent={onEvent}
-                placeholder={placeholder}
-              />
+              <TextInput {...textInputPropList} />
             );
           default:
             return null

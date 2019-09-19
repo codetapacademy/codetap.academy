@@ -37,6 +37,16 @@ export default {
       visible: true,
       value: false
     },
+    duration: {
+      type: 'time',
+      placeholder: 'How long is the lesson?',
+      label: 'Duration of video',
+      defaultValue: false,
+      edit: true,
+      visible: true,
+      value: false,
+      step: 1,
+    },
     levelRequired: {
       type: 'number',
       placeholder: 'Level required to view',
