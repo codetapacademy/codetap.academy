@@ -32,7 +32,7 @@ export default {
       type: 'datetime-local',
       placeholder: 'Set the date when the lecture goes live',
       label: 'Go live date',
-      defaultValue: false,
+      defaultValue: new Date().toJSON().slice(0, 16),
       edit: true,
       visible: true,
       value: false
@@ -52,6 +52,15 @@ export default {
       edit: false,
       visible: false,
       value: 0
+    },
+    vimeoVideoId: {
+      type: 'text',
+      placeholder: 'Change Vimeo Video Id',
+      label: 'Vimeo Video Id',
+      defaultValue: '',
+      edit: true,
+      visible: true,
+      value: ''
     },
     youtubeVideoId: {
       type: 'text',
