@@ -43,6 +43,15 @@ export default {
       edit: true,
       visible: true,
       value: ''
+    },
+    externalThumbnail: {
+      type: 'text',
+      placeholder: 'The Picture of the Course',
+      label: 'How it looks as the background',
+      defaultValue: '',
+      edit: true,
+      visible: true,
+      value: ''
     }
   }
 };

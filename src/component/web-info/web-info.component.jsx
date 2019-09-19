@@ -7,6 +7,7 @@ import Lecture from '../lecture';
 import PlayVideo from '../play-video';
 import ManageUser from '../manage-user';
 import Subscribe from '../subscribe';
+import HomeOld from '../home-old';
 
 const WebInfo = () => {
   return (
@@ -14,6 +15,7 @@ const WebInfo = () => {
       <StyledWebInfo>
         <StyledRouter>
           <Home path="/" />
+          <HomeOld path="/home-old" />
           <Dashboard path="dashboard" />
           <Course path="/course/:courseId" />
           <Lecture path="/lecture/:lectureId" />

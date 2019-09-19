@@ -1,15 +1,12 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import HeaderTitle from '../_dumb/header-title';
 import { db } from '../data/firebase';
-import LectureSlider from '../lecture-slider';
 import { debounce } from 'lodash'
 
 const Home = () => {
   const [pageY, setPageY] = useState(0)
   const [data, updateData] = useState({
     courseList: [],
-    lectureList: [],
-    sectionList: [],
   });
 
   const handleScroll = debounce(() => {
@@ -18,16 +15,6 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const lectureSnapshot = await db
-        .collection('lecture')
-        .where('published', '==', true)
-        .get();
-
-      const lectureList = lectureSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-
       const courseSnapshot = await db
         .collection('course')
         .orderBy('order', 'asc')
@@ -38,18 +25,7 @@ const Home = () => {
         ...doc.data()
       }));
 
-      const sectionSnapshot = await db
-        .collection('section')
-        // .orderBy('order', 'asc')
-        .get();
-      const sectionList = sectionSnapshot.docs
-        .map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }))
-        .sort((a, b) => a.order - b.order)
-
-      updateData({ lectureList, courseList, sectionList });
+      updateData({ courseList });
     })();
 
     window.addEventListener('scroll', handleScroll)
@@ -59,20 +35,10 @@ const Home = () => {
     }
   }, []);
 
-  const renderLectureSlider = courseId => {
-    const { youtubePlaylistId } = data.courseList.find(course => course.id === courseId)
-    const sectionList = data.sectionList.filter(section => section.course.id === courseId)
-    const lectureList = data.lectureList.filter(lecture => lecture.course.id === courseId)
-    const lectureSliderPropList = { lectureList, courseId, youtubePlaylistId, sectionList, pageY }
-
-    return <LectureSlider {...lectureSliderPropList} />;
-  };
-
   const renderCourseList = () => {
     return data.courseList.map(({ title, id }) => (
       <Fragment key={id}>
         <HeaderTitle text={title} tag="h2" />
-        {renderLectureSlider(id)}
       </Fragment>
     ));
   };
