@@ -41,6 +41,7 @@ const Course = ({ courseId }) => {
         lectureSnapshotList.docs.forEach(doc => {
           const lectureId = doc.id;
           const lectureContent = doc.data();
+
           if (lectureKeyList.hasOwnProperty(lectureContent.section.id)) {
             lectureKeyList[lectureContent.section.id] = [
               ...lectureKeyList[lectureContent.section.id],
@@ -58,6 +59,26 @@ const Course = ({ courseId }) => {
             ];
           }
         });
+
+        const totalDurationParts = Object
+          .keys(lectureKeyList || [])
+          .flatMap(key => lectureKeyList[key].map(({ duration }) => duration.split(':').map(t => +t)))
+          .reduce((a, c) => {
+            a.h += c[0]
+            a.m += c[1]
+            a.s += c[2]
+            return a
+          }, { h: 0, m: 0, s: 0 })
+        const totalSeconds = totalDurationParts.h * 3600 + totalDurationParts.m * 60 + totalDurationParts.s
+        const seconds = totalSeconds % 60
+        const minutes = (totalSeconds % 3600 - seconds) / 60
+        const hours = ~~(totalSeconds / 3600)
+        const totalDuration = `${(hours + '').length === 1 ? `0${hours}` : hours}:${(minutes + '').length === 1 ? `0${minutes}` : minutes}:${(seconds + '').length === 1 ? `0${seconds}` : seconds}`
+        console.log(
+          totalSeconds,
+          totalDuration
+        )
+        courseDocument.set({ totalDuration, totalSeconds }, { merge: true })
       } catch (e) {
         console.error('Get lectureSnapshotList failed', e);
       }
