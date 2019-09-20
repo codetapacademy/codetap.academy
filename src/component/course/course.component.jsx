@@ -73,11 +73,11 @@ const Course = ({ courseId }) => {
         const seconds = totalSeconds % 60
         const minutes = (totalSeconds % 3600 - seconds) / 60
         const hours = ~~(totalSeconds / 3600)
-        const totalDuration = `${(hours + '').length === 1 ? `0${hours}` : hours}:${(minutes + '').length === 1 ? `0${minutes}` : minutes}:${(seconds + '').length === 1 ? `0${seconds}` : seconds}`
-        console.log(
-          totalSeconds,
-          totalDuration
-        )
+        const totalDuration = `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
+        // console.log(
+        //   totalSeconds,
+        //   totalDuration
+        // )
         courseDocument.set({ totalDuration, totalSeconds }, { merge: true })
       } catch (e) {
         console.error('Get lectureSnapshotList failed', e);

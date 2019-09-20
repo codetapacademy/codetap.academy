@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import HeaderTitle from '../_dumb/header-title';
 import { db } from '../data/firebase';
 import { debounce } from 'lodash'
+import { StyledCourse, StyledCourseList } from './home.style';
 
 const Home = () => {
   const [pageY, setPageY] = useState(0)
@@ -36,14 +37,16 @@ const Home = () => {
   }, []);
 
   const renderCourseList = () => {
-    return data.courseList.map(({ title, id }) => (
-      <Fragment key={id}>
+    return data.courseList.map(({ title, id, description, totalDuration, externalThumbnail }) => (
+      <StyledCourse key={id} externalThumbnail={externalThumbnail}>
         <HeaderTitle text={title} tag="h2" />
-      </Fragment>
+        <p>{description}</p>
+        <time>{totalDuration}</time>
+      </StyledCourse>
     ));
   };
 
-  return <>{renderCourseList()}</>;
+  return <StyledCourseList>{renderCourseList()}</StyledCourseList>;
 };
 
 export default Home;
