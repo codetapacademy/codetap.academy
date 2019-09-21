@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../text-input';
+import SelectInput from '../select-input/select-input.component';
 
 const DynamicForm = ({ schema, data, dbItem }) => {
   const [formSchema, setFormSchema] = useState(schema);
@@ -16,6 +17,7 @@ const DynamicForm = ({ schema, data, dbItem }) => {
   }, [data]);
 
   const onEvent = (value, field, type) => {
+    console.log(value, field, type)
     switch (type) {
       case 'change':
         setFormSchema({
@@ -37,8 +39,8 @@ const DynamicForm = ({ schema, data, dbItem }) => {
 
   const renderForm = () =>
     Object.keys(filedList).map(field => {
-      const { type, value, placeholder, label, visible, step } = filedList[field];
-      const textInputPropList = {
+      const { type, value, placeholder, label, visible, step, optionList = [] } = filedList[field];
+      const inputPropList = {
         key: field,
         id: field,
         type,
@@ -48,6 +50,7 @@ const DynamicForm = ({ schema, data, dbItem }) => {
         onEvent,
         placeholder,
         step,
+        optionList,
       }
 
       if (visible) {
@@ -58,8 +61,10 @@ const DynamicForm = ({ schema, data, dbItem }) => {
           case 'number':
           case 'datetime-local':
             return (
-              <TextInput {...textInputPropList} />
+              <TextInput {...inputPropList} />
             );
+          case 'select':
+            return <SelectInput {...inputPropList} />
           default:
             return null
         }

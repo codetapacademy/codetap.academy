@@ -19,6 +19,16 @@ export default {
       visible: true,
       value: ''
     },
+    courseLevel: {
+      type: 'select',
+      placeholder: 'Select difficulty',
+      label: 'Level of knowledge required to uderstand the course',
+      defaultValue: '',
+      optionList: ["starter", "junior", "mid", "senior"],
+      edit: true,
+      visible: true,
+      value: ''
+    },
     published: {
       type: 'boolean',
       placeholder: 'toggle the publish status',
