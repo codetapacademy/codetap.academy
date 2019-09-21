@@ -12,7 +12,7 @@ const SelectInput = ({ type, value, placeholder, label, visible, step, optionLis
       >
         {optionList.map(option => {
           return (
-            <option value={option}>{option}</option>
+            <option key={option} value={option}>{option}</option>
           )
         })}
       </select>
