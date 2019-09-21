@@ -4,7 +4,7 @@ import ResponsiveThumbnail from '../_dumb/responsive-thumbnail';
 import { StyledLectureInfo, StyledThumbnailWrapper, StyledThumbnail } from './lecture-info.style';
 
 const arePropsEqual = (prevProps, nextProps) => {
-  return prevProps.newImagePath == nextProps.newImagePath;
+  return prevProps.newImagePath === nextProps.newImagePath;
 }
 
 const MemoStyledLectureInfo = memo(({ sectionOrder, element, newImagePath, headerTitlePropList }) => {

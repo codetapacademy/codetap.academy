@@ -3,7 +3,7 @@ import HeaderTitle from '../_dumb/header-title';
 import { db } from '../data/firebase';
 import { debounce } from 'lodash'
 import { navigate } from '@reach/router'
-import { StyledCourse, StyledCourseList, StyledWatchNow, StyledButtonWrapper } from './home.style';
+import { StyledCourse, StyledCourseList, StyledWatchNow, StyledButtonWrapper, StyledCourseDescription, StyledCourseDescriptionWrapper, StyledCourseDuration } from './home.style';
 import Pill from '../_dumb/pill';
 
 const Home = () => {
@@ -45,10 +45,12 @@ const Home = () => {
 
   const renderCourseList = () => {
     return data.courseList.map(({ title, id, description, totalDuration, externalThumbnail, courseLevel }) => (
-      <StyledCourse key={id} externalThumbnail={externalThumbnail}>
+      <StyledCourse key={id}>
         <HeaderTitle text={title} tag="h2" fontSize="1.2rem" />
-        <p>{description}</p>
-        <div>Duration: {totalDuration}</div>
+        <StyledCourseDescriptionWrapper externalThumbnail={externalThumbnail}>
+          <StyledCourseDescription>{description}</StyledCourseDescription>
+        </StyledCourseDescriptionWrapper>
+        <StyledCourseDuration>Duration: {totalDuration}</StyledCourseDuration>
         <StyledButtonWrapper>
 
           <StyledWatchNow
