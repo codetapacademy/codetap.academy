@@ -39,8 +39,10 @@ const Course = ({ courseId }) => {
           .where('course.id', '==', courseId)
           .get();
         lectureSnapshotList.docs.forEach(doc => {
+          const docData = doc.data()
           const lectureId = doc.id;
-          const lectureContent = doc.data();
+          const lectureContent = { ...docData, totalDuration: (docData && docData.totalDuration) || '00:00:00'}
+    
 
           if (lectureKeyList.hasOwnProperty(lectureContent.section.id)) {
             lectureKeyList[lectureContent.section.id] = [
@@ -62,7 +64,7 @@ const Course = ({ courseId }) => {
 
         const totalDurationParts = Object
           .keys(lectureKeyList || [])
-          .flatMap(key => lectureKeyList[key].map(({ duration }) => duration.split(':').map(t => +t)))
+          .flatMap(key => lectureKeyList[key].map(({ duration = '00:00:00' }) => duration.split(':').map(t => +t)))
           .reduce((a, c) => {
             a.h += c[0]
             a.m += c[1]
