@@ -45,12 +45,7 @@ const Home = () => {
 
   const renderCourseList = () => {
     return data.courseList
-      // .map(({ totalDuration, ...rest}) => {
-      //   return { ...rest, totalDuration: totalDuration || '00:00:00' }
-      // })
-      .map(({ title, id, description, totalDuration, externalThumbnail, courseLevel }) => {
-        console.log(totalDuration)
-        return (
+      .map(({ title, id, description, totalDuration, externalThumbnail, courseLevel }) => (
           <StyledCourse key={id}>
             <HeaderTitle text={title} tag="h2" fontSize="1.2rem" />
             <StyledCourseDescriptionWrapper externalThumbnail={externalThumbnail}>
@@ -65,7 +60,7 @@ const Home = () => {
               {courseLevel && <Pill label="Level" value={courseLevel} />}
             </StyledButtonWrapper>
           </StyledCourse>
-    )});
+    ));
   };
 
   return <StyledCourseList>{renderCourseList()}</StyledCourseList>;
