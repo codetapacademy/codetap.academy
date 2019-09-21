@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const colorMap = {
   starter: '#c00',
   junior: '#036',
-  mid: '#f00',
+  mid: '#00f',
   senior: '#0f0',
 }
 

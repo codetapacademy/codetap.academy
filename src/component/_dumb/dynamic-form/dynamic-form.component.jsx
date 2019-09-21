@@ -39,7 +39,7 @@ const DynamicForm = ({ schema, data, dbItem }) => {
 
   const renderForm = () =>
     Object.keys(filedList).map(field => {
-      const { type, value, placeholder, label, visible, step, optionList = [] } = filedList[field];
+      const { type, value, placeholder, defaultValue, label, visible, step, optionList = [] } = filedList[field];
       const inputPropList = {
         key: field,
         id: field,
@@ -51,6 +51,7 @@ const DynamicForm = ({ schema, data, dbItem }) => {
         placeholder,
         step,
         optionList,
+        defaultValue,
       }
 
       if (visible) {

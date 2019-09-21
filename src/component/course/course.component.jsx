@@ -143,6 +143,10 @@ const Course = ({ courseId }) => {
     courseDocument.set({ published: !course.published }, { merge: true });
   };
 
+  if (course && course.courseLevel) {
+    courseSchema.filedList.courseLevel.defaultValue = course.courseLevel
+  }
+
   return (
     <div>
       <HeaderTitle {...courseTitlePropList} />
