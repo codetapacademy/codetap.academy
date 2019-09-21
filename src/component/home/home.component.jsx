@@ -3,7 +3,8 @@ import HeaderTitle from '../_dumb/header-title';
 import { db } from '../data/firebase';
 import { debounce } from 'lodash'
 import { navigate } from '@reach/router'
-import { StyledCourse, StyledCourseList, StyledWatchNow } from './home.style';
+import { StyledCourse, StyledCourseList, StyledWatchNow, StyledButtonWrapper } from './home.style';
+import Pill from '../_dumb/pill';
 
 const Home = () => {
   const [pageY, setPageY] = useState(0)
@@ -43,14 +44,18 @@ const Home = () => {
   }
 
   const renderCourseList = () => {
-    return data.courseList.map(({ title, id, description, totalDuration, externalThumbnail }) => (
+    return data.courseList.map(({ title, id, description, totalDuration, externalThumbnail, courseLevel }) => (
       <StyledCourse key={id} externalThumbnail={externalThumbnail}>
         <HeaderTitle text={title} tag="h2" fontSize="1.2rem" />
         <p>{description}</p>
-        <div>Watch time: {totalDuration}</div>
-        <StyledWatchNow
-          onClick={() => goToCoursePlayList(id)}
-        >Watch now</StyledWatchNow>
+        <div>Duration: {totalDuration}</div>
+        <StyledButtonWrapper>
+
+          <StyledWatchNow
+            onClick={() => goToCoursePlayList(id)}
+          >Watch now</StyledWatchNow>
+          {courseLevel && <Pill label="Level" value={courseLevel} />}
+        </StyledButtonWrapper>
       </StyledCourse>
     ));
   };

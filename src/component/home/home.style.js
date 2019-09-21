@@ -5,6 +5,11 @@ export const StyledCourseList = styled.div `
   flex-wrap: wrap;
 `
 
+export const StyledButtonWrapper = styled.div `
+  display: flex;
+  justify-content: space-around;
+`
+
 export const StyledWatchNow = styled.button `
   background-color: #d52027;
   color: #fff;

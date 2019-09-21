@@ -24,7 +24,7 @@ export default {
       placeholder: 'Select difficulty',
       label: 'Level of knowledge required to uderstand the course',
       defaultValue: '',
-      optionList: ["starter", "junior", "mid", "senior"],
+      optionList: ['', 'starter', 'junior', 'mid', 'senior'],
       edit: true,
       visible: true,
       value: ''
