@@ -70,7 +70,7 @@ const CoursePlayList = ({ courseId }) => {
                         <StyledListImageWrapper>
                           {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt=""/>}
                         </StyledListImageWrapper>
-                        <h3>{lecture.title} - {lecture.levelRequired} &lt;= {mapLevel[planLevel]}</h3>
+                        <h3>{lecture.title}</h3>
                         <StyledListDescription>{lecture.description}</StyledListDescription>
                         <div>{lecture.duration}</div>
                         {lecture.levelRequired <= mapLevel[planLevel] && <StyledListVideo>
