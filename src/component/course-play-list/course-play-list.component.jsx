@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
+import { StyledListRow, StyledListDescription, StyledListImageWrapper } from './course-play-list.style';
 
 const CoursePlayList = ({ courseId }) => {
   const lectureCollection = db.collection('lecture')
@@ -23,7 +24,7 @@ const CoursePlayList = ({ courseId }) => {
       const lectureListSnap = await lectureCollection
         .where('course.id', '==', courseId)
         .get()
-      const lectureList = [...lectureListSnap.docs].map(doc => doc.data()).sort((a, b) => a.order - b.order)
+      const lectureList = [...lectureListSnap.docs].map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => a.order - b.order)
       updateData({lectureList, sectionList, course})
     })()
   }, [])
@@ -46,20 +47,23 @@ const CoursePlayList = ({ courseId }) => {
 
       {course.version && course.version === 2 && <div>
         {sectionList.map(section => {
-          return console.log(section) || (
+          return (
             <div key={section.id}>
               <h2>{section.title}</h2>
-              <h2>{course.youtubePlaylistId}</h2>
               <div>
                 {lectureList
                   .filter(lecture => lecture.section.id === section.id)
                   .map(lecture => {
+                    const { youtubeVideoId = ''} = lecture
                     return (
-                      <div>
-                        <img src={`http://img.youtube.com/vi/${lecture.youtubeVideoId}/0.jpg`} alt=""/>
-                        <div>{lecture.title}</div>
-                        <div>{lecture.description}</div>
-                      </div>
+                      <StyledListRow key={lecture.id}>
+                        <StyledListImageWrapper>
+                          {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt=""/>}
+                        </StyledListImageWrapper>
+                        <h3>{lecture.title}</h3>
+                        <StyledListDescription>{lecture.description}</StyledListDescription>
+                        <div>{lecture.duration}</div>
+                      </StyledListRow>
                     )
                   })
                 }
