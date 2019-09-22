@@ -11,7 +11,6 @@ const SectionPanel = ({ course }) => {
 
   const [section, setSection] = useState(defaultSection)
   const { sectionList } = WebInfoState()
-  console.log(sectionList)
 
   const change = what => {
     setSection({ ...section, ...what })

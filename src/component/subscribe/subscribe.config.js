@@ -61,7 +61,7 @@ export default [{
     selected: false,
     value: 250,
     range: {
-      min: 250,
+      min: 100,
       max: 500,
       step: 50,
     },
