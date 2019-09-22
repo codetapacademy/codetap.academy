@@ -56,7 +56,11 @@ export default {
       options: [],
       edit: true,
       visible: true,
-      value: ''
+      value: '',
+      customAdditionalAttribute: {
+        source: 'user',
+        target: 'customAuthorData'
+      }
     },
     published: {
       type: 'boolean',

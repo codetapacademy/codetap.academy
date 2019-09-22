@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../text-input';
-import SelectInput from '../select-input/select-input.component';
 import Select, { components } from 'react-select'
 
 const DynamicForm = ({ schema, data, dbItem }) => {
-  console.log(schema)
+  // console.log(schema)
   const [formSchema, setFormSchema] = useState(schema);
   const { formId, filedList } = formSchema;
 
@@ -31,6 +30,7 @@ const DynamicForm = ({ schema, data, dbItem }) => {
   }
 
   const onEvent = (value, field, type) => {
+    // TODO: pune inca o valoare particularizata in baza de date (user)
     console.log(value, field, type, formSchema.filedList[field])
     switch (type) {
       case 'change':
@@ -44,6 +44,14 @@ const DynamicForm = ({ schema, data, dbItem }) => {
         break;
       case 'blur':
         // udpate database for text
+        const { customAdditionalAttribute = '' } = formSchema.filedList[field]
+        if (customAdditionalAttribute) {
+          const [ additionalData ] = formSchema.filedList[field].options
+            .filter(option => option.value === value)
+            .map(option => option[customAdditionalAttribute.source])
+
+            dbItem.set({ [customAdditionalAttribute.target]: additionalData }, { merge: true });
+        }
         dbItem.set({ [field]: value }, { merge: true });
         break;
       default:
@@ -69,7 +77,7 @@ const DynamicForm = ({ schema, data, dbItem }) => {
         getOptionLabel,
       }
 
-      console.log(options)
+      // console.log(options)
 
       if (type === 'select') {
         inputPropList = {
@@ -91,7 +99,6 @@ const DynamicForm = ({ schema, data, dbItem }) => {
           // getOptionLabel: option => console.log(option) || <div style={{ color: 'red', border: '1px dashed blue' }}>{option.label}</div>,
           // getOptionValue: option => option['id'],
         }
-        console.log(filedList[field])
       }
 
       if (visible) {

@@ -60,11 +60,13 @@ export const StyledCourseDescriptionWrapper = styled.div`
 
 export const StyledCourseDuration = styled.div`
   margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-around;
 `
 
 export const StyledCourse = styled.div `
   width: 325px;
-  height: 290px;
+  height: 325px;
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   padding: 0.5rem 0;

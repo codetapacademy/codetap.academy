@@ -5,6 +5,7 @@ import { debounce } from 'lodash'
 import { navigate } from '@reach/router'
 import { StyledCourse, StyledCourseList, StyledWatchNow, StyledButtonWrapper, StyledCourseDescription, StyledCourseDescriptionWrapper, StyledCourseDuration } from './home.style';
 import Pill from '../_dumb/pill';
+import Avatar from '../avatar';
 
 const Home = () => {
   const [pageY, setPageY] = useState(0)
@@ -39,24 +40,25 @@ const Home = () => {
   }, []);
 
   const goToCoursePlayList = id => {
-    console.log(id)
     navigate(`/course/${id}`)
   }
 
   const renderCourseList = () => {
     return data.courseList
-      .map(({ title, id, description, totalDuration, externalThumbnail, courseLevel }) => (
+      .map(({ title, id, description, totalDuration, externalThumbnail, courseLevel, customAuthorData }) => (
           <StyledCourse key={id}>
             <HeaderTitle text={title} tag="h2" fontSize="1.2rem" />
             <StyledCourseDescriptionWrapper externalThumbnail={externalThumbnail}>
               <StyledCourseDescription>{description}</StyledCourseDescription>
             </StyledCourseDescriptionWrapper>
             <StyledCourseDuration>Duration: {totalDuration || 'Coming soon :)'}</StyledCourseDuration>
+            <StyledCourseDuration>{customAuthorData && <>Author: <Avatar user={customAuthorData} /></>}</StyledCourseDuration>
             <StyledButtonWrapper>
 
               <StyledWatchNow
                 onClick={() => goToCoursePlayList(id)}
               >Watch now</StyledWatchNow>
+              
               {courseLevel && <Pill label="Level" value={courseLevel} />}
             </StyledButtonWrapper>
           </StyledCourse>

@@ -82,10 +82,7 @@ const Course = ({ courseId }) => {
         const minutes = (totalSeconds % 3600 - seconds) / 60
         const hours = ~~(totalSeconds / 3600)
         const totalDuration = `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
-        // console.log(
-        //   totalSeconds,
-        //   totalDuration
-        // )
+
         courseDocument.set({ totalDuration, totalSeconds }, { merge: true })
       } catch (e) {
         console.error('Get lectureSnapshotList failed', e);
@@ -154,7 +151,7 @@ const Course = ({ courseId }) => {
   if (course && course.courseLevel) {
     courseSchema.filedList.courseLevel.getOptionLabel = option => <div style={{ color: 'black' }}>{option.label}</div>
   }
-  if (course && course.courseAuthorCustom) {
+  if (courseSchema.filedList.courseAuthorCustom) {
     courseSchema.filedList.courseAuthorCustom.getOptionLabel = option => <div style={{ color: 'black' }}><Avatar user={option.user} /></div>
     courseSchema.filedList.courseAuthorCustom.options = userList
       .map(user => ({ user: { displayName: user.displayName, photoURL: user.photoURL }, label: user.displayName, value: user.id }))
