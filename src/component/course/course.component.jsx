@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../data/firebase';
 import { WebInfoState } from '../web-info/web-info.context';
 import SectionPanel from '../section-panel/section-panel.component';
+import Avatar from '../avatar'
 import {
   addSectionAction,
   removeSectionAction,
@@ -17,10 +18,15 @@ const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState();
   const [course, setCourse] = useState({});
   const courseDocument = db.collection('course').doc(courseId);
+  const [userList, setUserList] = useState([])
 
   useEffect(() => {
     let unsubscribe, unsubscribeToCourse;
     (async () => {
+      const userSnap = await db.collection('user').get()
+      const userList = userSnap.docs.map(user => ({ id: user.id, ...user.data() }))
+      setUserList(userList)
+
       const lectureKeyList = {};
       // I want to get the course info
       unsubscribeToCourse = courseDocument
@@ -41,8 +47,8 @@ const Course = ({ courseId }) => {
         lectureSnapshotList.docs.forEach(doc => {
           const docData = doc.data()
           const lectureId = doc.id;
-          const lectureContent = { ...docData, totalDuration: (docData && docData.totalDuration) || '00:00:00'}
-    
+          const lectureContent = { ...docData, totalDuration: (docData && docData.totalDuration) || '00:00:00' }
+
 
           if (lectureKeyList.hasOwnProperty(lectureContent.section.id)) {
             lectureKeyList[lectureContent.section.id] = [
@@ -146,7 +152,12 @@ const Course = ({ courseId }) => {
   };
 
   if (course && course.courseLevel) {
-    courseSchema.filedList.courseLevel.defaultValue = course.courseLevel
+    courseSchema.filedList.courseLevel.getOptionLabel = option => <div style={{ color: 'black' }}>{option.label}</div>
+  }
+  if (course && course.courseAuthorCustom) {
+    courseSchema.filedList.courseAuthorCustom.getOptionLabel = option => <div style={{ color: 'black' }}><Avatar user={option.user} /></div>
+    courseSchema.filedList.courseAuthorCustom.options = userList
+      .map(user => ({ user: { displayName: user.displayName, photoURL: user.photoURL }, label: user.displayName, value: user.id }))
   }
 
   return (

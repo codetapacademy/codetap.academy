@@ -23,8 +23,27 @@ export default {
       type: 'select',
       placeholder: 'Select difficulty',
       label: 'Level of knowledge required to uderstand the course',
-      defaultValue: '',
-      optionList: ['', 'starter', 'junior', 'mid', 'senior'],
+      defaultValue: {
+        label: 'starter',
+        value: 'starter'
+      },
+      options: [{
+          label: 'starter',
+          value: 'starter'
+        },
+        {
+          label: 'junior',
+          value: 'junior'
+        },
+        {
+          label: 'mid',
+          value: 'mid'
+        },
+        {
+          label: 'senior',
+          value: 'senior'
+        },
+      ],
       edit: true,
       visible: true,
       value: ''
@@ -34,7 +53,7 @@ export default {
       placeholder: 'Select Author',
       label: 'The main author of the course',
       defaultValue: '',
-      options: ['', 'starter', 'junior', 'mid', 'senior'],
+      options: [],
       edit: true,
       visible: true,
       value: ''
