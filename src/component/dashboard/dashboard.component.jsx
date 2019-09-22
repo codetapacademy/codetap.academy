@@ -104,7 +104,7 @@ const Dashboard = () => {
   }
 
   const goToCourse = id => {
-    navigate(`/course/${id}`)
+    navigate(`/manage/course/${id}`)
   }
 
   const getSaveLabel = () => course.id ? "Update course" : "Add course"

@@ -24,19 +24,37 @@ const TopMenu = () => {
     } else {
       auth
         .signInWithPopup(GitHubProvider)
-        .then(({ user: { uid, displayName, photoURL, email } }) => {
+        .then(data => {
+          const { user: { uid, displayName, photoURL, email } } = data
+
           db.collection('user')
             .doc(uid)
-            .set({ displayName, photoURL, email }, { merge: true });
-          navigate('/dashboard');
-          updateUser({
-            type: 'USER_AUTHENTICATE',
-            user: {
-              uid,
-              displayName,
-              photoURL
-            }
-          });
+            .get()
+            .then(snap => {
+              const data = snap.data()
+              const isAdmin = (data && data.isAdmin) || false
+              const { accepted = false } = data
+              const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
+              db.collection('user')
+                .doc(uid)
+                .set({ displayName, photoURL, email }, { merge: true });
+              navigate('/dashboard');
+              updateUser({
+                type: 'USER_AUTHENTICATE',
+                user: {
+                  uid,
+                  displayName,
+                  photoURL,
+                  email,
+                  plan_id,
+                  current_term_end,
+                  next_billing_at,
+                  customer_id,
+                  isAdmin,
+                  accepted
+                }
+              });
+            })
         })
         .catch(error => {
           // console.error(error)
@@ -54,10 +72,15 @@ const TopMenu = () => {
           <span>CodeTap Academy</span>
         </StyledLogoWrapper>
       </StyledLink>
-      {user && (
+      {user && user.isAdmin && (
         <>
           <StyledLink to="/dashboard">Dashboard</StyledLink>
-          <StyledLink to="/manage-user">Manage user</StyledLink>
+          <StyledLink to="/manage/user">Manage user</StyledLink>
+        </>
+      )}
+      {user && (
+        <>
+          <StyledLink to="/subscribe">Subscribe</StyledLink>
         </>
       )}
       <Avatar user={user} />

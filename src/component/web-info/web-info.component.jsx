@@ -6,6 +6,9 @@ import { StyledWebInfo, StyledRouter } from './web-info.style';
 import Lecture from '../lecture';
 import PlayVideo from '../play-video';
 import ManageUser from '../manage-user';
+import Subscribe from '../subscribe';
+import HomeOld from '../home-old';
+import CoursePlayList from '../course-play-list';
 
 const WebInfo = () => {
   return (
@@ -13,11 +16,14 @@ const WebInfo = () => {
       <StyledWebInfo>
         <StyledRouter>
           <Home path="/" />
+          <HomeOld path="/home-old" />
           <Dashboard path="dashboard" />
-          <Course path="/course/:courseId" />
-          <Lecture path="/lecture/:lectureId" />
+          <Course path="/manage/course/:courseId" />
+          <Lecture path="/manage/lecture/:lectureId" />
           <PlayVideo path="/video/:youtubeVideoId" />
-          <ManageUser path="/manage-user" />
+          <CoursePlayList path="/course/:courseId" />
+          <ManageUser path="/manage/user" />
+          <Subscribe path="/subscribe" />
         </StyledRouter>
       </StyledWebInfo>
     </>

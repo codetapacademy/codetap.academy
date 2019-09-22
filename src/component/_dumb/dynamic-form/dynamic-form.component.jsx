@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../text-input';
+import Select, { components } from 'react-select'
 
 const DynamicForm = ({ schema, data, dbItem }) => {
+  // console.log(schema)
   const [formSchema, setFormSchema] = useState(schema);
   const { formId, filedList } = formSchema;
 
@@ -15,7 +17,24 @@ const DynamicForm = ({ schema, data, dbItem }) => {
     setFormSchema({ ...formSchema, filedList });
   }, [data]);
 
+  const onChange = (...orice) => {
+    let value = ''
+    if (typeof orice[0] === 'string') {
+      value = orice[0]
+    } else {
+      value = orice[0].value
+    }
+    const field = orice[1].name
+
+    onEvent(value, field, 'blur')
+  }
+
   const onEvent = (value, field, type) => {
+    // fix: bad time conversion #254
+    if (formSchema.filedList[field].type === 'time' && value.length === 5 && type === 'blur') {
+      value = `${value}:00`
+    }
+
     switch (type) {
       case 'change':
         setFormSchema({
@@ -28,6 +47,14 @@ const DynamicForm = ({ schema, data, dbItem }) => {
         break;
       case 'blur':
         // udpate database for text
+        const { customAdditionalAttribute = '' } = formSchema.filedList[field]
+        if (customAdditionalAttribute) {
+          const [ additionalData ] = formSchema.filedList[field].options
+            .filter(option => option.value === value)
+            .map(option => option[customAdditionalAttribute.source])
+
+            dbItem.set({ [customAdditionalAttribute.target]: additionalData }, { merge: true });
+        }
         dbItem.set({ [field]: value }, { merge: true });
         break;
       default:
@@ -37,25 +64,58 @@ const DynamicForm = ({ schema, data, dbItem }) => {
 
   const renderForm = () =>
     Object.keys(filedList).map(field => {
-      const { type, value, placeholder, label, visible } = filedList[field];
+      const { type, options = [], value, placeholder, defaultValue, label, visible, step, getOptionLabel } = filedList[field];
+      let inputPropList = {
+        key: field,
+        id: field,
+        type,
+        options,
+        formId,
+        label,
+        value,
+        onEvent,
+        placeholder,
+        step,
+        defaultValue,
+        getOptionLabel,
+      }
+
+      // console.log(options)
+
+      if (type === 'select') {
+        inputPropList = {
+          ...inputPropList,
+          value: options.filter(option => option.value === value),
+          onChange,
+          // this is the label part of react select
+          components: {
+            Control: (propList) => (<div>
+              {label}
+              <components.Control {...propList} />
+            </div>),
+            // Option: (propList) => (<div style={{ color: 'black' }}>
+            //   Nice option
+            //   <components.Option {...propList} />
+            // </div>)
+          },
+          // this is the option in the drop down part in react select
+          // getOptionLabel: option => console.log(option) || <div style={{ color: 'red', border: '1px dashed blue' }}>{option.label}</div>,
+          // getOptionValue: option => option['id'],
+        }
+      }
+
       if (visible) {
         switch (type) {
           case 'text':
+          case 'time':
           case 'date':
           case 'number':
           case 'datetime-local':
             return (
-              <TextInput
-                key={field}
-                id={field}
-                type={type}
-                formId={formId}
-                label={label}
-                value={value}
-                onEvent={onEvent}
-                placeholder={placeholder}
-              />
+              <TextInput {...inputPropList} />
             );
+          case 'select':
+            return <Select name={field} {...inputPropList} />
           default:
             return null
         }
