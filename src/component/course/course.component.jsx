@@ -148,8 +148,9 @@ const Course = ({ courseId }) => {
     courseDocument.set({ published: !course.published }, { merge: true });
   };
 
-  if (course && course.courseLevel) {
+  if (course) {
     courseSchema.filedList.courseLevel.getOptionLabel = option => <div style={{ color: 'black' }}>{option.label}</div>
+    courseSchema.filedList.version.getOptionLabel = option => <div style={{ color: 'black' }}>{option.label}</div>
   }
   if (courseSchema.filedList.courseAuthorCustom) {
     courseSchema.filedList.courseAuthorCustom.getOptionLabel = option => <div style={{ color: 'black' }}><Avatar user={option.user} /></div>
