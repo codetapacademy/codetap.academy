@@ -17,7 +17,7 @@ const CoursePlayList = ({ courseId }) => {
   const sectionCollection = db.collection('section')
   const [ data, updateData ] = useState({course: {}, lectureList: [], sectionList: []})
   const { user } = WebInfoState();
-  const [ planLevel ] = user.plan_id.split('_')
+  const [ planLevel ] = ((user && user.plan_id) || 'supporter_').split('_')
 
   useEffect(() => {
     (async () => {
