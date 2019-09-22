@@ -29,6 +29,16 @@ export default {
       visible: true,
       value: ''
     },
+    courseAuthorCustom: {
+      type: 'select',
+      placeholder: 'Select Author',
+      label: 'The main author of the course',
+      defaultValue: '',
+      options: ['', 'starter', 'junior', 'mid', 'senior'],
+      edit: true,
+      visible: true,
+      value: ''
+    },
     published: {
       type: 'boolean',
       placeholder: 'toggle the publish status',
