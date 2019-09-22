@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
-import { StyledListRow, StyledListDescription, StyledListImageWrapper } from './course-play-list.style';
+import { StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired } from './course-play-list.style';
+import { WebInfoState } from '../web-info/web-info.context';
+
+const mapLevel = {
+  supporter: 0,
+  starter: 1,
+  wise: 2,
+  mentored: 3
+}
 
 const CoursePlayList = ({ courseId }) => {
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
   const sectionCollection = db.collection('section')
   const [ data, updateData ] = useState({course: {}, lectureList: [], sectionList: []})
+  const { user } = WebInfoState();
+  const [ planLevel ] = user.plan_id.split('_')
 
   useEffect(() => {
     (async () => {
@@ -52,7 +62,7 @@ const CoursePlayList = ({ courseId }) => {
               <h2>{section.title}</h2>
               <div>
                 {lectureList
-                  .filter(lecture => lecture.section.id === section.id)
+                  .filter(lecture => lecture.section.id === section.id && lecture.published)
                   .map(lecture => {
                     const { youtubeVideoId = ''} = lecture
                     return (
@@ -60,9 +70,20 @@ const CoursePlayList = ({ courseId }) => {
                         <StyledListImageWrapper>
                           {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt=""/>}
                         </StyledListImageWrapper>
-                        <h3>{lecture.title}</h3>
+                        <h3>{lecture.title} - {lecture.levelRequired} &lt;= {mapLevel[planLevel]}</h3>
                         <StyledListDescription>{lecture.description}</StyledListDescription>
                         <div>{lecture.duration}</div>
+                        {lecture.levelRequired <= mapLevel[planLevel] && <StyledListVideo>
+                          <StyledListVideoIframe
+                            src={`https://player.vimeo.com/video/${lecture.vimeoVideoId}`}
+                            frameBorder="0"
+                            allow="autoplay; fullscreen"
+                            allowFullScreen />
+                        </StyledListVideo>}
+                        {lecture.levelRequired > mapLevel[planLevel] && <StyledListLevelRequired>
+                          <p>Your CodeTap member level needs to be increased in order to watch this video.</p>
+                          <p>Consider subscribing or upgrading your subscription.</p>
+                        </StyledListLevelRequired>}
                       </StyledListRow>
                     )
                   })
