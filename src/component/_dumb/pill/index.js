@@ -1,1 +1,4 @@
-export { default } from './pill.component'
+export {
+  default
+}
+from './pill.component'
