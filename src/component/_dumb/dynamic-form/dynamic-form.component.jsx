@@ -30,8 +30,11 @@ const DynamicForm = ({ schema, data, dbItem }) => {
   }
 
   const onEvent = (value, field, type) => {
-    // TODO: pune inca o valoare particularizata in baza de date (user)
-    console.log(value, field, type, formSchema.filedList[field])
+    // fix: bad time conversion #254
+    if (formSchema.filedList[field].type === 'time' && value.length === 5 && type === 'blur') {
+      value = `${value}:00`
+    }
+
     switch (type) {
       case 'change':
         setFormSchema({
