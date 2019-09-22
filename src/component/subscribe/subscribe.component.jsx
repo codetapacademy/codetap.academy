@@ -12,11 +12,14 @@ const cbInstance = window.Chargebee.init({
 const Subscribe = () => {
   const [subscribeList, updateSubscribeList] = useState(subscribeConfig)
   const [customer, updateCustomer] = useState(subscribeConfig)
+  const [accepted, setAccepted] = useState(subscribeConfig)
   const { user } = WebInfoState();
 
   useEffect(() => {
     const [first_name, last_name] = ((user && user.displayName) || ' ').split(' ')
-    const { email, uid } = user
+    const { email, uid, accepted } = user
+    setAccepted(accepted)
+
     const cart = cbInstance.getCart();
     updateCustomer({
       first_name,
@@ -32,7 +35,6 @@ const Subscribe = () => {
   }, [])
 
   const handlePortal = () => {
-    console.log('setPortalSession')
     cbInstance.createChargebeePortal().open({
       loaded: () => {
         console.log('createChargebeePortal loaded')
@@ -91,6 +93,9 @@ const Subscribe = () => {
       <h2>You get to choose how much you pay, literally!</h2>
       <StyledSubscribeList>
         {subscribeList.map(({ title, selected, value, disabled, range: { min, max, step }, featureList, plan_id }, index) => {
+          if (accepted && plan_id === 'mentored') {
+            disabled = false
+          }
           return (
             <StyledSubscribeItem key={index} selected={selected}>
               <StyledSubscribeTitle>{title}</StyledSubscribeTitle>
