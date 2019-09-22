@@ -48,6 +48,27 @@ export default {
       visible: true,
       value: ''
     },
+    version: {
+      type: 'select',
+      placeholder: 'Select version',
+      label: 'When was it recorded?',
+      defaultValue: {
+        label: '1',
+        value: 1
+      },
+      options: [{
+          label: '1',
+          value: 1
+        },
+        {
+          label: '2',
+          value: 2
+        },
+      ],
+      edit: true,
+      visible: true,
+      value: ''
+    },
     courseAuthorCustom: {
       type: 'select',
       placeholder: 'Select Author',
