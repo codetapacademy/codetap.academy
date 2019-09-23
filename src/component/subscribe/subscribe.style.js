@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const StyledSubscribeButton = styled.button `
-  background-color: #d52027;
+  background-color: ${({ bgcolor }) => bgcolor || '#d52027'};
   border: 1px solid rgba(0,0,0,0.21);
   border-bottom: 4px solid rgba(0,0,0,0.21);
   border-radius: 4px;

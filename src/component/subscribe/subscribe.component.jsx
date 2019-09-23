@@ -128,9 +128,9 @@ const Subscribe = () => {
       {user && user.customer_id && <>
         <h2>Manage your subscription</h2>
         <p>You can update or cancel your subscription. To start, press the Manage Subscription button</p>
-        <button
+        <StyledSubscribeButton bgcolor="#ebad1a"
           onClick={handlePortal}
-        >Manage your Subscription</button>
+        >Manage your Subscription</StyledSubscribeButton>
       </>}
     </div>
   )
