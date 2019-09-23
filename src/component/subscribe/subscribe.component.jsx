@@ -6,7 +6,7 @@ import subscribeConfig from './subscribe.config'
 import { StyledSubscribeList, StyledSubscribeItem, StyledSubscribeTitle, StyledSubscribePrice, StyledSubscribeRangeWrapper } from './subscribe.style';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 const cbInstance = window.Chargebee.init({
-  site: 'bitbee-test'
+  site: 'bitbeeuk'
 })
 
 const Subscribe = () => {
