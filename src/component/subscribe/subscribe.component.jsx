@@ -17,7 +17,7 @@ const Subscribe = () => {
 
   useEffect(() => {
     const [first_name, last_name] = ((user && user.displayName) || ' ').split(' ')
-    const { email, uid, accepted } = user
+    const { email, uid, accepted = false } = user || {}
     setAccepted(accepted)
 
     const cart = cbInstance.getCart();

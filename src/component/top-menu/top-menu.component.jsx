@@ -33,7 +33,7 @@ const TopMenu = () => {
             .then(snap => {
               const data = snap.data()
               const isAdmin = (data && data.isAdmin) || false
-              const { accepted = false } = data
+              const { accepted = false } = data || {}
               const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
               db.collection('user')
                 .doc(uid)
