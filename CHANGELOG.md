@@ -2,6 +2,64 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.13.0](https://github.com/codetapacademy/codetap.academy/compare/v0.12.0...v0.13.0) (2019-09-25)
+
+
+### Bug Fixes
+
+* bad time conversion ([401bfbb](https://github.com/codetapacademy/codetap.academy/commit/401bfbb)), closes [#254](https://github.com/codetapacademy/codetap.academy/issues/254)
+* clean up title in playlist ([a82471c](https://github.com/codetapacademy/codetap.academy/commit/a82471c))
+* new added courses ([7844e84](https://github.com/codetapacademy/codetap.academy/commit/7844e84)), closes [#272](https://github.com/codetapacademy/codetap.academy/issues/272)
+* react loves keys select-input ([9284a64](https://github.com/codetapacademy/codetap.academy/commit/9284a64))
+* remove blink created by new styles ([f5695a3](https://github.com/codetapacademy/codetap.academy/commit/f5695a3))
+* split of undefined ([a1fbb8a](https://github.com/codetapacademy/codetap.academy/commit/a1fbb8a))
+* TypeError: Cannot read property 'split' of null ([94b7348](https://github.com/codetapacademy/codetap.academy/commit/94b7348)), closes [#228](https://github.com/codetapacademy/codetap.academy/issues/228)
+* Uncaught (in promise) TypeError: Cannot read property 'isAdmin' of undefined ([046c18c](https://github.com/codetapacademy/codetap.academy/commit/046c18c)), closes [#230](https://github.com/codetapacademy/codetap.academy/issues/230)
+* Uncaught (in promise) TypeError: Cannot read property 'subscription' of undefined ([570bdf3](https://github.com/codetapacademy/codetap.academy/commit/570bdf3)), closes [#232](https://github.com/codetapacademy/codetap.academy/issues/232)
+* update the attribute to the correct one ([ac44402](https://github.com/codetapacademy/codetap.academy/commit/ac44402))
+* update the site value of chargebee ([46cdab7](https://github.com/codetapacademy/codetap.academy/commit/46cdab7))
+* when accepted is undefined ([d877a37](https://github.com/codetapacademy/codetap.academy/commit/d877a37))
+
+
+### Features
+
+* add accepted to user and enable subscription form ([76f5264](https://github.com/codetapacademy/codetap.academy/commit/76f5264)), closes [#251](https://github.com/codetapacademy/codetap.academy/issues/251)
+* add basic list for v2 ([afaa45f](https://github.com/codetapacademy/codetap.academy/commit/afaa45f))
+* add course version ([37f2676](https://github.com/codetapacademy/codetap.academy/commit/37f2676))
+* add duration to lecture title ([6a0a411](https://github.com/codetapacademy/codetap.academy/commit/6a0a411)), closes [#253](https://github.com/codetapacademy/codetap.academy/issues/253)
+* add duration to the lecture ([05589e8](https://github.com/codetapacademy/codetap.academy/commit/05589e8)), closes [#246](https://github.com/codetapacademy/codetap.academy/issues/246)
+* add nice cursor to the subscribe button ([412f6fb](https://github.com/codetapacademy/codetap.academy/commit/412f6fb))
+* add site attribute to the chargebee script ([5867fad](https://github.com/codetapacademy/codetap.academy/commit/5867fad))
+* add test subscribe button ([9c43750](https://github.com/codetapacademy/codetap.academy/commit/9c43750)), closes [#218](https://github.com/codetapacademy/codetap.academy/issues/218)
+* add totalDuration and totalSeconds to a course ([c0f755b](https://github.com/codetapacademy/codetap.academy/commit/c0f755b))
+* add vimeo id to lecture ([7675049](https://github.com/codetapacademy/codetap.academy/commit/7675049)), closes [#238](https://github.com/codetapacademy/codetap.academy/issues/238)
+* add watch now button and style it a bit ([324aef3](https://github.com/codetapacademy/codetap.academy/commit/324aef3))
+* autoselect the value in the courseLevel ([8454a58](https://github.com/codetapacademy/codetap.academy/commit/8454a58))
+* course description max height ([f94e2a0](https://github.com/codetapacademy/codetap.academy/commit/f94e2a0)), closes [#249](https://github.com/codetapacademy/codetap.academy/issues/249)
+* create a list of course descriptions that point to a playlist ([9aba852](https://github.com/codetapacademy/codetap.academy/commit/9aba852)), closes [#241](https://github.com/codetapacademy/codetap.academy/issues/241)
+* disable mentored ([94a17a9](https://github.com/codetapacademy/codetap.academy/commit/94a17a9)), closes [#226](https://github.com/codetapacademy/codetap.academy/issues/226)
+* enrich manage user list data ([1da2500](https://github.com/codetapacademy/codetap.academy/commit/1da2500))
+* hide dashboard and manage user ([c34dbe4](https://github.com/codetapacademy/codetap.academy/commit/c34dbe4)), closes [#222](https://github.com/codetapacademy/codetap.academy/issues/222)
+* implement a level pill ([c926a45](https://github.com/codetapacademy/codetap.academy/commit/c926a45)), closes [#248](https://github.com/codetapacademy/codetap.academy/issues/248)
+* implement manage subscription ([af46e83](https://github.com/codetapacademy/codetap.academy/commit/af46e83)), closes [#234](https://github.com/codetapacademy/codetap.academy/issues/234)
+* implement supporter, starter, wise and mentored ([680515f](https://github.com/codetapacademy/codetap.academy/commit/680515f)), closes [#220](https://github.com/codetapacademy/codetap.academy/issues/220)
+* improve manage your subscription button ([6cc65c5](https://github.com/codetapacademy/codetap.academy/commit/6cc65c5))
+* improve readability of the subscribe button ([18d7e42](https://github.com/codetapacademy/codetap.academy/commit/18d7e42))
+* increase the visibility of min and max range on subscriptions ([55bb218](https://github.com/codetapacademy/codetap.academy/commit/55bb218))
+* initial makeover of home page ([b77b880](https://github.com/codetapacademy/codetap.academy/commit/b77b880))
+* part 1 - update course schema with courseAuthorCustom ([ccc4baf](https://github.com/codetapacademy/codetap.academy/commit/ccc4baf))
+* partial duration for home page ([a8172a0](https://github.com/codetapacademy/codetap.academy/commit/a8172a0)), closes [#250](https://github.com/codetapacademy/codetap.academy/issues/250)
+* reimplement old youtube play list for version 1 courses ([4e037a3](https://github.com/codetapacademy/codetap.academy/commit/4e037a3))
+* render only visible thumbnails on landing page ([95427eb](https://github.com/codetapacademy/codetap.academy/commit/95427eb)), closes [#196](https://github.com/codetapacademy/codetap.academy/issues/196)
+* replace current_term_end with next_billing_at ([a61102f](https://github.com/codetapacademy/codetap.academy/commit/a61102f)), closes [#236](https://github.com/codetapacademy/codetap.academy/issues/236)
+* show subscribe for all authenticated users ([cfafd13](https://github.com/codetapacademy/codetap.academy/commit/cfafd13)), closes [#224](https://github.com/codetapacademy/codetap.academy/issues/224)
+* swap subscribe button for manage subscription ([6a2ab3b](https://github.com/codetapacademy/codetap.academy/commit/6a2ab3b)), closes [#268](https://github.com/codetapacademy/codetap.academy/issues/268)
+* the course should present the author ([8647106](https://github.com/codetapacademy/codetap.academy/commit/8647106)), closes [#244](https://github.com/codetapacademy/codetap.academy/issues/244)
+* the difficulty (STARTER|JUNIOR|MID|SENIOR) a user should mind when consuming the course ([537700c](https://github.com/codetapacademy/codetap.academy/commit/537700c)), closes [#245](https://github.com/codetapacademy/codetap.academy/issues/245)
+* update management routes to include /manage ([df51bff](https://github.com/codetapacademy/codetap.academy/commit/df51bff))
+
+
+
 ## [0.12.0](https://github.com/codetapacademy/codetap.academy/compare/v0.11.0...v0.12.0) (2019-09-10)
 
 

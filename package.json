@@ -1,6 +1,6 @@
 {
   "name": "codetap.academy",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "private": true,
   "dependencies": {
     "@reach/router": "^1.2.1",
