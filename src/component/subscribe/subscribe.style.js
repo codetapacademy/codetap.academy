@@ -33,7 +33,13 @@ transform: scale(1.075);
   }
 `
 
+export const StyledSubscribeMinMax = styled.div `
+`
+
 export const StyledSubscribeRangeWrapper = styled.div `
+  display: flex;
+  justify-content: space-around;
+  /* padding: 0 2rem; */
 `
 
 export const StyledSubscribeTitle = styled.h3 `

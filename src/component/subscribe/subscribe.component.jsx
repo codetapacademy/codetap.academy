@@ -3,7 +3,7 @@ import axios from 'axios'
 import { urlEncode } from '../util';
 import { WebInfoState } from '../web-info/web-info.context';
 import subscribeConfig from './subscribe.config'
-import { StyledSubscribeList, StyledSubscribeItem, StyledSubscribeTitle, StyledSubscribePrice, StyledSubscribeRangeWrapper, StyledSubscribeButton } from './subscribe.style';
+import { StyledSubscribeList, StyledSubscribeItem, StyledSubscribeTitle, StyledSubscribePrice, StyledSubscribeRangeWrapper, StyledSubscribeButton, StyledSubscribeMinMax } from './subscribe.style';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 const cbInstance = window.Chargebee.init({
   site: 'bitbeeuk'
@@ -101,6 +101,7 @@ const Subscribe = () => {
               <StyledSubscribeTitle>{title}</StyledSubscribeTitle>
               <StyledSubscribePrice>{value > 0 ? `£${value}` : 'FREE'}</StyledSubscribePrice>
               <StyledSubscribeRangeWrapper>
+                <span>£{min}</span>
                 <input
                   type="range"
                   value={value}
@@ -111,27 +112,34 @@ const Subscribe = () => {
                   onChange={e => onSliderChange(e, index)}
                   onClick={() => handleSelectSubscribe(index)}
                 />
+                <span>£{max}</span>
               </StyledSubscribeRangeWrapper>
               <ul>
                 {featureList.map((feature, k) => <li key={k}>{feature}</li>)}
               </ul>
-              <StyledSubscribeButton
-                onClick={() => handleSubscribe(value, plan_id)}
-                disabled={disabled}
-              >
-                {value > 0 ? `Pay £${value} & Join` : 'Join for FREE'}
-              </StyledSubscribeButton>
+              {/* this is when the user has not subscribed yet */}
+              {user && !user.customer_id && <>
+                <StyledSubscribeButton
+                  onClick={() => handleSubscribe(value, plan_id)}
+                  disabled={disabled}
+                >
+                  {value > 0 ? `Pay £${value} & Join` : 'Join for FREE'}
+                </StyledSubscribeButton>
+              </>}
+
+              {/* this user has a customer_id, which means she/he has subscribed */}
+              {user && user.customer_id && <>
+                <StyledSubscribeButton
+                  bgcolor="#ebad1a"
+                  onClick={handlePortal}
+                >
+                  Manage your Subscription
+                </StyledSubscribeButton>
+              </>}
             </StyledSubscribeItem>
           )
         })}
       </StyledSubscribeList>
-      {user && user.customer_id && <>
-        <h2>Manage your subscription</h2>
-        <p>You can update or cancel your subscription. To start, press the Manage Subscription button</p>
-        <StyledSubscribeButton bgcolor="#ebad1a"
-          onClick={handlePortal}
-        >Manage your Subscription</StyledSubscribeButton>
-      </>}
     </div>
   )
 }
