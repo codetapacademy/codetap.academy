@@ -90,7 +90,7 @@ const Dashboard = () => {
     }
     else {
       // we want to add a course
-      courseCollection.add({ title, description })
+      courseCollection.add({ title, description, order: courseList.length })
     }
     setCourse(defaultCourse)
   }
