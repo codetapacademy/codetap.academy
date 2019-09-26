@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyledTopMenu, StyledLink, StyledButton, StyledLogoWrapper } from './top-menu.style';
 import { WebInfoState } from '../web-info/web-info.context';
 import { auth, GitHubProvider, db } from '../data/firebase';
@@ -12,6 +12,36 @@ const TopMenu = () => {
   const handleToggleChat = () => {
     updateToggleChat({ type: 'TOGGLE_CHAT' });
   };
+
+  useEffect(() => {
+    if (user) {
+      db.collection('user')
+        .doc(user.uid)
+        .onSnapshot({ includeMetadataChanges: true }, doc => {
+          const data = doc.data()
+          const isAdmin = (data && data.isAdmin) || false
+          const { accepted = false, displayName, photoURL, email } = data || {}
+          const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
+          updateUser({
+            type: 'USER_AUTHENTICATE',
+            user: {
+              uid: user.uid,
+              displayName,
+              photoURL,
+              email,
+              plan_id,
+              current_term_end,
+              next_billing_at,
+              customer_id,
+              isAdmin,
+              accepted
+            }
+          });
+      })
+
+    }
+
+  }, [])
 
   const handleLogInAndOut = () => {
     if (user) {
