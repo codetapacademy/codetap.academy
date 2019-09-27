@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
-import { StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired } from './course-play-list.style';
+import { StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration, StyledPlayMessage } from './course-play-list.style';
 import { WebInfoState } from '../web-info/web-info.context';
+import Vimeo from '@u-wave/react-vimeo'
 
 const mapLevel = {
   supporter: 0,
@@ -12,6 +13,7 @@ const mapLevel = {
 }
 
 const CoursePlayList = ({ courseId }) => {
+  const [currentVideo, setCurrentVideo] = useState({})
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
   const sectionCollection = db.collection('section')
@@ -36,8 +38,24 @@ const CoursePlayList = ({ courseId }) => {
         .get()
       const lectureList = [...lectureListSnap.docs].map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => a.order - b.order)
       updateData({lectureList, sectionList, course})
+
+      console.log(lectureList)
+
+      if (lectureList.length && lectureList[0]) {
+        const initialLectureList = lectureList.filter(lecture => lecture.section.id === sectionList[0].id)
+        console.log(initialLectureList, sectionList[0].id, lectureList)
+        setCurrentVideo(initialLectureList[0])
+      }
     })()
+    return () => {
+      console.log('This is unload')
+    }
   }, [])
+
+  const onTimeUpdate = ({ seconds, duration }) => {
+    console.log(~~seconds, ~~duration)
+  }
+
   const { course, sectionList, lectureList } = data
   return (
     <div>
@@ -55,44 +73,47 @@ const CoursePlayList = ({ courseId }) => {
         ></iframe>}
       </StyledVideo>}
 
-      {course.version && course.version === 2 && <div>
-        {sectionList.map(section => {
-          return (
-            <div key={section.id}>
-              <h2>{section.title}</h2>
-              <div>
-                {lectureList
-                  .filter(lecture => lecture.section.id === section.id && lecture.published)
-                  .map(lecture => {
-                    const { youtubeVideoId = ''} = lecture
-                    return (
-                      <StyledListRow key={lecture.id}>
-                        <StyledListImageWrapper>
-                          {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt=""/>}
-                        </StyledListImageWrapper>
-                        <h3>{lecture.title}</h3>
-                        <StyledListDescription>{lecture.description}</StyledListDescription>
-                        <div>{lecture.duration}</div>
-                        {lecture.levelRequired <= mapLevel[planLevel] && <StyledListVideo>
-                          <StyledListVideoIframe
-                            src={`https://player.vimeo.com/video/${lecture.vimeoVideoId}`}
-                            frameBorder="0"
-                            allow="autoplay; fullscreen"
-                            allowFullScreen />
-                        </StyledListVideo>}
-                        {lecture.levelRequired > mapLevel[planLevel] && <StyledListLevelRequired>
-                          <p>Your CodeTap member level needs to be increased in order to watch this video.</p>
-                          <p>Consider subscribing or upgrading your subscription.</p>
-                        </StyledListLevelRequired>}
-                      </StyledListRow>
-                    )
-                  })
-                }
-              </div>
-            </div>
-          )
-        })}
-      </div>}
+      {course.version && course.version === 2 && <StyledPlayerAndList>
+        {currentVideo.vimeoVideoId && currentVideo.levelRequired <= mapLevel[planLevel] && <Vimeo
+          video={currentVideo.vimeoVideoId}
+          onTimeUpdate={onTimeUpdate}
+          responsive
+        /> || <StyledPlayWrapper><StyledPlayMessage>Your member level is insufficient to watch this video. Consider upgrading or let's have a chat about it.</StyledPlayMessage></StyledPlayWrapper>}
+          {/* {<StyledListVideo>
+          </StyledListVideo>} */}
+        <StyledListWrapper>
+          <StyledList>
+            {sectionList.map(section => {
+              return (
+                <div key={section.id}>
+                  <h2>{section.title}</h2>
+                  <div>
+                    {lectureList
+                      .filter(lecture => lecture.section.id === section.id && lecture.published)
+                      .map(lecture => {
+                        const { youtubeVideoId = ''} = lecture
+                        return (
+                          <StyledListRow
+                            key={lecture.id}
+                            onClick={() => setCurrentVideo(lecture)}
+                            selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
+                            <StyledListImageWrapper>
+                              {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt=""/>}
+                            </StyledListImageWrapper>
+                            <StyledListTitle>{lecture.title}</StyledListTitle>
+                            <StyledListDuration>{lecture.duration}</StyledListDuration>
+                            <StyledListDescription>{lecture.description}</StyledListDescription>
+                          </StyledListRow>
+                        )
+                      })
+                    }
+                  </div>
+                </div>
+              )
+            })}
+          </StyledList>
+        </StyledListWrapper>
+      </StyledPlayerAndList>}
     </div>
   )
 }
