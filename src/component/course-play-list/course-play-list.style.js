@@ -1,21 +1,16 @@
 import styled from 'styled-components'
-import Vimeo from '@u-wave/react-vimeo'
-import React from 'react'
-
-export const StyledListVideoIframe = styled(Vimeo)`
-  /* & > iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  } */
-`
 
 export const StyledPlayWrapper = styled.div`
-  /* padding-top: 56.25%;
-  position: relative; */
+  padding-top: 56.25%;
+  position: relative;
 `
+
+export const StyledPlayMessage = styled.h2`
+  position: absolute;
+  top: 0;
+  left: 0;
+`
+
 export const StyledListDescription = styled.div`
   grid-column: 1/3;
   margin-bottom: 1rem;
@@ -23,7 +18,6 @@ export const StyledListDescription = styled.div`
 export const StyledListImageWrapper = styled.div`
   grid-row: 1/3;
   max-width: 100%;
-  cursor: pointer;
 
   img {
     max-width: 100%;
@@ -46,6 +40,7 @@ export const StyledListRow = styled.div`
   grid-template-columns: 1fr 2fr;
   grid-gap: 0.5rem;
   padding: 0.5rem;
+  cursor: pointer;
 
   background-color: ${({ selected }) => selected ? 'gray' : 'transparent'};
 `

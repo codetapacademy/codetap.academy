@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
-import { StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration } from './course-play-list.style';
+import { StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration, StyledPlayMessage } from './course-play-list.style';
 import { WebInfoState } from '../web-info/web-info.context';
+import Vimeo from '@u-wave/react-vimeo'
 
 const mapLevel = {
   supporter: 0,
@@ -73,12 +74,12 @@ const CoursePlayList = ({ courseId }) => {
       </StyledVideo>}
 
       {course.version && course.version === 2 && <StyledPlayerAndList>
-        {currentVideo.vimeoVideoId && <StyledListVideoIframe
+        {currentVideo.vimeoVideoId && currentVideo.levelRequired <= mapLevel[planLevel] && <Vimeo
           video={currentVideo.vimeoVideoId}
           onTimeUpdate={onTimeUpdate}
           responsive
-        />}
-          {/* {lecture.levelRequired <= mapLevel[planLevel] && <StyledListVideo>
+        /> || <StyledPlayWrapper><StyledPlayMessage>Your member level is insufficient to watch this video. Consider upgrading or let's have a chat about it.</StyledPlayMessage></StyledPlayWrapper>}
+          {/* {<StyledListVideo>
           </StyledListVideo>} */}
         <StyledListWrapper>
           <StyledList>
@@ -92,10 +93,11 @@ const CoursePlayList = ({ courseId }) => {
                       .map(lecture => {
                         const { youtubeVideoId = ''} = lecture
                         return (
-                          <StyledListRow key={lecture.id} selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
-                            <StyledListImageWrapper
-                              onClick={() => setCurrentVideo(lecture)}
-                            >
+                          <StyledListRow
+                            key={lecture.id}
+                            onClick={() => setCurrentVideo(lecture)}
+                            selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
+                            <StyledListImageWrapper>
                               {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt=""/>}
                             </StyledListImageWrapper>
                             <StyledListTitle>{lecture.title}</StyledListTitle>
@@ -106,10 +108,6 @@ const CoursePlayList = ({ courseId }) => {
                       })
                     }
                   </div>
-                            {/* {lecture.levelRequired > mapLevel[planLevel] && <StyledListLevelRequired>
-                              <p>Your CodeTap member level needs to be increased in order to watch this video.</p>
-                              <p>Consider subscribing or upgrading your subscription.</p>
-                            </StyledListLevelRequired>} */}
                 </div>
               )
             })}
