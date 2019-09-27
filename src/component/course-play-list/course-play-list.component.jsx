@@ -12,7 +12,7 @@ const mapLevel = {
 }
 
 const CoursePlayList = ({ courseId }) => {
-  const [vimeoVideoId, setVimeoVideoId] = useState(null)
+  const [currentVideo, setCurrentVideo] = useState({})
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
   const sectionCollection = db.collection('section')
@@ -37,6 +37,14 @@ const CoursePlayList = ({ courseId }) => {
         .get()
       const lectureList = [...lectureListSnap.docs].map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => a.order - b.order)
       updateData({lectureList, sectionList, course})
+
+      console.log(lectureList)
+
+      if (lectureList.length && lectureList[0]) {
+        const initialLectureList = lectureList.filter(lecture => lecture.section.id === sectionList[0].id)
+        console.log(initialLectureList, sectionList[0].id, lectureList)
+        setCurrentVideo(initialLectureList[0])
+      }
     })()
     return () => {
       console.log('This is unload')
@@ -65,14 +73,13 @@ const CoursePlayList = ({ courseId }) => {
       </StyledVideo>}
 
       {course.version && course.version === 2 && <StyledPlayerAndList>
-        <StyledPlayWrapper>
-          {vimeoVideoId && <StyledListVideoIframe
-            video={vimeoVideoId}
-            onTimeUpdate={onTimeUpdate}
-          />}
+        {currentVideo.vimeoVideoId && <StyledListVideoIframe
+          video={currentVideo.vimeoVideoId}
+          onTimeUpdate={onTimeUpdate}
+          responsive
+        />}
           {/* {lecture.levelRequired <= mapLevel[planLevel] && <StyledListVideo>
           </StyledListVideo>} */}
-        </StyledPlayWrapper>
         <StyledListWrapper>
           <StyledList>
             {sectionList.map(section => {
@@ -85,12 +92,9 @@ const CoursePlayList = ({ courseId }) => {
                       .map(lecture => {
                         const { youtubeVideoId = ''} = lecture
                         return (
-                          <StyledListRow key={lecture.id}>
+                          <StyledListRow key={lecture.id} selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
                             <StyledListImageWrapper
-                              onClick={() => {
-                                console.log(lecture.vimeoVideoId)
-                                setVimeoVideoId(lecture.vimeoVideoId)
-                              }}
+                              onClick={() => setCurrentVideo(lecture)}
                             >
                               {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt=""/>}
                             </StyledListImageWrapper>

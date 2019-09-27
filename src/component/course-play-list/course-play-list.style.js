@@ -3,18 +3,18 @@ import Vimeo from '@u-wave/react-vimeo'
 import React from 'react'
 
 export const StyledListVideoIframe = styled(Vimeo)`
-  & > iframe {
+  /* & > iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-  }
+  } */
 `
 
 export const StyledPlayWrapper = styled.div`
-  padding-top: 56.25%;
-  position: relative;
+  /* padding-top: 56.25%;
+  position: relative; */
 `
 export const StyledListDescription = styled.div`
   grid-column: 1/3;
@@ -45,6 +45,9 @@ export const StyledListRow = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-gap: 0.5rem;
+  padding: 0.5rem;
+
+  background-color: ${({ selected }) => selected ? 'gray' : 'transparent'};
 `
 
 export const StyledListTitle = styled.h3`
