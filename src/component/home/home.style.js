@@ -32,6 +32,7 @@ export const StyledCourseDescription = styled.p`
   position: absolute;
   /* left: 100%; */
   height: 100%;
+  width: 100%;
   bottom: 0;
   padding: 0 0.5rem;
   text-align: left;
