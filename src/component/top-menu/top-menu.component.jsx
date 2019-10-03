@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import { StyledTopMenu, StyledLink, StyledButton, StyledLogoWrapper } from './top-menu.style';
-import { WebInfoState } from '../web-info/web-info.context';
-import { auth, GitHubProvider, db } from '../data/firebase';
-import Avatar from '../avatar';
-import Logo from '../_dumb/logo/logo.component';
-import { navigate } from '@reach/router';
+import React, { useEffect } from 'react'
+import { StyledTopMenu, StyledLink, StyledButton, StyledLogoWrapper } from './top-menu.style'
+import { WebInfoState } from '../web-info/web-info.context'
+import { auth, GitHubProvider, db } from '../data/firebase'
+import Avatar from '../avatar'
+import Logo from '../_dumb/logo/logo.component'
+import { navigate } from '@reach/router'
 
 const TopMenu = () => {
-  const { toggleChat, updateToggleChat, user, updateUser } = WebInfoState();
+  const { toggleChat, updateToggleChat, user, updateUser } = WebInfoState()
 
   const handleToggleChat = () => {
-    updateToggleChat({ type: 'TOGGLE_CHAT' });
+    updateToggleChat({ type: 'TOGGLE_CHAT' })
   };
 
   useEffect(() => {
