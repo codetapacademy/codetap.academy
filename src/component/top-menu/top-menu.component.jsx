@@ -42,6 +42,8 @@ const TopMenu = () => {
 
   const joinChat = () => navigate('https://discord.gg/xcmtRYV')
 
+  const subscribeNow = () => navigate('/subscribe')
+
   const handleLogInAndOut = () => {
     if (user) {
       auth.signOut();
@@ -117,6 +119,11 @@ const TopMenu = () => {
         onClick={joinChat}
         label="Chat"
         color="warning"
+      />
+      <Button
+        onClick={subscribeNow}
+        label="Subscribe"
+        color="danger"
       />
       <Button
         onClick={handleLogInAndOut}
