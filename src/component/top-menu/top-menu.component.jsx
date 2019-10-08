@@ -5,13 +5,10 @@ import { auth, GitHubProvider, db } from '../data/firebase'
 import Avatar from '../avatar'
 import Logo from '../_dumb/logo/logo.component'
 import { navigate } from '@reach/router'
+import Button from '../_dumb/button/button.component'
 
 const TopMenu = () => {
-  const { toggleChat, updateToggleChat, user, updateUser } = WebInfoState()
-
-  const handleToggleChat = () => {
-    updateToggleChat({ type: 'TOGGLE_CHAT' })
-  };
+  const { user, updateUser } = WebInfoState()
 
   useEffect(() => {
     if (user) {
@@ -42,6 +39,8 @@ const TopMenu = () => {
     }
 
   }, [])
+
+  const joinChat = () => navigate('https://discord.gg/xcmtRYV')
 
   const handleLogInAndOut = () => {
     if (user) {
@@ -92,7 +91,7 @@ const TopMenu = () => {
     }
   };
 
-  const getLogInOutLabel = () => (user ? 'Ba Bye' : 'Let me in!');
+  const getLogInOutLabel = () => (user ? 'Logout' : 'Login');
 
   return (
     <StyledTopMenu>
@@ -114,10 +113,16 @@ const TopMenu = () => {
         </>
       )}
       <Avatar user={user} />
-      <button onClick={handleLogInAndOut}>{getLogInOutLabel()}</button>
-      <StyledButton onClick={handleToggleChat}>
-        {toggleChat ? 'Invizi Chat' : 'Gimme chat now!'}
-      </StyledButton>
+      <Button
+        onClick={joinChat}
+        label="Chat"
+        color="warning"
+      />
+      <Button
+        onClick={handleLogInAndOut}
+        label={getLogInOutLabel()}
+        color="primary"
+      />
     </StyledTopMenu>
   );
 };

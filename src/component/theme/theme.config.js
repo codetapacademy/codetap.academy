@@ -9,8 +9,14 @@ const layout = {
   bigPadding: '1rem',
 }
 
+const colorList = {
+  primary: '#2088D5',
+  danger: '#d52027',
+  warning: '#D58C20',
+}
+
 const menu = {
-  background: '#2f3136',
+  background: '#31394C',
   devider: '#222327',
   backgroundSelected: '#40444b',
   other: '#72767d',
@@ -20,6 +26,7 @@ const menu = {
 const theme = {
   layout,
   menu,
+  colorList,
 }
 
 export default theme
