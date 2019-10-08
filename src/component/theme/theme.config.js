@@ -13,6 +13,7 @@ const colorList = {
   primary: '#2088D5',
   danger: '#d52027',
   warning: '#D58C20',
+  ok: '#5C20D5',
 }
 
 const menu = {

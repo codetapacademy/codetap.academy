@@ -105,31 +105,39 @@ const TopMenu = () => {
       </StyledLink>
       {user && user.isAdmin && (
         <>
-          <StyledLink to="/dashboard">Dashboard</StyledLink>
-          <StyledLink to="/manage/user">Manage user</StyledLink>
+          <Button
+            onClick={() => navigate('/dashboard')}
+            label="Dashboard"
+            marginLeft="20px"
+            color="ok"
+          />
+          <Button
+            onClick={() => navigate('/manage/user')}
+            label="Manage user"
+            marginLeft="20px"
+            color="ok"
+          />
         </>
       )}
-      {user && (
-        <>
-          <StyledLink to="/subscribe">Subscribe</StyledLink>
-        </>
-      )}
-      <Avatar user={user} />
       <Button
         onClick={joinChat}
         label="Chat"
+        marginLeft="20px"
         color="warning"
       />
       <Button
         onClick={subscribeNow}
         label="Subscribe"
+        marginLeft="20px"
         color="danger"
       />
       <Button
         onClick={handleLogInAndOut}
         label={getLogInOutLabel()}
+        marginLeft="20px"
         color="primary"
       />
+      <Avatar user={user} />
     </StyledTopMenu>
   );
 };

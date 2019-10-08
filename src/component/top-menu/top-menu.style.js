@@ -27,6 +27,14 @@ export const StyledLink = styled(Link)`
   color: white;
   transition: 0.25s;
 
+  &:first-child {
+    flex-grow: 1;
+  }
+
+  &:not(:first-child) {
+    margin-left: 20px;
+  }
+
   &:hover {
     color: #c00;
     background-color: white;
