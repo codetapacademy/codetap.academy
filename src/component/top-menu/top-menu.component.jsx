@@ -41,10 +41,6 @@ const TopMenu = () => {
 
   }, [])
 
-  const joinChat = () => navigate('https://discord.gg/xcmtRYV')
-
-  const subscribeNow = () => navigate('/subscribe')
-
   const handleLogInAndOut = () => {
     if (user) {
       setUserIsLoggedIn(false)
@@ -123,13 +119,13 @@ const TopMenu = () => {
         </>
       )}
       <Button
-        onClick={joinChat}
+        onClick={() => window.open('https://discord.gg/xcmtRYV')}
         label="Chat"
         marginLeft="20px"
         color="warning"
       />
       <Button
-        onClick={subscribeNow}
+        onClick={() => navigate('/subscribe')}
         label="Subscribe"
         marginLeft="20px"
         color="danger"
