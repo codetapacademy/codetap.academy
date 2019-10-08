@@ -27,6 +27,14 @@ export const StyledLink = styled(Link)`
   color: white;
   transition: 0.25s;
 
+  &:first-child {
+    flex-grow: 1;
+  }
+
+  &:not(:first-child) {
+    margin-left: 20px;
+  }
+
   &:hover {
     color: #c00;
     background-color: white;
@@ -34,6 +42,8 @@ export const StyledLink = styled(Link)`
 `
 
 export const StyledTopMenu = styled.div`
+  height: 64px;
+  border-bottom: 2px solid #3D465E;
   background-color: ${({ theme }) => theme.menu.background};
   padding: 0 ${({ theme }) => theme.layout.bigPadding};
   display: flex;

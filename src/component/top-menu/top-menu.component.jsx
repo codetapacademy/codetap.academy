@@ -1,20 +1,18 @@
-import React, { useEffect } from 'react';
-import { StyledTopMenu, StyledLink, StyledButton, StyledLogoWrapper } from './top-menu.style';
-import { WebInfoState } from '../web-info/web-info.context';
-import { auth, GitHubProvider, db } from '../data/firebase';
-import Avatar from '../avatar';
-import Logo from '../_dumb/logo/logo.component';
-import { navigate } from '@reach/router';
+import React, { useEffect, useState } from 'react'
+import { StyledTopMenu, StyledLink, StyledButton, StyledLogoWrapper } from './top-menu.style'
+import { WebInfoState } from '../web-info/web-info.context'
+import { auth, GitHubProvider, db } from '../data/firebase'
+import Avatar from '../avatar'
+import Logo from '../_dumb/logo/logo.component'
+import { navigate } from '@reach/router'
+import Button from '../_dumb/button/button.component'
 
 const TopMenu = () => {
-  const { toggleChat, updateToggleChat, user, updateUser } = WebInfoState();
-
-  const handleToggleChat = () => {
-    updateToggleChat({ type: 'TOGGLE_CHAT' });
-  };
+  const { user, updateUser } = WebInfoState()
+  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    if (user) {
+    if (user && userIsLoggedIn) {
       db.collection('user')
         .doc(user.uid)
         .onSnapshot({ includeMetadataChanges: true }, doc => {
@@ -45,6 +43,7 @@ const TopMenu = () => {
 
   const handleLogInAndOut = () => {
     if (user) {
+      setUserIsLoggedIn(false)
       auth.signOut();
       navigate('/');
       updateUser({
@@ -69,6 +68,7 @@ const TopMenu = () => {
                 .doc(uid)
                 .set({ displayName, photoURL, email }, { merge: true });
               navigate('/dashboard');
+              setUserIsLoggedIn(true)
               updateUser({
                 type: 'USER_AUTHENTICATE',
                 user: {
@@ -92,7 +92,7 @@ const TopMenu = () => {
     }
   };
 
-  const getLogInOutLabel = () => (user ? 'Ba Bye' : 'Let me in!');
+  const getLogInOutLabel = () => (user ? 'Logout' : 'Login');
 
   return (
     <StyledTopMenu>
@@ -104,20 +104,39 @@ const TopMenu = () => {
       </StyledLink>
       {user && user.isAdmin && (
         <>
-          <StyledLink to="/dashboard">Dashboard</StyledLink>
-          <StyledLink to="/manage/user">Manage user</StyledLink>
+          <Button
+            onClick={() => navigate('/dashboard')}
+            label="Dashboard"
+            marginLeft="20px"
+            color="ok"
+          />
+          <Button
+            onClick={() => navigate('/manage/user')}
+            label="Manage user"
+            marginLeft="20px"
+            color="ok"
+          />
         </>
       )}
-      {user && (
-        <>
-          <StyledLink to="/subscribe">Subscribe</StyledLink>
-        </>
-      )}
+      <Button
+        onClick={() => window.open('https://discord.gg/xcmtRYV')}
+        label="Chat"
+        marginLeft="20px"
+        color="warning"
+      />
+      <Button
+        onClick={() => navigate('/subscribe')}
+        label="Subscribe"
+        marginLeft="20px"
+        color="danger"
+      />
+      <Button
+        onClick={handleLogInAndOut}
+        label={getLogInOutLabel()}
+        marginLeft="20px"
+        color="primary"
+      />
       <Avatar user={user} />
-      <button onClick={handleLogInAndOut}>{getLogInOutLabel()}</button>
-      <StyledButton onClick={handleToggleChat}>
-        {toggleChat ? 'Invizi Chat' : 'Gimme chat now!'}
-      </StyledButton>
     </StyledTopMenu>
   );
 };

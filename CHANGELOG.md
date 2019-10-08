@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.14.0](https://github.com/codetapacademy/codetap.academy/compare/v0.13.0...v0.14.0) (2019-09-27)
+
+
+### Features
+
+* implement default selected video in private list ([4035669](https://github.com/codetapacademy/codetap.academy/commit/4035669))
+* improve private playlist and player ([8d3e2b8](https://github.com/codetapacademy/codetap.academy/commit/8d3e2b8)), closes [#276](https://github.com/codetapacademy/codetap.academy/issues/276)
+* update real-time the user plan id on subscription update ([d013e56](https://github.com/codetapacademy/codetap.academy/commit/d013e56)), closes [#269](https://github.com/codetapacademy/codetap.academy/issues/269)
+
+
+
 ## [0.13.0](https://github.com/codetapacademy/codetap.academy/compare/v0.12.0...v0.13.0) (2019-09-25)
 
 
