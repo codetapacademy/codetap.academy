@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyledTopMenu, StyledLink, StyledButton, StyledLogoWrapper } from './top-menu.style'
 import { WebInfoState } from '../web-info/web-info.context'
 import { auth, GitHubProvider, db } from '../data/firebase'
@@ -9,9 +9,10 @@ import Button from '../_dumb/button/button.component'
 
 const TopMenu = () => {
   const { user, updateUser } = WebInfoState()
+  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    if (user) {
+    if (user && userIsLoggedIn) {
       db.collection('user')
         .doc(user.uid)
         .onSnapshot({ includeMetadataChanges: true }, doc => {
@@ -46,6 +47,7 @@ const TopMenu = () => {
 
   const handleLogInAndOut = () => {
     if (user) {
+      setUserIsLoggedIn(false)
       auth.signOut();
       navigate('/');
       updateUser({
@@ -70,6 +72,7 @@ const TopMenu = () => {
                 .doc(uid)
                 .set({ displayName, photoURL, email }, { merge: true });
               navigate('/dashboard');
+              setUserIsLoggedIn(true)
               updateUser({
                 type: 'USER_AUTHENTICATE',
                 user: {
