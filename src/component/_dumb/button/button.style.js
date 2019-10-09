@@ -6,22 +6,23 @@ export const StyledButton = styled.button`
   color: white;
   border: 0;
   line-height: 40px;
-  padding: 0 20px;
+  padding: 0 1rem;
   border-radius: 20px;
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
 
-  &::before,
   &::after {
     transition: 150ms;
     content: attr(title);
     position: absolute;
     left: 0;
     right: 0;
-    height: 100%;
+    height: 40px;
   }
 
   &::before {

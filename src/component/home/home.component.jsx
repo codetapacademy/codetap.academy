@@ -13,9 +13,9 @@ const Home = () => {
     courseList: [],
   });
 
-  const handleScroll = debounce(() => {
-    setPageY(window.pageYOffset || document.documentElement.scrollTop)
-  }, 500)
+  // const handleScroll = debounce(() => {
+  //   setPageY(window.pageYOffset || document.documentElement.scrollTop)
+  // }, 500)
 
   useEffect(() => {
     (async () => {
@@ -32,11 +32,11 @@ const Home = () => {
       updateData({ courseList });
     })();
 
-    window.addEventListener('scroll', handleScroll)
+    // window.addEventListener('scroll', handleScroll)
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    // return () => {
+    //   window.removeEventListener('scroll', handleScroll)
+    // }
   }, []);
 
   const goToCoursePlayList = id => {
