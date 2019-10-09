@@ -6,6 +6,7 @@ import Avatar from '../avatar'
 import Logo from '../_dumb/logo/logo.component'
 import { navigate } from '@reach/router'
 import Button from '../_dumb/button/button.component'
+import ButtonGroup from '../_dumb/button-group/button-group.component'
 
 const TopMenu = () => {
   const { user, updateUser } = WebInfoState()
@@ -103,40 +104,40 @@ const TopMenu = () => {
         </StyledLogoWrapper>
       </StyledLink>
       {user && user.isAdmin && (
-        <>
+        <ButtonGroup>
           <Button
             onClick={() => navigate('/dashboard')}
             label="Dashboard"
-            marginLeft="20px"
+            marginLeft="1rem"
             color="ok"
           />
           <Button
             onClick={() => navigate('/manage/user')}
             label="Manage user"
-            marginLeft="20px"
+            marginLeft="1rem"
             color="ok"
           />
-        </>
+        </ButtonGroup>
       )}
       <Button
         onClick={() => window.open('https://discord.gg/xcmtRYV')}
         label="Chat"
-        marginLeft="20px"
+        marginLeft="1rem"
         color="warning"
       />
       <Button
         onClick={() => navigate('/subscribe')}
         label="Subscribe"
-        marginLeft="20px"
+        marginLeft="1rem"
         color="danger"
       />
       <Button
         onClick={handleLogInAndOut}
         label={getLogInOutLabel()}
-        marginLeft="20px"
+        marginLeft="1rem"
         color="primary"
       />
-      <Avatar user={user} />
+      <Avatar showUser={false} user={user} />
     </StyledTopMenu>
   );
 };
