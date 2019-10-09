@@ -4,10 +4,6 @@ import { Link } from '@reach/router'
 export const StyledLogoWrapper = styled.span`
   display: flex;
   align-items: center;
-/* 
-  &:hover {
-    color: black;
-  } */
 `
 
 export const StyledButton = styled.button`
@@ -46,8 +42,11 @@ export const StyledTopMenu = styled.div`
   border-bottom: 2px solid #3D465E;
   background-color: ${({ theme }) => theme.menu.background};
   padding: 0 ${({ theme }) => theme.layout.bigPadding};
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: auto 1fr auto;
+  grid-gap: 0.5rem;
+  grid-auto-flow: column;
   align-items: center;
   position: fixed;
   top: 0;

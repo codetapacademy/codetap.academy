@@ -3,10 +3,13 @@ import { StyledTopMenu, StyledLink, StyledButton, StyledLogoWrapper } from './to
 import { WebInfoState } from '../web-info/web-info.context'
 import { auth, GitHubProvider, db } from '../data/firebase'
 import Avatar from '../avatar'
-import Logo from '../_dumb/logo/logo.component'
+import Logo from '../_dumb/logo'
 import { navigate } from '@reach/router'
-import Button from '../_dumb/button/button.component'
-import ButtonGroup from '../_dumb/button-group/button-group.component'
+import Button from '../_dumb/button'
+import ButtonGroup from '../_dumb/button-group'
+import Disc from '../_dumb/disc'
+import { logoBase64 } from '../_dumb/logo/logo.data'
+import HeaderTitle from '../_dumb/header-title/header-title.component'
 
 const TopMenu = () => {
   const { user, updateUser } = WebInfoState()
@@ -94,27 +97,31 @@ const TopMenu = () => {
   };
 
   const getLogInOutLabel = () => (user ? 'Logout' : 'Login');
+  const goHome = () => {
+    navigate('/')
+    console.log('go home');
+    
+  }
 
   return (
     <StyledTopMenu>
-      <StyledLink to="/">
-        <StyledLogoWrapper title="The Web Developer Factory - Super Boost Your Career from Zero to Hired">
-          <Logo />
-          <span>CodeTap Academy</span>
-        </StyledLogoWrapper>
-      </StyledLink>
+      <Disc image={logoBase64} title="CodeTap" color="danger" onClick={goHome} />
+      <HeaderTitle
+        tag="h1"
+        title="CodeTap Academy - the Web Developer Factory"
+        text="CodeTap Academy - the Web Developer Factory"
+        link="/"
+      />
       {user && user.isAdmin && (
         <ButtonGroup>
           <Button
             onClick={() => navigate('/dashboard')}
             label="Dashboard"
-            marginLeft="1rem"
             color="ok"
           />
           <Button
             onClick={() => navigate('/manage/user')}
             label="Manage user"
-            marginLeft="1rem"
             color="ok"
           />
         </ButtonGroup>
@@ -122,22 +129,20 @@ const TopMenu = () => {
       <Button
         onClick={() => window.open('https://discord.gg/xcmtRYV')}
         label="Chat"
-        marginLeft="1rem"
         color="warning"
       />
       <Button
         onClick={() => navigate('/subscribe')}
         label="Subscribe"
-        marginLeft="1rem"
         color="danger"
       />
       <Button
         onClick={handleLogInAndOut}
         label={getLogInOutLabel()}
-        marginLeft="1rem"
         color="primary"
       />
-      <Avatar showUser={false} user={user} />
+
+      {user && <Disc image={user.photoURL} title={`${user.displayName} (${user.plan_id})`} />}
     </StyledTopMenu>
   );
 };
