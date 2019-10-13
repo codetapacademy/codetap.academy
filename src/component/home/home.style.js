@@ -1,13 +1,49 @@
 import styled from 'styled-components'
 
-export const StyledCourseList = styled.div `
+export const StyledCourseHeaderWrapper = styled.div `
+  height: 48px;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
+`
+
+export const StyledCourseTitle = styled.div `
+  font-size: 1rem;
+  line-height: 48px;
+  padding: 0 20px;
+  flex-grow: 1;
+  text-align: left;
+  font-weight: bold;
+`
+
+export const StyledTimeIcon = styled.div`
+  font-size: 1rem;
+  padding: 0 ${({ theme }) => theme.layout.defaultPadding};
+`
+
+export const StyledCourseDuration = styled.div`
+  line-height: 48px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`
+
+export const StyledCourseAuthors = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.layout.defaultPadding} ${({ theme }) => theme.layout.bigPadding};
+`
+
+export const StyledCourseList = styled.div `
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-gap: ${({ theme }) => theme.layout.bigPadding};
 `
 
 export const StyledButtonWrapper = styled.div `
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.layout.bigPadding};
 `
 
 export const StyledWatchNow = styled.button `
@@ -27,23 +63,16 @@ export const StyledWatchNow = styled.button `
 `
 
 export const StyledCourseDescription = styled.p`
-  background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
-  overflow-y: auto;
-  position: absolute;
-  /* left: 100%; */
-  height: 100%;
-  width: 100%;
-  bottom: 0;
-  padding: 0 0.5rem;
+  padding: ${({ theme }) => theme.layout.defaultPadding} 20px;
+  margin: 0;
   text-align: left;
   text-overflow: ellipsis;
-  opacity: 0;
-  transition: 0.25s;
-  margin: 0;
+  font-family: Roboto;
+  font-size: 1rem;
+  flex-grow: 1;
 `
 
 export const StyledCourseDescriptionWrapper = styled.div`
-  top: 0.5rem;
   position: relative;
   width: 100%;
   background-image: 
@@ -53,25 +82,27 @@ export const StyledCourseDescriptionWrapper = styled.div`
   padding-top: 56.25%;
   overflow: hidden;
 
+  &::after {
+    content: '';
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: 5px solid ${({ theme: { menu: { background } } }) => background};
+    position: absolute;
+    border-top-width: 0;
+  }
+
   &:hover ${StyledCourseDescription} {
     /* left: 0%; */
     opacity: 1;
   }
 `
 
-export const StyledCourseDuration = styled.div`
-  margin-top: 0.5rem;
-  display: flex;
-  justify-content: space-around;
-`
-
 export const StyledCourse = styled.div `
-  width: 325px;
-  height: 325px;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem 0;
-  border-radius: 0.5rem;
+  border-radius: ${({ theme }) => theme.layout.borderRadius};
   text-align: center;
-  background-color: ${({ theme:{menu:{background}}}) => background};
+  display: flex;
+  flex-direction: column;
+  background-color: ${({ theme: { menu: { background } } }) => background};
 `

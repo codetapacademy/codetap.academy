@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const StyledTopMenu = styled.div`
   height: 64px;
-  border-bottom: 2px solid #3D465E;
+  border-bottom: 2px solid ${({ theme }) => theme.layout.borderDark};
   background-color: ${({ theme }) => theme.menu.background};
   padding: 0 ${({ theme }) => theme.layout.bigPadding};
   display: grid;

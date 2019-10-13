@@ -9,6 +9,7 @@ import ManageUser from '../manage-user';
 import Subscribe from '../subscribe';
 import HomeOld from '../home-old';
 import CoursePlayList from '../course-play-list';
+import { Router } from '@reach/router'
 
 const WebInfo = () => {
   return (

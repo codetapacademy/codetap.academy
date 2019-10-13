@@ -5,8 +5,10 @@ const layout = {
   borderRadius: '0.5rem',
   text: '#fff',
   borderColor: '#f1f1f1',
+  borderDark: '#3D465E',
   defaultPadding: '0.5rem',
   bigPadding: '1rem',
+  bigMargin: '1rem',
 }
 
 const colorList = {
