@@ -83,6 +83,20 @@ export default {
         target: 'customAuthorData'
       }
     },
+    courseCoAuthorCustom: {
+      type: 'select',
+      placeholder: 'Select CoAuthor',
+      label: 'The co-author of the course',
+      defaultValue: '',
+      options: [],
+      edit: true,
+      visible: true,
+      value: '',
+      customAdditionalAttribute: {
+        source: 'user',
+        target: 'customCoAuthorData'
+      }
+    },
     published: {
       type: 'boolean',
       placeholder: 'toggle the publish status',
