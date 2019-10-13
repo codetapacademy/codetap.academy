@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import HeaderTitle from '../_dumb/header-title';
 import { db } from '../data/firebase';
-import { debounce } from 'lodash'
+// import { debounce } from 'lodash'
 import { navigate } from '@reach/router'
 import { StyledCourse, StyledCourseList, StyledWatchNow, StyledButtonWrapper, StyledCourseDescription, StyledCourseDescriptionWrapper, StyledCourseDuration } from './home.style';
 import Pill from '../_dumb/pill';
 import Avatar from '../avatar';
 
 const Home = () => {
-  const [pageY, setPageY] = useState(0)
+  // const [pageY, setPageY] = useState(0)
   const [data, updateData] = useState({
     courseList: [],
   });

@@ -5,8 +5,8 @@ export const StyledRouter = styled(Router)`
   /* margin: 4.5rem 1rem 0; */
   background-color: ${({ theme }) => theme.menu.backgroundSelected};
   /* min-height: 100%; */
-  margin: 1rem 1rem 1rem;
-  padding: 1rem;
+  margin: ${({ theme }) => theme.layout.bigMargin};
+  padding: ${({ theme }) => theme.layout.bigPadding};
   border-radius: ${({ theme }) => theme.layout.borderRadius};
   `
 

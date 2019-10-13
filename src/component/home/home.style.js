@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
 export const StyledCourseList = styled.div `
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-gap: ${({ theme }) => theme.layout.bigPadding};
 `
 
 export const StyledButtonWrapper = styled.div `
@@ -66,12 +67,7 @@ export const StyledCourseDuration = styled.div`
 `
 
 export const StyledCourse = styled.div `
-  width: 325px;
-  height: 325px;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem 0;
-  border-radius: 0.5rem;
+  border-radius: ${({ theme }) => theme.layout.borderRadius};
   text-align: center;
-  background-color: ${({ theme:{menu:{background}}}) => background};
+  background-color: ${({ theme: { menu: { background } } }) => background};
 `
