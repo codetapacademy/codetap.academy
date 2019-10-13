@@ -81,7 +81,7 @@ const Course = ({ courseId }) => {
         const seconds = totalSeconds % 60
         const minutes = (totalSeconds % 3600 - seconds) / 60
         const hours = ~~(totalSeconds / 3600)
-        const totalDuration = `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
+        const totalDuration = `${hours}h ${minutes}m`
 
         courseDocument.set({ totalDuration, totalSeconds }, { merge: true })
       } catch (e) {
@@ -155,6 +155,11 @@ const Course = ({ courseId }) => {
   if (courseSchema.filedList.courseAuthorCustom) {
     courseSchema.filedList.courseAuthorCustom.getOptionLabel = option => <div style={{ color: 'black' }}><Avatar user={option.user} /></div>
     courseSchema.filedList.courseAuthorCustom.options = userList
+      .map(user => ({ user: { displayName: user.displayName, photoURL: user.photoURL }, label: user.displayName, value: user.id }))
+  }
+  if (courseSchema.filedList.courseCoAuthorCustom) {
+    courseSchema.filedList.courseCoAuthorCustom.getOptionLabel = option => <div style={{ color: 'black' }}><Avatar user={option.user} /></div>
+    courseSchema.filedList.courseCoAuthorCustom.options = userList
       .map(user => ({ user: { displayName: user.displayName, photoURL: user.photoURL }, label: user.displayName, value: user.id }))
   }
 

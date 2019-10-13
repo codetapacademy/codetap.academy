@@ -3,9 +3,10 @@ import HeaderTitle from '../_dumb/header-title';
 import { db } from '../data/firebase';
 // import { debounce } from 'lodash'
 import { navigate } from '@reach/router'
-import { StyledCourse, StyledCourseList, StyledWatchNow, StyledButtonWrapper, StyledCourseDescription, StyledCourseDescriptionWrapper, StyledCourseDuration } from './home.style';
+import { StyledCourse, StyledCourseList, StyledWatchNow, StyledButtonWrapper, StyledCourseDescription, StyledCourseDescriptionWrapper, StyledCourseDuration, StyledCourseTitle, StyledCourseHeaderWrapper, StyledTimeIcon, StyledCourseAuthors } from './home.style';
 import Pill from '../_dumb/pill';
 import Avatar from '../avatar';
+import Button from '../_dumb/button';
 
 const Home = () => {
   // const [pageY, setPageY] = useState(0)
@@ -45,20 +46,30 @@ const Home = () => {
 
   const renderCourseList = () => {
     return data.courseList
-      .map(({ title, id, description, totalDuration, externalThumbnail, courseLevel, customAuthorData }) => (
+      .map(({ title, id, description, totalDuration, externalThumbnail, courseLevel, customAuthorData, customCoAuthorData }) => (
           <StyledCourse key={id}>
-            <HeaderTitle text={title} tag="h2" fontSize="1.2rem" />
+            <StyledCourseHeaderWrapper>
+              <StyledCourseTitle>{title}</StyledCourseTitle>
+              <StyledCourseDuration>
+                <StyledTimeIcon>
+                  <i className="ca-clock"></i>
+                </StyledTimeIcon>
+                {totalDuration || 'Coming soon!'}
+              </StyledCourseDuration>
+            </StyledCourseHeaderWrapper>
             <StyledCourseDescriptionWrapper externalThumbnail={externalThumbnail}>
-              <StyledCourseDescription>{description}</StyledCourseDescription>
             </StyledCourseDescriptionWrapper>
-            <StyledCourseDuration>Duration: {totalDuration || 'Coming soon :)'}</StyledCourseDuration>
-            <StyledCourseDuration>{customAuthorData && <>Author: <Avatar user={customAuthorData} /></>}</StyledCourseDuration>
+            <StyledCourseAuthors>
+              <div>{customAuthorData && <Avatar user={customAuthorData} />}</div>
+              <div>{customCoAuthorData && <Avatar user={customCoAuthorData} />}</div>
+            </StyledCourseAuthors>
+            <StyledCourseDescription>{description}</StyledCourseDescription>
             <StyledButtonWrapper>
-
-              <StyledWatchNow
+              <Button
                 onClick={() => goToCoursePlayList(id)}
-              >Watch now</StyledWatchNow>
-              
+                label="Watch now"
+                color="danger"
+              />
               {courseLevel && <Pill label="Level" value={courseLevel} />}
             </StyledButtonWrapper>
           </StyledCourse>
