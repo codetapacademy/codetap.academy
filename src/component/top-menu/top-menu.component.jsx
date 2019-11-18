@@ -6,7 +6,6 @@ import { navigate } from '@reach/router'
 import Button from '../_dumb/button'
 import ButtonGroup from '../_dumb/button-group'
 import Disc from '../_dumb/disc'
-import { logoBase64 } from '../_dumb/logo/logo.data'
 import HeaderTitle from '../_dumb/header-title/header-title.component'
 
 const TopMenu = () => {
@@ -103,7 +102,14 @@ const TopMenu = () => {
 
   return (
     <StyledTopMenu>
-      <Disc image={logoBase64} title="CodeTap" color="danger" onClick={goHome} />
+      <Disc title="CodeTap" color="danger" onClick={goHome}>
+        <div className="codetap-academy-codetap">
+          <span className="path1" />
+          <span className="path2" />
+          <span className="path3" />
+          <span className="path4" />
+        </div>
+      </Disc>
       <HeaderTitle
         tag="h1"
         title="CodeTap Academy - the Web Developer Factory"
@@ -116,11 +122,13 @@ const TopMenu = () => {
             onClick={() => navigate('/dashboard')}
             label="Dashboard"
             color="ok"
+            icon="dashboard"
           />
           <Button
             onClick={() => navigate('/manage/user')}
             label="Manage user"
             color="ok"
+            icon="users"
           />
         </ButtonGroup>
       )}
@@ -128,16 +136,19 @@ const TopMenu = () => {
         onClick={() => window.open('https://discord.gg/xcmtRYV')}
         label="Chat"
         color="warning"
+        icon="chat"
       />
       <Button
         onClick={() => navigate('/subscribe')}
         label="Subscribe"
         color="danger"
+        icon="subscribe"
       />
       <Button
         onClick={handleLogInAndOut}
         label={getLogInOutLabel()}
         color="primary"
+        icon={getLogInOutLabel().toLowerCase()}
       />
 
       {user && <Disc image={user.photoURL} title={`${user.displayName} (${user.plan_id})`} />}

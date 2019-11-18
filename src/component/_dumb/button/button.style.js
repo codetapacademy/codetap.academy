@@ -15,6 +15,12 @@ export const StyledButton = styled.button`
   overflow: hidden;
   white-space: nowrap;
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+
+  & > [class^="codetap-academy-"] {
+    padding-right: 0.5rem;
+  }
 
   &::after {
     transition: 150ms;
