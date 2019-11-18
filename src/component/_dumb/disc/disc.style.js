@@ -10,6 +10,13 @@ export const StyledDisc = styled.button`
   position: relative;
   cursor: pointer;
   border: 0;
+  font-size: 2rem;
+
+  [class^="codetap-academy-"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &::after {
     content: '';
@@ -20,9 +27,9 @@ export const StyledDisc = styled.button`
     left: 2px;
     right: 2px;
     bottom: 2px;
-
-    background-image: url('${({ image }) => image}');
+    ${({ image }) => image ? `background-image: url('${image}');
     background-size: cover;
-    background-position: center center;
+    background-position: center center;` : ''}
+    
   }
 `
