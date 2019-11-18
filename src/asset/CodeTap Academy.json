@@ -8,6 +8,15 @@
     {
       "selection": [
         {
+          "order": 18,
+          "prevSize": 16,
+          "ligatures": "clock, time2",
+          "name": "clock",
+          "id": 7,
+          "code": 59981,
+          "tempChar": ""
+        },
+        {
           "order": 9,
           "id": 6,
           "name": "codetap",
@@ -20,10 +29,10 @@
             59651
           ],
           "tempChar": [
-            "",
-            "",
-            "",
-            ""
+            "",
+            "",
+            "",
+            ""
           ]
         },
         {
@@ -33,7 +42,7 @@
           "name": "subscribe",
           "id": 0,
           "code": 59907,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 11,
@@ -42,7 +51,7 @@
           "name": "chat",
           "id": 1,
           "code": 60126,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 12,
@@ -51,7 +60,7 @@
           "name": "users",
           "id": 2,
           "code": 60152,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 13,
@@ -60,7 +69,7 @@
           "name": "dashboard",
           "id": 3,
           "code": 60251,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 14,
@@ -69,7 +78,7 @@
           "name": "login",
           "id": 4,
           "code": 60794,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 15,
@@ -78,7 +87,7 @@
           "name": "logout",
           "id": 5,
           "code": 60795,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 1,
@@ -88,6 +97,22 @@
       "height": 1024,
       "prevSize": 32,
       "icons": [
+        {
+          "id": 7,
+          "paths": [
+            "M658.744 749.256l-210.744-210.746v-282.51h128v229.49l173.256 173.254zM512 0c-282.77 0-512 229.23-512 512s229.23 512 512 512 512-229.23 512-512-229.23-512-512-512zM512 896c-212.078 0-384-171.922-384-384s171.922-384 384-384c212.078 0 384 171.922 384 384s-171.922 384-384 384z"
+          ],
+          "attrs": [],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "clock",
+            "time",
+            "schedule"
+          ],
+          "defaultCode": 59981,
+          "grid": 16
+        },
         {
           "id": 6,
           "paths": [
