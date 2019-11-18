@@ -13,6 +13,9 @@ export const StyledTitle = styled.h1`
   margin: 0;
   font-size: ${({ fontSize }) => fontSize};
   color: white;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const DynamicStyledTitle = wrapTitle(StyledTitle);

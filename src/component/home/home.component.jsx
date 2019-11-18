@@ -52,7 +52,7 @@ const Home = () => {
               <StyledCourseTitle>{title}</StyledCourseTitle>
               <StyledCourseDuration>
                 <StyledTimeIcon>
-                  <i className="ca-clock"></i>
+                  <i className="codetap-academy-clock"></i>
                 </StyledTimeIcon>
                 {totalDuration || 'Coming soon!'}
               </StyledCourseDuration>
