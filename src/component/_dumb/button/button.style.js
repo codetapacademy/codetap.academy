@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const StyledButton = styled.button`
   background-color: ${({ theme, color }) => theme.colorList[color] || 'primary'};
+  filter: grayscale(${({ disabled }) => disabled ? '85%' : '0'});
   ${({ marginLeft }) => marginLeft && `margin-left: ${marginLeft}`};
   color: white;
   border: 0;

@@ -3,22 +3,53 @@ import axios from 'axios'
 import { urlEncode } from '../util';
 import { WebInfoState } from '../web-info/web-info.context';
 import subscribeConfig from './subscribe.config'
-import { StyledSubscribeList, StyledSubscribeItem, StyledSubscribeTitle, StyledSubscribePrice, StyledSubscribeRangeWrapper, StyledSubscribeButton, StyledSubscribeMinMax } from './subscribe.style';
+import { withStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider';
+import { StyledSubscribeButton, StyledSubscribePanel, StyledSubscribeLabelWrapper, StyledSubscribeLabel, StyledSubscribeFeature, StyledSubscribeFeatureLabel, StyledSubscribeAmount, StyledSubscribeSliderInfo, StyledSubscribeButtonWrapper, StyledSubscribeUser } from './subscribe.style';
+import Button from '../_dumb/button';
+const SubscribeSlider = withStyles({
+  root: {
+    color: '#d52027',
+    height: 8,
+  },
+  thumb: {
+    height: 24,
+    width: 24,
+    backgroundColor: '#fff',
+    border: '2px solid currentColor',
+    marginTop: -8,
+    marginLeft: -12,
+    '&:focus,&:hover,&$active': {
+      boxShadow: 'inherit',
+    },
+  },
+  active: {},
+  valueLabel: {
+    left: 'calc(-50% + 4px)',
+  },
+  track: {
+    height: 8,
+    borderRadius: 4,
+  },
+  rail: {
+    height: 8,
+    borderRadius: 4,
+  },
+})(Slider);
+
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 const cbInstance = window.Chargebee.init({
   site: 'bitbeeuk'
 })
 
 const Subscribe = () => {
-  const [subscribeList, updateSubscribeList] = useState(subscribeConfig)
+  const [selected, updateSelected] = useState(2)
   const [customer, updateCustomer] = useState(subscribeConfig)
-  const [accepted, setAccepted] = useState(subscribeConfig)
   const { user } = WebInfoState();
 
   useEffect(() => {
     const [first_name, last_name] = ((user && user.displayName) || ' ').split(' ')
-    const { email, uid, accepted = false } = user || {}
-    setAccepted(accepted)
+    const { email, uid } = user || {}
 
     const cart = cbInstance.getCart();
     updateCustomer({
@@ -37,7 +68,7 @@ const Subscribe = () => {
   const handlePortal = () => {
     cbInstance.createChargebeePortal().open({
       loaded: () => {
-        console.log('createChargebeePortal loaded')
+        // console.log('createChargebeePortal loaded')
       }
     })
     // cbInstance.setPortalSession(() => {
@@ -51,11 +82,12 @@ const Subscribe = () => {
     // });
   }
 
-  const handleSubscribe = (value, plan_id) => {
+  const handleSubscribe = () => {
+    const plan_id = subscribeConfig.marks[selected].plan_id
     cbInstance.openCheckout({
       hostedPage: () => axios
         .post(`https://api2.codetap.academy/generate_checkout_new_url`, urlEncode({
-          plan_id: `${plan_id}_${value}`,
+          plan_id,
           customer: JSON.stringify(customer),
         }))
         .then(({ data }) => {
@@ -74,73 +106,80 @@ const Subscribe = () => {
     })
   }
 
-  const handleSelectSubscribe = index => {
-    updateSubscribeList(
-      subscribeList.map((s, k) => k === index ? ({ ...s, selected: true }) : ({ ...s, selected: false }))
-    )
-  }
-
   const onSliderChange = (e, index) => {
-    const { value } = e.target
-    updateSubscribeList(
-      subscribeList.map((s, k) => k === index ? ({ ...s, value }) : s)
-    )
+    updateSelected(index)
   }
 
   return (
-    <div>
-      <h1>Subscribe</h1>
-      <h2>You get to choose how much you pay, literally!</h2>
-      <StyledSubscribeList>
-        {subscribeList.map(({ title, selected, value, disabled, range: { min, max, step }, featureList, plan_id }, index) => {
-          if (accepted && plan_id === 'mentored') {
-            disabled = false
-          }
-          return (
-            <StyledSubscribeItem key={index} selected={selected}>
-              <StyledSubscribeTitle>{title}</StyledSubscribeTitle>
-              <StyledSubscribePrice>{value > 0 ? `£${value}` : 'FREE'}</StyledSubscribePrice>
-              <StyledSubscribeRangeWrapper>
-                <span>£{min}</span>
-                <input
-                  type="range"
-                  value={value}
-                  min={min}
-                  max={max}
-                  disabled={disabled}
-                  step={step}
-                  onChange={e => onSliderChange(e, index)}
-                  onClick={() => handleSelectSubscribe(index)}
-                />
-                <span>£{max}</span>
-              </StyledSubscribeRangeWrapper>
-              <ul>
-                {featureList.map((feature, k) => <li key={k}>{feature}</li>)}
-              </ul>
-              {/* this is when the user has not subscribed yet */}
-              {user && !user.customer_id && <>
-                <StyledSubscribeButton
-                  onClick={() => handleSubscribe(value, plan_id)}
-                  disabled={disabled}
-                >
-                  {value > 0 ? `Pay £${value} & Join` : 'Join for FREE'}
-                </StyledSubscribeButton>
-              </>}
+    <StyledSubscribePanel>
+      <StyledSubscribeLabelWrapper>
+        {subscribeConfig.marks.map(({ label }, index) => <StyledSubscribeLabel selected={index === selected}>{label}</StyledSubscribeLabel>)}
+      </StyledSubscribeLabelWrapper>
+      <StyledSubscribeAmount>£{subscribeConfig.marks[selected].amount} <StyledSubscribeSliderInfo>
+        monthly
+      </StyledSubscribeSliderInfo></StyledSubscribeAmount>
+      <SubscribeSlider
+        valueLabelDisplay="off"
+        aria-label="Subscribe slider"
+        defaultValue={2}
+        max={5}
+        onChange={onSliderChange}
+      />
+      <StyledSubscribeSliderInfo>Use the slider to select how quickly you want to become successful. The more you go to the right, the faster you progress and the shorter the time until you become successful. The record <strong>From Zero to Hired</strong>, in just 7 Weeks, is hold by two of our students: <StyledSubscribeUser>@QuintyHH#9308</StyledSubscribeUser> and <StyledSubscribeUser>
+        @Razvan Puscasu#2356</StyledSubscribeUser>.</StyledSubscribeSliderInfo>
 
-              {/* this user has a customer_id, which means she/he has subscribed */}
-              {user && user.customer_id && <>
-                <StyledSubscribeButton
-                  bgcolor="#ebad1a"
-                  onClick={handlePortal}
-                >
-                  Manage your Subscription
-                </StyledSubscribeButton>
-              </>}
-            </StyledSubscribeItem>
-          )
-        })}
-      </StyledSubscribeList>
-    </div>
+      <pre>{JSON.stringify(user)}</pre>
+
+      <StyledSubscribeButtonWrapper>
+        {(!user || user && !user.customer_id) &&
+          <Button
+            onClick={handleSubscribe}
+            label="Subscribe Now"
+            color="danger"
+            icon="subscribe"
+            disabled={!user}
+          />
+        }
+        {user && user.customer_id &&
+          <Button
+            onClick={handlePortal}
+            label="Manage Your Subscription"
+            color="warning"
+            icon="subscribe"
+          />
+        }
+      </StyledSubscribeButtonWrapper>
+
+      <StyledSubscribeSliderInfo>To be able to subscribe you want to authenticate. Click on the <strong>Login</strong> button located at the top right of this page. Use your GitHub account to authenticate. If you do not have a GitHub account, in the popup that opens, choose to <strong>Create an account</strong>.</StyledSubscribeSliderInfo>
+
+      <StyledSubscribeLabelWrapper>
+        {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= subscribeConfig.marks[selected].amount}>
+          <StyledSubscribeFeatureLabel>
+            {label}
+          </StyledSubscribeFeatureLabel>
+          <div className="codetap-academy-check"></div>
+        </StyledSubscribeFeature>)}
+      </StyledSubscribeLabelWrapper>
+
+      <StyledSubscribeButtonWrapper>
+        {user && !user.customer_id &&
+          <Button
+            onClick={handleSubscribe}
+            label="Subscribe Now"
+            color="danger"
+            icon="subscribe"
+          />
+        }
+        {user && user.customer_id &&
+          <Button
+            onClick={handlePortal}
+            label="Manage Your Subscription"
+            color="warning"
+            icon="subscribe"
+          />
+        }
+      </StyledSubscribeButtonWrapper>
+    </StyledSubscribePanel>
   )
 }
 

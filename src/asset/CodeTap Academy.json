@@ -8,19 +8,37 @@
     {
       "selection": [
         {
-          "order": 18,
+          "order": 32,
+          "prevSize": 16,
+          "ligatures": "sort-time-asc, arrange7",
+          "name": "subscribe",
+          "id": 9,
+          "code": 61010,
+          "tempChar": ""
+        },
+        {
+          "order": 33,
+          "prevSize": 16,
+          "ligatures": "checkmark4, tick4",
+          "name": "check",
+          "id": 8,
+          "code": 60786,
+          "tempChar": ""
+        },
+        {
+          "order": 34,
           "prevSize": 16,
           "ligatures": "clock, time2",
           "name": "clock",
           "id": 7,
           "code": 59981,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 9,
+          "order": 35,
           "id": 6,
           "name": "codetap",
-          "prevSize": 32,
+          "prevSize": 16,
           "code": 59648,
           "codes": [
             59648,
@@ -29,65 +47,65 @@
             59651
           ],
           "tempChar": [
-            "",
-            "",
-            "",
-            ""
+            "",
+            "",
+            "",
+            ""
           ]
         },
         {
-          "order": 10,
+          "order": 36,
           "prevSize": 16,
           "ligatures": "cart-add, cart6",
-          "name": "subscribe",
+          "name": "cart",
           "id": 0,
           "code": 59907,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 11,
+          "order": 37,
           "prevSize": 16,
           "ligatures": "bubbles9, comments9",
           "name": "chat",
           "id": 1,
           "code": 60126,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 12,
+          "order": 38,
           "prevSize": 16,
           "ligatures": "users, group",
           "name": "users",
           "id": 2,
           "code": 60152,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 13,
+          "order": 39,
           "prevSize": 16,
           "ligatures": "equalizer, sliders",
           "name": "dashboard",
           "id": 3,
           "code": 60251,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 14,
+          "order": 40,
           "prevSize": 16,
           "ligatures": "enter3, signin3",
           "name": "login",
           "id": 4,
           "code": 60794,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 15,
+          "order": 41,
           "prevSize": 16,
           "ligatures": "exit3, signout3",
           "name": "logout",
           "id": 5,
           "code": 60795,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 1,
@@ -97,6 +115,42 @@
       "height": 1024,
       "prevSize": 32,
       "icons": [
+        {
+          "id": 9,
+          "paths": [
+            "M469.332 170.668c-23.566 0-42.668 19.104-42.668 42.668v256c0 23.564 19.102 42.668 42.668 42.668h170.668c23.566 0 42.668-19.104 42.668-42.668s-19.102-42.668-42.668-42.668h-128v-213.332c0-23.564-19.102-42.668-42.668-42.668z",
+            "M938.668 426.668c0-235.264-191.398-426.668-426.668-426.668s-426.668 191.404-426.668 426.668v42.668c0 23.564 19.104 42.668 42.668 42.668s42.668-19.104 42.668-42.668v-42.668c0-188.212 153.122-341.332 341.332-341.332s341.332 153.12 341.332 341.332c0 158.756-108.944 292.546-256 330.532v-159.868l-256 213.332 256 213.332v-179.246c194.516-39.642 341.332-212.042 341.332-418.090z"
+          ],
+          "attrs": [],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "sort-time-asc",
+            "arrange",
+            "date",
+            "subscribe"
+          ],
+          "defaultCode": 61010,
+          "grid": 16
+        },
+        {
+          "id": 8,
+          "paths": [
+            "M983.058 64c-334.5 253.166-655.302 591.8-655.302 591.8l-231.18-207.8-96.576 98.378c95.016 89.302 315.162 325.198 389.632 413.622 209.59-350.18 427.478-611.336 634.368-850.154l-40.942-45.846z"
+          ],
+          "attrs": [],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "checkmark",
+            "tick",
+            "correct",
+            "accept",
+            "ok"
+          ],
+          "defaultCode": 60786,
+          "grid": 16
+        },
         {
           "id": 7,
           "paths": [
@@ -137,7 +191,7 @@
           ],
           "isMulticolor": true,
           "isMulticolor2": false,
-          "grid": 0,
+          "grid": 16,
           "tags": [
             "codetap"
           ],
@@ -269,7 +323,23 @@
           "grid": 16
         }
       ],
-      "colorThemes": []
+      "colorThemes": [
+        [
+          [
+            213,
+            32,
+            39,
+            1
+          ],
+          [
+            255,
+            255,
+            255,
+            1
+          ]
+        ]
+      ],
+      "colorThemeIdx": 0
     },
     {
       "selection": [
@@ -8216,7 +8286,9 @@
           "prevSize": 16,
           "ligatures": "cross3, cancel4",
           "name": "cross3",
-          "id": 1134
+          "id": 1134,
+          "code": 60782,
+          "tempChar": ""
         },
         {
           "order": 0,
@@ -9808,11 +9880,13 @@
           "id": 1361
         },
         {
-          "order": 0,
+          "order": 31,
           "prevSize": 16,
           "ligatures": "sort-time-asc, arrange7",
           "name": "sort-time-asc",
-          "id": 1362
+          "id": 1362,
+          "code": 61011,
+          "tempChar": ""
         },
         {
           "order": 0,
@@ -40698,6 +40772,7 @@
       "color": 0,
       "bgColor": 16777215
     },
-    "historySize": 50
+    "historySize": 50,
+    "gridSize": 16
   }
 }
