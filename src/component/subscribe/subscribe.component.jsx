@@ -128,8 +128,6 @@ const Subscribe = () => {
       <StyledSubscribeSliderInfo>Use the slider to select how quickly you want to become successful. The more you go to the right, the faster you progress and the shorter the time until you become successful. The record <strong>From Zero to Hired</strong>, in just 7 Weeks, is hold by two of our students: <StyledSubscribeUser>@QuintyHH#9308</StyledSubscribeUser> and <StyledSubscribeUser>
         @Razvan Puscasu#2356</StyledSubscribeUser>.</StyledSubscribeSliderInfo>
 
-      <pre>{JSON.stringify(user)}</pre>
-
       <StyledSubscribeButtonWrapper>
         {(!user || user && !user.customer_id) &&
           <Button

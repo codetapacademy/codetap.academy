@@ -19,6 +19,10 @@ export const StyledButton = styled.button`
   display: inline-flex;
   align-items: center;
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   & > [class^="codetap-academy-"] {
     padding-right: 0.5rem;
   }
