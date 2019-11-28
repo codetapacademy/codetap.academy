@@ -160,7 +160,7 @@ const Subscribe = () => {
       </StyledSubscribeLabelWrapper>
 
       <StyledSubscribeButtonWrapper>
-        {user && !user.customer_id &&
+        {(!user || user && !user.customer_id) &&
           <Button
             onClick={handleSubscribe}
             label="Subscribe Now"
