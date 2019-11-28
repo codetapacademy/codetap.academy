@@ -104,10 +104,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.codetap-academy-subscribe:before {
+  content: "\ee52";
+}
+.codetap-academy-check:before {
+  content: "\ed72";
+}
 .codetap-academy-clock:before {
   content: "\ea4d";
 }
-.codetap-academy-subscribe:before {
+.codetap-academy-cart:before {
   content: "\ea03";
 }
 .codetap-academy-chat:before {
