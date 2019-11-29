@@ -1,5 +1,5 @@
 export default {
-  marks: [
+  planList: [
     { plan_id: 'supporter_0', selected: false, amount: 0, label: 'FREE' },
     { plan_id: 'starter_10', selected: false, amount: 10, label: 'Starter' },
     { plan_id: 'wise_25', selected: true, amount: 25, label: 'Wise' },
