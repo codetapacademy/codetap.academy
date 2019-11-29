@@ -9,6 +9,7 @@ export const StyledTurtleListSpecial = styled.div`
 export const StyledTurtleList = styled.div`
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 `
 
 export const StyledTurtle = styled.div`
