@@ -1,5 +1,37 @@
 import styled from 'styled-components'
 
+export const StyledTurtleListSpecial = styled.div`
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+  padding: 1rem 0;
+`
+
+export const StyledTurtleList = styled.div`
+  display: flex;
+  justify-content: space-around;
+`
+
+export const StyledTurtle = styled.div`
+  width: 140px;
+  height: 140px;
+  background-image: url(${({ image }) => image});
+  transition: 250ms;
+  opacity: ${({ selected }) => selected ? 1 : 0.65};
+  background-position-x: -${({ niceIndex }) => niceIndex * 140}px;
+  position: relative;
+
+  &::after {
+    content: '${({ title }) => title}';
+    display: block;
+    text-align: center;
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 100%;
+    font-weight: ${({ selected }) => selected ? 'bold' : 'normal'};
+  }
+`
+
 export const StyledSubscribeAmount = styled.div`
   display: flex;
   justify-content: center;

@@ -5,8 +5,10 @@ import { WebInfoState } from '../web-info/web-info.context';
 import subscribeConfig from './subscribe.config'
 import { withStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import { StyledSubscribeButton, StyledSubscribePanel, StyledSubscribeLabelWrapper, StyledSubscribeLabel, StyledSubscribeFeature, StyledSubscribeFeatureLabel, StyledSubscribeAmount, StyledSubscribeSliderInfo, StyledSubscribeButtonWrapper, StyledSubscribeUser } from './subscribe.style';
+import { StyledSubscribeButton, StyledSubscribePanel, StyledSubscribeLabelWrapper, StyledSubscribeLabel, StyledSubscribeFeature, StyledSubscribeFeatureLabel, StyledSubscribeAmount, StyledSubscribeSliderInfo, StyledSubscribeButtonWrapper, StyledSubscribeUser, StyledTurtle, StyledTurtleList, StyledTurtleListSpecial } from './subscribe.style';
 import Button from '../_dumb/button';
+import turtleStatesImage from './turtle-states.png'
+
 const SubscribeSlider = withStyles({
   root: {
     color: '#d52027',
@@ -83,7 +85,7 @@ const Subscribe = () => {
   }
 
   const handleSubscribe = () => {
-    const plan_id = subscribeConfig.marks[selected].plan_id
+    const plan_id = subscribeConfig.planList[selected].plan_id
     cbInstance.openCheckout({
       hostedPage: () => axios
         .post(`https://api2.codetap.academy/generate_checkout_new_url`, urlEncode({
@@ -110,12 +112,18 @@ const Subscribe = () => {
     updateSelected(index)
   }
 
+  const getSubscribeMessage = () => {
+    return selected === subscribeConfig.planList.length - 1
+      ? 'Help me get hired quicker'
+      : 'Subscribe now'
+  }
+
   return (
     <StyledSubscribePanel>
       <StyledSubscribeLabelWrapper>
-        {subscribeConfig.marks.map(({ label }, index) => <StyledSubscribeLabel selected={index === selected}>{label}</StyledSubscribeLabel>)}
+        {subscribeConfig.planList.map(({ label }, index) => <StyledSubscribeLabel selected={index === selected}>{label}</StyledSubscribeLabel>)}
       </StyledSubscribeLabelWrapper>
-      <StyledSubscribeAmount>£{subscribeConfig.marks[selected].amount} <StyledSubscribeSliderInfo>
+      <StyledSubscribeAmount>£{subscribeConfig.planList[selected].amount} <StyledSubscribeSliderInfo>
         monthly
       </StyledSubscribeSliderInfo></StyledSubscribeAmount>
       <SubscribeSlider
@@ -125,14 +133,37 @@ const Subscribe = () => {
         max={5}
         onChange={onSliderChange}
       />
-      <StyledSubscribeSliderInfo>Use the slider to select how quickly you want to become successful. The more you go to the right, the faster you progress and the shorter the time until you become successful. The record <strong>From Zero to Hired</strong>, in just 7 Weeks, is hold by two of our students: <StyledSubscribeUser>@QuintyHH#9308</StyledSubscribeUser> and <StyledSubscribeUser>
-        @Razvan Puscasu#2356</StyledSubscribeUser>.</StyledSubscribeSliderInfo>
+      <StyledSubscribeSliderInfo>
+        Use the slider to select how quickly you want to become successful. The more you go to the right, the faster you progress and the shorter the time until you become successful. The record <strong>From Zero to Hired</strong>, in just 7 Weeks, is hold by two of our students: <StyledSubscribeUser>@QuintyHH#9308</StyledSubscribeUser> and <StyledSubscribeUser>
+          @Razvan Puscasu#2356</StyledSubscribeUser>.
+      </StyledSubscribeSliderInfo>
+
+      <StyledTurtleListSpecial>
+        <StyledTurtleList>
+          {subscribeConfig.planList.map(({ label }, index) => {
+            return (
+              <StyledTurtle
+                selected={index === selected}
+                niceIndex={index}
+                title={label}
+                image={turtleStatesImage}
+              />
+            )
+          })}
+        </StyledTurtleList>
+        <StyledTurtle
+          selected={true}
+          niceIndex={subscribeConfig.planList.length}
+          title="Super mentored"
+          image={turtleStatesImage}
+        />
+      </StyledTurtleListSpecial>
 
       <StyledSubscribeButtonWrapper>
         {(!user || user && !user.customer_id) &&
           <Button
             onClick={handleSubscribe}
-            label="Subscribe Now"
+            label={getSubscribeMessage()}
             color="danger"
             icon="subscribe"
             disabled={!user}
@@ -149,9 +180,11 @@ const Subscribe = () => {
       </StyledSubscribeButtonWrapper>
 
       <StyledSubscribeSliderInfo>To be able to subscribe you want to authenticate. Click on the <strong>Login</strong> button located at the top right of this page. Use your GitHub account to authenticate. If you do not have a GitHub account, in the popup that opens, choose to <strong>Create an account</strong>.</StyledSubscribeSliderInfo>
+      <StyledSubscribeSliderInfo>You can guarantee yourself that you'll become a web developer as long as you make this your number 1 priority and put all the effort you can into it.</StyledSubscribeSliderInfo>
+      <StyledSubscribeSliderInfo>The hight demand of good web developer on the market guarantees your job or client.</StyledSubscribeSliderInfo>
 
       <StyledSubscribeLabelWrapper>
-        {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= subscribeConfig.marks[selected].amount}>
+        {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= subscribeConfig.planList[selected].amount}>
           <StyledSubscribeFeatureLabel>
             {label}
           </StyledSubscribeFeatureLabel>
@@ -163,7 +196,7 @@ const Subscribe = () => {
         {(!user || user && !user.customer_id) &&
           <Button
             onClick={handleSubscribe}
-            label="Subscribe Now"
+            label={getSubscribeMessage()}
             color="danger"
             icon="subscribe"
           />
