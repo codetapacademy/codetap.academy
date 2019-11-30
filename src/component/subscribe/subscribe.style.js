@@ -21,6 +21,10 @@ export const StyledTurtle = styled.div`
   background-position-x: -${({ niceIndex }) => niceIndex * 140}px;
   position: relative;
 
+  @media (max-width: 768px) {
+    display: ${({ selected }) => selected ? 'initial' : 'none'};;
+  }
+
   &::after {
     content: '${({ title }) => title}';
     display: block;
