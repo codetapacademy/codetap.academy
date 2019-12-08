@@ -58,23 +58,32 @@ export const StyledSubscribeFeatureLabel = styled.div`
   flex-grow: 1;
 `
 
+export const StyledSubscribeLabelWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: ${({ theme }) => theme.layout.defaultPadding};
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (min-width: 1180px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`
+
 export const StyledSubscribeFeature = styled.div`
   & > .codetap-academy-check {
     color: ${({ theme, selected }) => selected ? '#0f0' : theme.menu.other};
-    padding: ${({ theme }) => theme.layout.bigPadding};
-    font-size: 2.5rem;
   }
   transition: 250ms;
   padding: ${({ theme }) => theme.layout.defaultPadding};
-  flex-basis: 100%;
+  flex-basis: 40%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-grow: 1;
-
-  &:nth-child(odd) {
-    background-color: ${({ theme }) => theme.menu.backgroundSelected};
-  }
+  border: 1px dashed ${({ theme }) => theme.menu.selected};
 `
 
 export const StyledSubscribeLabel = styled.div`
@@ -88,18 +97,13 @@ export const StyledSubscribeLabel = styled.div`
   justify-content: center;
   flex-grow: 1;
   white-space: nowrap;
+  cursor: pointer;
 `
 
 export const StyledSubscribeButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: ${({ theme }) => theme.layout.bigPadding} 0;
-`
-
-export const StyledSubscribeLabelWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
   margin: ${({ theme }) => theme.layout.bigPadding} 0;
 `
 
