@@ -12,7 +12,7 @@ export default {
     { amount: 10, label: 'You get access to all the published videos of starter level without having to wait for them to be released' },
     { amount: 25, label: 'You get access to all the published videos of starter and junior level without having to wait for them to be released' },
     { amount: 50, label: 'You get access to all the published videos of starter, junior and mid level without having to wait for them to be released' },
-    { amount: 50, label: 'You get your own personalised your_name@codetap.academy email' },
+    { amount: 75, label: 'You get your own personalised your_name@codetap.academy email' },
     { amount: 75, label: 'You get access to all the published videos of starter, junior, mid and senior level without having to wait for them to be released' },
     { amount: 75, label: 'You get to see the videos as soon as we press the STOP RECORD button' },
     { amount: 75, label: 'You get manual personalised recommendation from your mentor when employers ask for references' },
