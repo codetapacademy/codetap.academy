@@ -115,13 +115,13 @@ const Subscribe = () => {
   const getSubscribeMessage = () => {
     return selected === subscribeConfig.planList.length - 1
       ? 'Help me get hired quicker'
-      : 'Subscribe now'
+      : user ? 'Subscribe now' : 'Subscribe (Click the login button)'
   }
 
   return (
     <StyledSubscribePanel>
       <StyledSubscribeLabelWrapper>
-        {subscribeConfig.planList.map(({ label }, index) => <StyledSubscribeLabel selected={index === selected}>{label}</StyledSubscribeLabel>)}
+        {subscribeConfig.planList.map(({ label }, index) => <StyledSubscribeLabel onClick={() => updateSelected(index)} selected={index === selected}>{label}</StyledSubscribeLabel>)}
       </StyledSubscribeLabelWrapper>
       <StyledSubscribeAmount>£{subscribeConfig.planList[selected].amount} <StyledSubscribeSliderInfo>
         monthly
@@ -134,8 +134,7 @@ const Subscribe = () => {
         onChange={onSliderChange}
       />
       <StyledSubscribeSliderInfo>
-        Use the slider to select how quickly you want to become successful. The more you go to the right, the faster you progress and the shorter the time until you become successful. The record <strong>From Zero to Hired</strong>, in just 7 Weeks, is hold by two of our students: <StyledSubscribeUser>@QuintyHH#9308</StyledSubscribeUser> and <StyledSubscribeUser>
-          @Razvan Puscasu#2356</StyledSubscribeUser>.
+        Use the slider to select how quickly you want to become successful. The more you go to the right, the faster you progress and the shorter the time until you become successful. The quickest <strong>From Zero to Hired</strong>, has been achieved by two of our students in just 7 weeks, a few managed to do it in 2 months, most of them in 3 to 4 months and others longer than that.
       </StyledSubscribeSliderInfo>
 
       <StyledTurtleListSpecial>
@@ -179,9 +178,7 @@ const Subscribe = () => {
         }
       </StyledSubscribeButtonWrapper>
 
-      <StyledSubscribeSliderInfo>To be able to subscribe you want to authenticate. Click on the <strong>Login</strong> button located at the top right of this page. Use your GitHub account to authenticate. If you do not have a GitHub account, in the popup that opens, choose to <strong>Create an account</strong>.</StyledSubscribeSliderInfo>
-      <StyledSubscribeSliderInfo>You can guarantee yourself that you'll become a web developer as long as you make this your number 1 priority and put all the effort you can into it.</StyledSubscribeSliderInfo>
-      <StyledSubscribeSliderInfo>The hight demand of good web developer on the market guarantees your job or client.</StyledSubscribeSliderInfo>
+      {!user && <StyledSubscribeSliderInfo>To be able to subscribe you want to authenticate. Click on the <strong>Login</strong> button located at the top right of this page. Use your GitHub account to authenticate. If you do not have a GitHub account, in the popup that opens, choose to <strong>Create an account</strong>.</StyledSubscribeSliderInfo>}
 
       <StyledSubscribeLabelWrapper>
         {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= subscribeConfig.planList[selected].amount}>
@@ -199,6 +196,7 @@ const Subscribe = () => {
             label={getSubscribeMessage()}
             color="danger"
             icon="subscribe"
+            disabled={!user}
           />
         }
         {user && user.customer_id &&
