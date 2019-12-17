@@ -9,7 +9,8 @@ import ManageUser from '../manage-user';
 import Subscribe from '../subscribe';
 import HomeOld from '../home-old';
 import CoursePlayList from '../course-play-list';
-import { Router } from '@reach/router'
+// import { Router } from '@reach/router'
+import { QuickProfile } from '../quick-profile';
 
 const WebInfo = () => {
   return (
@@ -23,6 +24,7 @@ const WebInfo = () => {
           <Lecture path="/manage/lecture/:lectureId" />
           <PlayVideo path="/video/:youtubeVideoId" />
           <CoursePlayList path="/course/:courseId" />
+          <QuickProfile path="/manage/profile" />
           <ManageUser path="/manage/user" />
           <Subscribe path="/subscribe" />
         </StyledRouter>
