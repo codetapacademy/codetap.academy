@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyledTopMenu, StyledTopDescription } from './top-menu.style'
+import { StyledTopMenu, StyledDropDownMenu } from './top-menu.style'
 import { WebInfoState } from '../web-info/web-info.context'
 import { auth, GitHubProvider, db } from '../data/firebase'
 import { navigate } from '@reach/router'
@@ -11,6 +11,7 @@ import HeaderTitle from '../_dumb/header-title/header-title.component'
 const TopMenu = () => {
   const { user, updateUser } = WebInfoState()
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
+  const [showDropDownMenu, setShowDropDownMenu] = useState(false)
 
   useEffect(() => {
     if (user && userIsLoggedIn) {
@@ -36,7 +37,7 @@ const TopMenu = () => {
               accepted
             }
           });
-      })
+        })
 
     }
 
@@ -97,7 +98,12 @@ const TopMenu = () => {
   const goHome = () => {
     navigate('/')
     console.log('go home');
-    
+
+  }
+
+  const toggleDropDownMenu = () => {
+    console.log('toggleDropDownMenu', showDropDownMenu)
+    setShowDropDownMenu(!showDropDownMenu)
   }
 
   return (
@@ -116,22 +122,6 @@ const TopMenu = () => {
         text="CodeTap Academy - the Web Developer Factory"
         link="/"
       />
-      {user && user.isAdmin && (
-        <ButtonGroup>
-          <Button
-            onClick={() => navigate('/dashboard')}
-            label="Dashboard"
-            color="ok"
-            icon="dashboard"
-          />
-          <Button
-            onClick={() => navigate('/manage/user')}
-            label="Manage user"
-            color="ok"
-            icon="users"
-          />
-        </ButtonGroup>
-      )}
       <Button
         onClick={() => window.open('https://discord.gg/xcmtRYV')}
         label="Chat"
@@ -144,14 +134,51 @@ const TopMenu = () => {
         color="danger"
         icon="subscribe"
       />
-      <Button
+      {!user && <Button
         onClick={handleLogInAndOut}
         label={getLogInOutLabel()}
         color="primary"
         icon={getLogInOutLabel().toLowerCase()}
-      />
+      />}
 
-      {user && <Disc image={user.photoURL} title={`${user.displayName} (${user.plan_id})`} />}
+      {user && (
+        <>
+          <Disc
+            image={user.photoURL}
+            title={`${user.displayName} (${user.plan_id})`}
+            onClick={toggleDropDownMenu}
+          />
+          {showDropDownMenu && (
+            <StyledDropDownMenu>
+              <div>
+                {`${user.displayName} (${user.plan_id})`}
+              </div>
+              {user && user.isAdmin && (
+                <>
+                  <Button
+                    onClick={() => navigate('/dashboard')}
+                    label="Dashboard"
+                    color="ok"
+                    icon="dashboard"
+                  />
+                  <Button
+                    onClick={() => navigate('/manage/user')}
+                    label="Manage user"
+                    color="ok"
+                    icon="users"
+                  />
+                </>
+              )}
+              <Button
+                onClick={handleLogInAndOut}
+                label={getLogInOutLabel()}
+                color="primary"
+                icon={getLogInOutLabel().toLowerCase()}
+              />
+            </StyledDropDownMenu>
+          )}
+        </>
+      )}
     </StyledTopMenu>
   );
 };
