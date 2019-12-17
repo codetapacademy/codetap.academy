@@ -29,7 +29,7 @@ const QuickProfile = () => {
           type="text"
           id="firstName"
           name="firstName"
-          defaultValue={user.firstName}
+          defaultValue={user && user.firstName}
           onBlur={e => handleOnBlur(e, 'firstName')}
         />
       </div>
@@ -39,7 +39,7 @@ const QuickProfile = () => {
           type="text"
           id="lastName"
           name="lastName"
-          defaultValue={user.lastName}
+          defaultValue={user && user.lastName}
           onBlur={e => handleOnBlur(e, 'lastName')}
         />
       </div>
@@ -49,7 +49,7 @@ const QuickProfile = () => {
           type="text"
           id="discordUserId"
           name="discordUserId"
-          defaultValue={user.discordUserId}
+          defaultValue={user && user.discordUserId}
           onBlur={e => handleOnBlur(e, 'discordUserId')}
         />
       </div>
