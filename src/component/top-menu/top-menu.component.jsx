@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { StyledTopMenu, StyledTopDescription } from './top-menu.style'
+import { StyledTopMenu, StyledDropDownMenu } from './top-menu.style'
 import { WebInfoState } from '../web-info/web-info.context'
 import { auth, GitHubProvider, db } from '../data/firebase'
 import { navigate } from '@reach/router'
 import Button from '../_dumb/button'
-import ButtonGroup from '../_dumb/button-group'
+// import ButtonGroup from '../_dumb/button-group'
 import Disc from '../_dumb/disc'
 import HeaderTitle from '../_dumb/header-title/header-title.component'
 
 const TopMenu = () => {
   const { user, updateUser } = WebInfoState()
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
+  const [showDropDownMenu, setShowDropDownMenu] = useState(false)
 
   useEffect(() => {
     if (user && userIsLoggedIn) {
@@ -19,6 +20,7 @@ const TopMenu = () => {
         .onSnapshot({ includeMetadataChanges: true }, doc => {
           const data = doc.data()
           const isAdmin = (data && data.isAdmin) || false
+          console.log(data)
           const { accepted = false, displayName, photoURL, email } = data || {}
           const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
           updateUser({
@@ -36,7 +38,7 @@ const TopMenu = () => {
               accepted
             }
           });
-      })
+        })
 
     }
 
@@ -63,7 +65,7 @@ const TopMenu = () => {
             .then(snap => {
               const data = snap.data()
               const isAdmin = (data && data.isAdmin) || false
-              const { accepted = false } = data || {}
+              const { accepted = false, firstName, lastName } = data || {}
               const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
               db.collection('user')
                 .doc(uid)
@@ -76,6 +78,8 @@ const TopMenu = () => {
                   uid,
                   displayName,
                   photoURL,
+                  firstName,
+                  lastName,
                   email,
                   plan_id,
                   current_term_end,
@@ -97,7 +101,12 @@ const TopMenu = () => {
   const goHome = () => {
     navigate('/')
     console.log('go home');
-    
+
+  }
+
+  const toggleDropDownMenu = () => {
+    console.log('toggleDropDownMenu', showDropDownMenu)
+    setShowDropDownMenu(!showDropDownMenu)
   }
 
   return (
@@ -116,22 +125,6 @@ const TopMenu = () => {
         text="CodeTap Academy - the Web Developer Factory"
         link="/"
       />
-      {user && user.isAdmin && (
-        <ButtonGroup>
-          <Button
-            onClick={() => navigate('/dashboard')}
-            label="Dashboard"
-            color="ok"
-            icon="dashboard"
-          />
-          <Button
-            onClick={() => navigate('/manage/user')}
-            label="Manage user"
-            color="ok"
-            icon="users"
-          />
-        </ButtonGroup>
-      )}
       <Button
         onClick={() => window.open('https://discord.gg/xcmtRYV')}
         label="Chat"
@@ -144,14 +137,56 @@ const TopMenu = () => {
         color="danger"
         icon="subscribe"
       />
-      <Button
+      {!user && <Button
         onClick={handleLogInAndOut}
         label={getLogInOutLabel()}
         color="primary"
         icon={getLogInOutLabel().toLowerCase()}
-      />
+      />}
 
-      {user && <Disc image={user.photoURL} title={`${user.displayName} (${user.plan_id})`} />}
+      {user && (
+        <>
+          <Disc
+            image={user.photoURL}
+            title={`${user.displayName} (${user.plan_id})`}
+            onClick={toggleDropDownMenu}
+          />
+          {showDropDownMenu && (
+            <StyledDropDownMenu>
+              <div>
+                {`${user.displayName} (${user.plan_id})`}
+              </div>
+              {user && user.isAdmin && (
+                <>
+                  <Button
+                    onClick={() => navigate('/dashboard')}
+                    label="Dashboard"
+                    color="ok"
+                    icon="dashboard"
+                  />
+                  <Button
+                    onClick={() => navigate('/manage/user')}
+                    label="Manage user"
+                    color="ok"
+                    icon="users"
+                  />
+                </>
+              )}
+              <Button
+                onClick={() => navigate('/manage/profile')}
+                label="profile"
+                color="primary"
+              />
+              <Button
+                onClick={handleLogInAndOut}
+                label={getLogInOutLabel()}
+                color="primary"
+                icon={getLogInOutLabel().toLowerCase()}
+              />
+            </StyledDropDownMenu>
+          )}
+        </>
+      )}
     </StyledTopMenu>
   );
 };
