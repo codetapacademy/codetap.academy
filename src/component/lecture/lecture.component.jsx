@@ -4,7 +4,6 @@ import { Link } from '@reach/router';
 import ImageUploader from '../image-uploader/image-uploader.component';
 import lectureSchema from './lecture.schema';
 import DynamicForm from '../_dumb/dynamic-form';
-import { async } from 'q';
 
 const Lecture = ({ lectureId }) => {
   const [lecture, setLecture] = useState({});

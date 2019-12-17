@@ -90,15 +90,9 @@ const Dashboard = () => {
     }
     else {
       // we want to add a course
-      courseCollection.add({ title, description })
+      courseCollection.add({ title, description, order: courseList.length })
     }
     setCourse(defaultCourse)
-  }
-
-  const getUpdateValue = (list, updateId) => {
-    return list
-      .filter(({ id }) => id === updateId)
-      .map(({ title, description }) => ({ title, description }))[0] || {}
   }
 
   const change = what => {
@@ -110,7 +104,7 @@ const Dashboard = () => {
   }
 
   const goToCourse = id => {
-    navigate(`/course/${id}`)
+    navigate(`/manage/course/${id}`)
   }
 
   const getSaveLabel = () => course.id ? "Update course" : "Add course"
@@ -129,13 +123,13 @@ const Dashboard = () => {
 
   const updateOrder = (a, b) => {
     const list = [...courseList]
-    const [ first ] = list.splice(a, 1)
+    const [first] = list.splice(a, 1)
     list
       .splice(b, 0, first)
-      
+
     const batch = db.batch()
     list
-      .map((o, order) => ({ ...o, order}))
+      .map((o, order) => ({ ...o, order }))
       .forEach(({ id, order }) => {
         batch.set(
           courseCollection.doc(id),

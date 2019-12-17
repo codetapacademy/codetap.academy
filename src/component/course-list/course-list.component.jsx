@@ -8,13 +8,13 @@ const CourseList = ({ courseList = [], goToCourse, updateOrder }) => {
     .map((course, index) =>
       <Draggable key={course.id} draggableId={course.id} index={index}>
         {(draggableProvided, draggableSnapshot) => (
-        <CourseItem
-          ref={draggableProvided.innerRef}
-          {...draggableProvided.draggableProps}
-          {...draggableProvided.dragHandleProps}
-          key={course.id}
-          {...{ ...course, goToCourse }}
-        />
+          <CourseItem
+            ref={draggableProvided.innerRef}
+            {...draggableProvided.draggableProps}
+            {...draggableProvided.dragHandleProps}
+            key={course.id}
+            {...{ ...course, goToCourse }}
+          />
         )}
       </Draggable>
     )
@@ -39,7 +39,7 @@ const CourseList = ({ courseList = [], goToCourse, updateOrder }) => {
                         {...draggableProvided.draggableProps}
                         {...draggableProvided.dragHandleProps}
                       >
-                        <CourseItem {...{...course, goToCourse }}/>
+                        <CourseItem {...{ ...course, goToCourse }} />
                       </div>
                     )}
                   </Draggable>

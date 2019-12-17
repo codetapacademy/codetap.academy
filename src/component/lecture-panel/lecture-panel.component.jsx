@@ -5,7 +5,7 @@ import { db } from '../data/firebase'
 import { addLectureToSectionAction } from '../course/section.action';
 import { WebInfoState } from '../web-info/web-info.context';
 
-const LecturePanel = ({ section = {}, course = {}, setShowAddLectureId, showAddLectureId }) => {
+const LecturePanel = ({ section = {}, course = {}, setShowAddLectureId, lectureListLength }) => {
   const defaultLecture = {
     id: null,
     title: '',
@@ -16,7 +16,7 @@ const LecturePanel = ({ section = {}, course = {}, setShowAddLectureId, showAddL
 
   const { updateSectionList } = WebInfoState();
 
-  const [ lecture, setLecture ] = useState(defaultLecture)
+  const [lecture, setLecture] = useState(defaultLecture)
   const label = 'Add lecture'
   const data = lecture
   const showCancel = true
@@ -33,7 +33,9 @@ const LecturePanel = ({ section = {}, course = {}, setShowAddLectureId, showAddL
     }
     else {
       // take out the id, as it sould be null
-      const { id, ...restOfLecture } = lecture
+      let { id, ...restOfLecture } = lecture
+      restOfLecture.order = lectureListLength
+      restOfLecture.levelRequired = 0
 
       // we want to add a lecture
       const newLecture = await lectureCollection.add(restOfLecture)

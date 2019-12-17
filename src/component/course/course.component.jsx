@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../data/firebase';
 import { WebInfoState } from '../web-info/web-info.context';
 import SectionPanel from '../section-panel/section-panel.component';
+import Avatar from '../avatar'
 import {
   addSectionAction,
   removeSectionAction,
@@ -11,16 +12,21 @@ import {
 import HeaderTitle from '../_dumb/header-title/header-title.component';
 import courseSchema from './course.schema';
 import DynamicForm from '../_dumb/dynamic-form/dynamic-form.component';
+import { getCourseTitlePropList, getCourseSettingsPropList } from './course.config';
 
 const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState();
-  const [lectureBySectionIdList, setLectureBySectioIdList] = useState({});
   const [course, setCourse] = useState({});
   const courseDocument = db.collection('course').doc(courseId);
+  const [userList, setUserList] = useState([])
 
   useEffect(() => {
     let unsubscribe, unsubscribeToCourse;
     (async () => {
+      const userSnap = await db.collection('user').get()
+      const userList = userSnap.docs.map(user => ({ id: user.id, ...user.data() }))
+      setUserList(userList)
+
       const lectureKeyList = {};
       // I want to get the course info
       unsubscribeToCourse = courseDocument
@@ -39,8 +45,11 @@ const Course = ({ courseId }) => {
           .where('course.id', '==', courseId)
           .get();
         lectureSnapshotList.docs.forEach(doc => {
+          const docData = doc.data()
           const lectureId = doc.id;
-          const lectureContent = doc.data();
+          const lectureContent = { ...docData, totalDuration: (docData && docData.totalDuration) || '00:00:00' }
+
+
           if (lectureKeyList.hasOwnProperty(lectureContent.section.id)) {
             lectureKeyList[lectureContent.section.id] = [
               ...lectureKeyList[lectureContent.section.id],
@@ -58,6 +67,23 @@ const Course = ({ courseId }) => {
             ];
           }
         });
+
+        const totalDurationParts = Object
+          .keys(lectureKeyList || [])
+          .flatMap(key => lectureKeyList[key].map(({ duration = '00:00:00' }) => duration.split(':').map(t => +t)))
+          .reduce((a, c) => {
+            a.h += c[0]
+            a.m += c[1]
+            a.s += c[2]
+            return a
+          }, { h: 0, m: 0, s: 0 })
+        const totalSeconds = totalDurationParts.h * 3600 + totalDurationParts.m * 60 + totalDurationParts.s
+        const seconds = totalSeconds % 60
+        const minutes = (totalSeconds % 3600 - seconds) / 60
+        const hours = ~~(totalSeconds / 3600)
+        const totalDuration = `${hours}h ${minutes}m`
+
+        courseDocument.set({ totalDuration, totalSeconds }, { merge: true })
       } catch (e) {
         console.error('Get lectureSnapshotList failed', e);
       }
@@ -114,21 +140,28 @@ const Course = ({ courseId }) => {
     };
   }, []);
 
-  const courseTitlePropList = {
-    text: course.title,
-    tag: 'h1',
-    fontSize: '22px'
-  };
+  const courseTitlePropList = getCourseTitlePropList(course.title);
 
-  const courseSettingsPropList = {
-    text: 'Course Settings',
-    tag: 'h2',
-    fontSize: '20px'
-  };
+  const courseSettingsPropList = getCourseSettingsPropList()
 
   const handlePublish = () => {
     courseDocument.set({ published: !course.published }, { merge: true });
   };
+
+  if (course) {
+    courseSchema.filedList.courseLevel.getOptionLabel = option => <div style={{ color: 'black' }}>{option.label}</div>
+    courseSchema.filedList.version.getOptionLabel = option => <div style={{ color: 'black' }}>{option.label}</div>
+  }
+  if (courseSchema.filedList.courseAuthorCustom) {
+    courseSchema.filedList.courseAuthorCustom.getOptionLabel = option => <div style={{ color: 'black' }}><Avatar user={option.user} /></div>
+    courseSchema.filedList.courseAuthorCustom.options = userList
+      .map(user => ({ user: { displayName: user.displayName, photoURL: user.photoURL }, label: user.displayName, value: user.id }))
+  }
+  if (courseSchema.filedList.courseCoAuthorCustom) {
+    courseSchema.filedList.courseCoAuthorCustom.getOptionLabel = option => <div style={{ color: 'black' }}><Avatar user={option.user} /></div>
+    courseSchema.filedList.courseCoAuthorCustom.options = userList
+      .map(user => ({ user: { displayName: user.displayName, photoURL: user.photoURL }, label: user.displayName, value: user.id }))
+  }
 
   return (
     <div>

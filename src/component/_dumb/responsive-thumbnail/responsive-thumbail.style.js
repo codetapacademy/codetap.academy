@@ -6,7 +6,8 @@ const defaultImage = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNv
 export const StyledThumbnail = styled.div`
   width: 100%;
   padding-top: ${({ ratio }) => ratio}%;
-  background-image: url(${({ imagePath }) => imagePath || defaultImage});
+  /* background-image: url(${({ imagePath }) => imagePath || defaultImage}); */
+  background-image: url(${defaultImage});
   background-size: cover;
   background-position: center center;
   position: relative;
