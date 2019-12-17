@@ -4,7 +4,7 @@ import { WebInfoState } from '../web-info/web-info.context'
 import { auth, GitHubProvider, db } from '../data/firebase'
 import { navigate } from '@reach/router'
 import Button from '../_dumb/button'
-import ButtonGroup from '../_dumb/button-group'
+// import ButtonGroup from '../_dumb/button-group'
 import Disc from '../_dumb/disc'
 import HeaderTitle from '../_dumb/header-title/header-title.component'
 
@@ -20,6 +20,7 @@ const TopMenu = () => {
         .onSnapshot({ includeMetadataChanges: true }, doc => {
           const data = doc.data()
           const isAdmin = (data && data.isAdmin) || false
+          console.log(data)
           const { accepted = false, displayName, photoURL, email } = data || {}
           const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
           updateUser({
@@ -64,7 +65,7 @@ const TopMenu = () => {
             .then(snap => {
               const data = snap.data()
               const isAdmin = (data && data.isAdmin) || false
-              const { accepted = false } = data || {}
+              const { accepted = false, firstName, lastName } = data || {}
               const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
               db.collection('user')
                 .doc(uid)
@@ -77,6 +78,8 @@ const TopMenu = () => {
                   uid,
                   displayName,
                   photoURL,
+                  firstName,
+                  lastName,
                   email,
                   plan_id,
                   current_term_end,
