@@ -170,6 +170,11 @@ const TopMenu = () => {
                 </>
               )}
               <Button
+                onClick={() => navigate('/manage/profile')}
+                label="profile"
+                color="primary"
+              />
+              <Button
                 onClick={handleLogInAndOut}
                 label={getLogInOutLabel()}
                 color="primary"
