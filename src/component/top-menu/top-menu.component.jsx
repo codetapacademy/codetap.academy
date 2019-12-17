@@ -65,7 +65,7 @@ const TopMenu = () => {
             .then(snap => {
               const data = snap.data()
               const isAdmin = (data && data.isAdmin) || false
-              const { accepted = false, firstName, lastName } = data || {}
+              const { accepted = false, firstName, lastName, discordUserId } = data || {}
               const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
               db.collection('user')
                 .doc(uid)
@@ -80,6 +80,7 @@ const TopMenu = () => {
                   photoURL,
                   firstName,
                   lastName,
+                  discordUserId,
                   email,
                   plan_id,
                   current_term_end,
