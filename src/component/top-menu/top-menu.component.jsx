@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { StyledTopMenu, StyledDropDownMenu } from './top-menu.style'
 import { WebInfoState } from '../web-info/web-info.context'
 import { auth, GitHubProvider, db } from '../data/firebase'
@@ -12,6 +12,7 @@ const TopMenu = () => {
   const { user, updateUser } = WebInfoState()
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
   const [showDropDownMenu, setShowDropDownMenu] = useState(false)
+  const dropDownMenuRef = useRef()
 
   useEffect(() => {
     if (user && userIsLoggedIn) {
@@ -41,7 +42,9 @@ const TopMenu = () => {
         })
 
     }
-
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside)
+    }
   }, [])
 
   const handleLogInAndOut = () => {
@@ -65,7 +68,7 @@ const TopMenu = () => {
             .then(snap => {
               const data = snap.data()
               const isAdmin = (data && data.isAdmin) || false
-              const { accepted = false, firstName, lastName } = data || {}
+              const { accepted = false, firstName, lastName, discordUserId } = data || {}
               const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
               db.collection('user')
                 .doc(uid)
@@ -80,6 +83,7 @@ const TopMenu = () => {
                   photoURL,
                   firstName,
                   lastName,
+                  discordUserId,
                   email,
                   plan_id,
                   current_term_end,
@@ -104,9 +108,26 @@ const TopMenu = () => {
 
   }
 
+  const handleClickOutside = e => {
+    if (!dropDownMenuRef.current.contains(e.target)) {
+      setShowDropDownMenu(false)
+      document
+        .querySelector('body')
+        .removeEventListener('click', handleClickOutsideCallback)
+    }
+  }
+
+  const handleClickOutsideCallback = useCallback(e => handleClickOutside(e), [])
+
   const toggleDropDownMenu = () => {
     console.log('toggleDropDownMenu', showDropDownMenu)
     setShowDropDownMenu(!showDropDownMenu)
+    if (!showDropDownMenu) {
+      document.querySelector('body').addEventListener('click', handleClickOutsideCallback)
+    } else {
+      console.log(`I'm removing the handleClickOutside()`)
+      document.querySelector('body').removeEventListener('click', handleClickOutsideCallback)
+    }
   }
 
   return (
@@ -152,7 +173,7 @@ const TopMenu = () => {
             onClick={toggleDropDownMenu}
           />
           {showDropDownMenu && (
-            <StyledDropDownMenu>
+            <StyledDropDownMenu ref={dropDownMenuRef}>
               <div>
                 {`${user.displayName} (${user.plan_id})`}
               </div>

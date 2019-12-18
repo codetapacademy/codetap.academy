@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.1](https://github.com/codetapacademy/codetap.academy/compare/v0.14.0...v0.14.1) (2019-12-17)
+
+
+### Features
+
+* add disc buttons and refactor top menu style using grid ([edea7b0](https://github.com/codetapacademy/codetap.academy/commit/edea7b07726c66acfbc72746c72bced753bb8b04))
+* add profile to the user drop down menu ([ef818a8](https://github.com/codetapacademy/codetap.academy/commit/ef818a8b7b31895ec20aa216ebd517d12f216f53))
+* button update and button group ([7d2b9a3](https://github.com/codetapacademy/codetap.academy/commit/7d2b9a37bd3cc9a8424812a1e41e4c7ad12d3b21))
+* clean-up code and add not-allowed to disabled ([c55e4c6](https://github.com/codetapacademy/codetap.academy/commit/c55e4c6ea06df31ef5a710e069eaf7b4466c9589))
+* move some of the top menu buttons ([888e3d0](https://github.com/codetapacademy/codetap.academy/commit/888e3d0ac64adc793a3ee286a5a3ab6293d2652d)), closes [#316](https://github.com/codetapacademy/codetap.academy/issues/316)
+* quick profile ([84dabda](https://github.com/codetapacademy/codetap.academy/commit/84dabda9117998c813405e6b1ebbcbf2718b6506)), closes [#301](https://github.com/codetapacademy/codetap.academy/issues/301)
+* restructure layout with top menu and body ([a0424f6](https://github.com/codetapacademy/codetap.academy/commit/a0424f61392464a6904b1fa8e672ca6a535975b3))
+* update the title of the page ([b151ff4](https://github.com/codetapacademy/codetap.academy/commit/b151ff4bf1b7f383f1a0fd978d63076b6b6bab5e)), closes [#314](https://github.com/codetapacademy/codetap.academy/issues/314)
+
+
+### Bug Fixes
+
+* bad bad turtles ([f253755](https://github.com/codetapacademy/codetap.academy/commit/f253755a8ffd45f118fe23532bd1342a2eb582da)), closes [#307](https://github.com/codetapacademy/codetap.academy/issues/307)
+* double action for log out ([8f2b058](https://github.com/codetapacademy/codetap.academy/commit/8f2b05841e26589cfcbca9ad8606444081dfb8aa)), closes [#280](https://github.com/codetapacademy/codetap.academy/issues/280)
+* time breaking on two lines on home page ([249b397](https://github.com/codetapacademy/codetap.academy/commit/249b397953b40bd43e482fba3f8dd4a7939a4488))
+* title breaking on small width devices on multiple lines ([0dcbdd8](https://github.com/codetapacademy/codetap.academy/commit/0dcbdd85235d4cc80bd78bc27b418bb2f6e41b6d))
+* typo in font ([9ac9afe](https://github.com/codetapacademy/codetap.academy/commit/9ac9afea67c66a3ba53fbcecbf08ac0c86be72c2))
+* video hover broken ([491d3bd](https://github.com/codetapacademy/codetap.academy/commit/491d3bd8a8944445c9bc66e70eaec47fae4f9eaa)), closes [#279](https://github.com/codetapacademy/codetap.academy/issues/279)
+
 ## [0.14.0](https://github.com/codetapacademy/codetap.academy/compare/v0.13.0...v0.14.0) (2019-09-27)
 
 
