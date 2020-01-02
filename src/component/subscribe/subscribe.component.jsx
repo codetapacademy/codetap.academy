@@ -5,7 +5,7 @@ import { WebInfoState } from '../web-info/web-info.context';
 import subscribeConfig from './subscribe.config'
 import { withStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import { StyledSubscribeButton, StyledSubscribePanel, StyledSubscribeLabelWrapper, StyledSubscribeLabel, StyledSubscribeFeature, StyledSubscribeFeatureLabel, StyledSubscribeAmount, StyledSubscribeSliderInfo, StyledSubscribeButtonWrapper, StyledSubscribeUser, StyledTurtle, StyledTurtleList, StyledTurtleListSpecial } from './subscribe.style';
+import { StyledSubscribeButton, StyledSubscribePanel, StyledSubscribeLabelWrapper, StyledSubscribeLabel, StyledSubscribeFeature, StyledSubscribeFeatureLabel, StyledSubscribeAmount, StyledSubscribeSliderInfo, StyledSubscribeButtonWrapper, StyledSubscribeUser, StyledTurtle, StyledTurtleList, StyledTurtleListSpecial, StyledSubscribePlanType, StyledSubscribePlanList, StyledSubscribePlanTitle } from './subscribe.style';
 import Button from '../_dumb/button';
 import turtleStatesImage from './turtle-states.png'
 
@@ -45,7 +45,7 @@ const cbInstance = window.Chargebee.init({
 })
 
 const Subscribe = () => {
-  const [selected, updateSelected] = useState(2)
+  const [selected, updateSelected] = useState('wise_25')
   const [customer, updateCustomer] = useState(subscribeConfig)
   const { user } = WebInfoState();
 
@@ -108,8 +108,10 @@ const Subscribe = () => {
     })
   }
 
+  const getPlanList = () => subscribeConfig.planList.flatMap(x => x.planList)
+
   const onSliderChange = (e, index) => {
-    updateSelected(index)
+    updateSelected(getPlanList()[index].plan_id)
   }
 
   const getSubscribeMessage = () => {
@@ -121,16 +123,23 @@ const Subscribe = () => {
   return (
     <StyledSubscribePanel>
       <StyledSubscribeLabelWrapper>
-        {subscribeConfig.planList.map(({ label }, index) => <StyledSubscribeLabel onClick={() => updateSelected(index)} selected={index === selected}>{label}</StyledSubscribeLabel>)}
+        {subscribeConfig.planList.map(({ planType, planList }) => (console.log(planList.length)) || (
+          <StyledSubscribePlanType planNumber={planList.length}>
+            <StyledSubscribePlanTitle>{planType}</StyledSubscribePlanTitle>
+            <StyledSubscribePlanList>
+              {planList.map(({ label, plan_id }) => <StyledSubscribeLabel onClick={() => updateSelected(plan_id)} selected={plan_id === selected}>{label}</StyledSubscribeLabel>)}
+            </StyledSubscribePlanList>
+          </StyledSubscribePlanType>
+        ))}
       </StyledSubscribeLabelWrapper>
-      <StyledSubscribeAmount>£{subscribeConfig.planList[selected].amount} <StyledSubscribeSliderInfo>
+      <StyledSubscribeAmount>£{getPlanList().filter(x => x.plan_id === selected)[0].amount} <StyledSubscribeSliderInfo>
         monthly
       </StyledSubscribeSliderInfo></StyledSubscribeAmount>
       <SubscribeSlider
         valueLabelDisplay="off"
         aria-label="Subscribe slider"
         defaultValue={2}
-        max={5}
+        max={3}
         onChange={onSliderChange}
       />
       <StyledSubscribeSliderInfo>
@@ -139,10 +148,10 @@ const Subscribe = () => {
 
       <StyledTurtleListSpecial>
         <StyledTurtleList>
-          {subscribeConfig.planList.map(({ label }, index) => {
+          {getPlanList().map(({ label, plan_id }, index) => {
             return (
               <StyledTurtle
-                selected={index === selected}
+                selected={plan_id === selected}
                 niceIndex={index}
                 title={label}
                 image={turtleStatesImage}
@@ -150,12 +159,6 @@ const Subscribe = () => {
             )
           })}
         </StyledTurtleList>
-        <StyledTurtle
-          selected={true}
-          niceIndex={subscribeConfig.planList.length}
-          title="Super mentored"
-          image={turtleStatesImage}
-        />
       </StyledTurtleListSpecial>
 
       <StyledSubscribeButtonWrapper>
@@ -181,13 +184,15 @@ const Subscribe = () => {
       {!user && <StyledSubscribeSliderInfo>To be able to subscribe you want to authenticate. Click on the <strong>Login</strong> button located at the top right of this page. Use your GitHub account to authenticate. If you do not have a GitHub account, in the popup that opens, choose to <strong>Create an account</strong>.</StyledSubscribeSliderInfo>}
 
       <StyledSubscribeLabelWrapper>
-        {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= subscribeConfig.planList[selected].amount}>
+        {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= getPlanList().filter(x => x.plan_id === selected)[0].amount}>
           <StyledSubscribeFeatureLabel>
             {label}
           </StyledSubscribeFeatureLabel>
           <div className="codetap-academy-check"></div>
         </StyledSubscribeFeature>)}
       </StyledSubscribeLabelWrapper>
+
+      <p>Note: features marked with * might not be fully implemented or lack automation.</p>
 
       <StyledSubscribeButtonWrapper>
         {(!user || user && !user.customer_id) &&

@@ -58,18 +58,31 @@ export const StyledSubscribeFeatureLabel = styled.div`
   flex-grow: 1;
 `
 
+export const StyledSubscribePlanType = styled.div`
+  flex-basis: ${({ planNumber }) => (planNumber || 1) * 25}%;
+  border: 1px dashed ${({ theme }) => theme.layout.text};
+  display: flex;
+  flex-direction: column;
+`
+
+export const StyledSubscribePlanTitle = styled.div`
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 1rem 0;
+  font-weight: bold;
+`
+
+export const StyledSubscribePlanList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  grid-gap: ${({ theme }) => theme.layout.defaultPadding};
+`
+
 export const StyledSubscribeLabelWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: ${({ theme }) => theme.layout.defaultPadding};
-
-  @media screen and (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media screen and (min-width: 1180px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 `
 
 export const StyledSubscribeFeature = styled.div`
