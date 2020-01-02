@@ -1,11 +1,19 @@
 export default {
   planList: [
-    { plan_id: 'supporter_0', selected: false, amount: 0, label: 'FREE' },
-    { plan_id: 'starter_10', selected: false, amount: 10, label: 'Starter' },
-    { plan_id: 'wise_25', selected: true, amount: 25, label: 'Wise' },
-    { plan_id: 'wise_50', selected: false, amount: 50, label: 'Wise Team' },
-    { plan_id: 'wise_75', selected: false, amount: 75, label: 'Wise Team PRO' },
-    { plan_id: 'mentored_250', selected: false, amount: 250, label: 'Mentored' },
+    {
+      planType: "Learner",
+      planList: [
+        { plan_id: 'supporter_0', selected: false, amount: 0, label: 'FREE' },
+        { plan_id: 'wise_25', selected: true, amount: 25, label: 'Wise' },
+        { plan_id: 'wise_50', selected: false, amount: 50, label: 'Wise Team' },
+      ]
+    },
+    {
+      planType: "Get Hired",
+      planList: [
+        { plan_id: 'mentored_250', selected: false, amount: 250, label: 'Mentored' },
+      ]
+    },
   ],
   featureList: [
     { amount: 0, label: 'You get access to all the published and released videos' },
