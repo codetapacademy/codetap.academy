@@ -69,6 +69,7 @@ export const StyledSubscribePlanTitle = styled.div`
   font-size: 1.2rem;
   text-align: center;
   padding: 1rem 0;
+  font-weight: bold;
 `
 
 export const StyledSubscribePlanList = styled.div`

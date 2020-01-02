@@ -108,11 +108,10 @@ const Subscribe = () => {
     })
   }
 
+  const getPlanList = () => subscribeConfig.planList.flatMap(x => x.planList)
+
   const onSliderChange = (e, index) => {
-    console.log(index)
-    const planList = subscribeConfig.planList.flatMap(x => x.planList)
-    // console.log(subscribeConfig.reduce((a, b) => [...a, ...b.planList], []))
-    updateSelected(planList[index].plan_id)
+    updateSelected(getPlanList()[index].plan_id)
   }
 
   const getSubscribeMessage = () => {
@@ -133,9 +132,9 @@ const Subscribe = () => {
           </StyledSubscribePlanType>
         ))}
       </StyledSubscribeLabelWrapper>
-      {/* <StyledSubscribeAmount>£{subscribeConfig.planList[selected].amount} <StyledSubscribeSliderInfo>
+      <StyledSubscribeAmount>£{getPlanList().filter(x => x.plan_id === selected)[0].amount} <StyledSubscribeSliderInfo>
         monthly
-      </StyledSubscribeSliderInfo></StyledSubscribeAmount> */}
+      </StyledSubscribeSliderInfo></StyledSubscribeAmount>
       <SubscribeSlider
         valueLabelDisplay="off"
         aria-label="Subscribe slider"
@@ -147,12 +146,12 @@ const Subscribe = () => {
         Use the slider to select how quickly you want to become successful. The more you go to the right, the faster you progress and the shorter the time until you become successful. The quickest <strong>From Zero to Hired</strong>, has been achieved by two of our students in just 7 weeks, a few managed to do it in 2 months, most of them in 3 to 4 months and others longer than that.
       </StyledSubscribeSliderInfo>
 
-      {/* <StyledTurtleListSpecial>
+      <StyledTurtleListSpecial>
         <StyledTurtleList>
-          {subscribeConfig.planList.map(({ label }, index) => {
+          {getPlanList().map(({ label, plan_id }, index) => {
             return (
               <StyledTurtle
-                selected={index === selected}
+                selected={plan_id === selected}
                 niceIndex={index}
                 title={label}
                 image={turtleStatesImage}
@@ -160,13 +159,7 @@ const Subscribe = () => {
             )
           })}
         </StyledTurtleList>
-        <StyledTurtle
-          selected={true}
-          niceIndex={subscribeConfig.planList.length}
-          title="Super mentored"
-          image={turtleStatesImage}
-        />
-      </StyledTurtleListSpecial> */}
+      </StyledTurtleListSpecial>
 
       <StyledSubscribeButtonWrapper>
         {(!user || user && !user.customer_id) &&
@@ -190,14 +183,16 @@ const Subscribe = () => {
 
       {!user && <StyledSubscribeSliderInfo>To be able to subscribe you want to authenticate. Click on the <strong>Login</strong> button located at the top right of this page. Use your GitHub account to authenticate. If you do not have a GitHub account, in the popup that opens, choose to <strong>Create an account</strong>.</StyledSubscribeSliderInfo>}
 
-      {/* <StyledSubscribeLabelWrapper>
-        {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= subscribeConfig.planList[selected].amount}>
+      <StyledSubscribeLabelWrapper>
+        {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= getPlanList().filter(x => x.plan_id === selected)[0].amount}>
           <StyledSubscribeFeatureLabel>
             {label}
           </StyledSubscribeFeatureLabel>
           <div className="codetap-academy-check"></div>
         </StyledSubscribeFeature>)}
-      </StyledSubscribeLabelWrapper> */}
+      </StyledSubscribeLabelWrapper>
+
+      <p>Note: features marked with * might not be fully implemented or lack automation.</p>
 
       <StyledSubscribeButtonWrapper>
         {(!user || user && !user.customer_id) &&
