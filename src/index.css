@@ -8,11 +8,15 @@ body {
   padding: 0;
 }
 
-#react-will-render-here-and-it-is-really-awesome,
 html,
 body {
   height: 100%;
   font-family: 'Roboto';
+}
+
+#react-will-render-here-and-it-is-really-awesome {
+  min-height: 100%;
+  display: flex;
 }
 
 /* cyrillic-ext */
