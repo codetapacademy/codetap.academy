@@ -20,6 +20,7 @@ export const StyledTurtle = styled.div`
   opacity: ${({ selected }) => selected ? 1 : 0.65};
   background-position-x: -${({ niceIndex }) => niceIndex * 140}px;
   position: relative;
+  filter: grayscale(${({ selected }) => !selected ? '40%' : '0'});
 
   @media (max-width: 768px) {
     display: ${({ selected }) => selected ? 'initial' : 'none'};;
@@ -89,6 +90,7 @@ export const StyledSubscribeFeature = styled.div`
   & > .codetap-academy-check {
     color: ${({ theme, selected }) => selected ? '#0f0' : theme.menu.other};
   }
+  filter: grayscale(${({ theme, selected }) => !selected ? '100%' : '50%'});
   transition: 250ms;
   padding: ${({ theme }) => theme.layout.defaultPadding};
   flex-basis: 40%;

@@ -29,7 +29,7 @@ export const StyledTopMenu = styled.div`
   grid-gap: 0.5rem;
   grid-auto-flow: column;
   align-items: center;
-  /* position: fixed; */
+  position: fixed;
   top: 0;
   width: 100%;
 `
