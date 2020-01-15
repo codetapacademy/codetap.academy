@@ -1,4 +1,35 @@
 import styled from 'styled-components'
+import ReactPlayer from 'react-player'
+
+export const StyledReactPlayerWrapper = styled.div`
+  padding-top: 56.25%;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    height: 15px;
+    width: 100%;
+    left: 0;
+    background: linear-gradient(
+      to right,
+      #c00 0%,
+      #036 26%,
+      #0f0 51%,
+      #aae 77%,
+      #b06 100%
+    );
+  }
+`
+
+export const StyledReactPlayer = styled(ReactPlayer)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`
 
 export const StyledPlayWrapper = styled.div`
   padding-top: 56.25%;
@@ -59,6 +90,6 @@ export const StyledListDuration = styled.div`
 export const StyledPlayerAndList = styled.div`
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 3fr 1fr;
   margin-bottom: 2.5rem;
 `
