@@ -38,6 +38,7 @@ const CoursePlayList = ({ courseId }) => {
     .reduce((a, c) => ({ ...a, [c]: 0 }), {})
 
   useEffect(() => {
+    let playHistoryQuery
     (async () => {
       const courseSnap = await courseCollection.doc(courseId).get()
       const course = { id: courseSnap.id, ...courseSnap.data() }
@@ -69,7 +70,7 @@ const CoursePlayList = ({ courseId }) => {
           lectureId: lectureList[0].id,
         }
 
-        let playHistoryQuery = playHistoryCollection.where('courseId', '==', playHistoryData.courseId)
+        playHistoryQuery = playHistoryCollection.where('courseId', '==', playHistoryData.courseId)
           .where('userId', '==', playHistoryData.userId)
           .where('duration', '==', playHistoryData.duration)
           .where('lectureId', '==', playHistoryData.lectureId)
@@ -77,15 +78,24 @@ const CoursePlayList = ({ courseId }) => {
         const playHistory = [...playHistorySnap.docs]
         if (playHistory.length) {
           console.log('********************** data', playHistory[0].id, playHistory[0].data())
+          playedHistory.current = playHistory[0].data()
         } else {
           console.log('********************** no data')
           const history = getPlayHistoryObject(getTotalSeconds(playHistoryData.duration))
-          playHistoryCollection.add({ ...playHistoryData, history })
+          playedHistory.current = { ...playHistoryData, history };
+          playHistoryCollection.add(playedHistory.current)
         }
       }
     })()
     return () => {
       console.log('This is unload')
+      playHistoryQuery.get().then(snap => {
+        snap.docs.forEach(doc => {
+          console.log(doc.id)
+          const { history } = playedHistory.current
+          playHistoryCollection.doc(doc.id).set({ history }, { merge: true })
+        })
+      })
     }
   }, [])
 
@@ -97,18 +107,47 @@ const CoursePlayList = ({ courseId }) => {
     // {playedSeconds: 0, played: 0, loadedSeconds: 6.033, loaded: 0.039965552648140175}
     const currentSecond = ~~playedSeconds
 
-    if (playedHistory.current.hasOwnProperty(currentSecond)) {
+    if (playedHistory.current.history && playedHistory.current.history.hasOwnProperty(currentSecond)) {
       playedHistory.current = {
         ...playedHistory.current,
-        [currentSecond]: playedHistory.current[currentSecond] + 1
+        history: {
+          ...playedHistory.current.history,
+          [currentSecond]: playedHistory.current.history[currentSecond] + 1
+        }
       }
     } else {
       playedHistory.current = {
         ...playedHistory.current,
-        [currentSecond]: 1
+        history: {
+          ...playedHistory.current.history,
+          [currentSecond]: 1
+        }
       }
     }
     console.log(playedHistory)
+  }
+
+  const updateCurrentVideo = lecture => {
+    let playHistoryData = {
+      courseId,
+      userId: user.uid,
+      duration: currentVideo.duration,
+      lectureId: currentVideo.id,
+    }
+
+    playHistoryCollection.where('courseId', '==', playHistoryData.courseId)
+      .where('userId', '==', playHistoryData.userId)
+      .where('duration', '==', playHistoryData.duration)
+      .where('lectureId', '==', playHistoryData.lectureId)
+      .get()
+      .then(snap => {
+        snap.docs.forEach(doc => {
+          console.log(doc.id)
+          const { history } = playedHistory.current
+          playHistoryCollection.doc(doc.id).set({ history }, { merge: true })
+        })
+        setCurrentVideo(lecture)
+      })
   }
 
   const { course, sectionList, lectureList } = data
@@ -150,7 +189,7 @@ const CoursePlayList = ({ courseId }) => {
                         return (
                           <StyledListRow
                             key={lecture.id}
-                            onClick={() => setCurrentVideo(lecture)}
+                            onClick={() => updateCurrentVideo(lecture)}
                             selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
                             <StyledListImageWrapper>
                               {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt="" />}
