@@ -17,6 +17,7 @@ const CoursePlayList = ({ courseId }) => {
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
   const sectionCollection = db.collection('section')
+  const playHistoryCollection = db.collection('play-history')
   const [data, updateData] = useState({ course: {}, lectureList: [], sectionList: [] })
   const { user } = WebInfoState();
   const [planLevel] = ((user && user.plan_id) || 'supporter_').split('_')
@@ -60,6 +61,27 @@ const CoursePlayList = ({ courseId }) => {
         const initialLectureList = lectureList.filter(lecture => lecture.section.id === sectionList[0].id)
         console.log(initialLectureList, sectionList[0].id, lectureList)
         setCurrentVideo(initialLectureList[0])
+        console.log(courseId, user.uid, lectureList[0], lectureList[0].duration, lectureList[0].id)
+        let playHistoryData = {
+          courseId,
+          userId: user.uid,
+          duration: lectureList[0].duration,
+          lectureId: lectureList[0].id,
+        }
+
+        let playHistoryQuery = playHistoryCollection.where('courseId', '==', playHistoryData.courseId)
+          .where('userId', '==', playHistoryData.userId)
+          .where('duration', '==', playHistoryData.duration)
+          .where('lectureId', '==', playHistoryData.lectureId)
+        const playHistorySnap = await playHistoryQuery.get()
+        const playHistory = [...playHistorySnap.docs]
+        if (playHistory.length) {
+          console.log('********************** data', playHistory[0].id, playHistory[0].data())
+        } else {
+          console.log('********************** no data')
+          const history = getPlayHistoryObject(getTotalSeconds(playHistoryData.duration))
+          playHistoryCollection.add({ ...playHistoryData, history })
+        }
       }
     })()
     return () => {
