@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useReducer } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
-import { StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration, StyledPlayMessage } from './course-play-list.style';
+import { StyledReactPlayerWrapper, StyledReactPlayer, StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration, StyledPlayMessage } from './course-play-list.style';
 import { WebInfoState } from '../web-info/web-info.context';
-import Vimeo from '@u-wave/react-vimeo'
-
-const mapLevel = {
-  supporter: 0,
-  starter: 1,
-  wise: 2,
-  mentored: 3
-}
+import { HistoryGraph } from '../_dumb/history-graph/history-graph.component';
+import { historyReducer } from './course-play-list.reducer';
+import { mapLevel, getTotalSeconds, getPlayHistoryObject } from './course-play-list.util';
+import { updateHistoryAction, initHistoryAction } from './course-play-list.action';
 
 const CoursePlayList = ({ courseId }) => {
+  const [playedHistory, updatePlayedHistory] = useReducer(historyReducer, {})
   const [currentVideo, setCurrentVideo] = useState({})
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
   const sectionCollection = db.collection('section')
-  const [ data, updateData ] = useState({course: {}, lectureList: [], sectionList: []})
+  const playHistoryCollection = db.collection('play-history')
+  const [data, updateData] = useState({ course: {}, lectureList: [], sectionList: [] })
   const { user } = WebInfoState();
-  const [ planLevel ] = ((user && user.plan_id) || 'supporter_').split('_')
+  const [planLevel] = ((user && user.plan_id) || 'supporter_').split('_')
+
 
   useEffect(() => {
     (async () => {
@@ -37,30 +36,75 @@ const CoursePlayList = ({ courseId }) => {
         .where('course.id', '==', courseId)
         .get()
       const lectureList = [...lectureListSnap.docs].map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => a.order - b.order)
-      updateData({lectureList, sectionList, course})
-
-      console.log(lectureList)
+      updateData({ lectureList, sectionList, course })
 
       if (lectureList.length && lectureList[0]) {
         const initialLectureList = lectureList.filter(lecture => lecture.section.id === sectionList[0].id)
-        console.log(initialLectureList, sectionList[0].id, lectureList)
-        setCurrentVideo(initialLectureList[0])
+        updateCurrentVideo(initialLectureList[0])
       }
     })()
     return () => {
-      console.log('This is unload')
+      updatePreviousVideo()
     }
   }, [])
 
-  const onTimeUpdate = ({ seconds, duration }) => {
-    console.log(~~seconds, ~~duration)
+  const onEnded = () => {
+    updatePreviousVideo()
+  }
+
+  const onProgress = ({ playedSeconds }) => {
+    const currentSecond = ~~playedSeconds
+    console.log(currentSecond, playedSeconds)
+    const secondToUpdate = playedHistory.history && playedHistory.history.hasOwnProperty(currentSecond) ? currentSecond : 0
+    updatePlayedHistory(updateHistoryAction(secondToUpdate))
+  }
+
+  const updatePreviousVideo = () => {
+    if (currentVideo && playedHistory.firebaseId) {
+      const { history, firebaseId } = playedHistory
+      playHistoryCollection.doc(firebaseId)
+        .set({ history }, { merge: true })
+    }
+  }
+
+  const updateCurrentVideo = lecture => {
+    // Check to see if there is a current video different than lecture
+    // This is to update the history of a previous selected video
+    updatePreviousVideo()
+
+    // Swicth to new lecture
+    let playHistoryData = {
+      courseId,
+      userId: user.uid,
+      duration: lecture.duration,
+      lectureId: lecture.id,
+    }
+
+    playHistoryCollection
+      .where('courseId', '==', playHistoryData.courseId)
+      .where('userId', '==', playHistoryData.userId)
+      .where('lectureId', '==', playHistoryData.lectureId)
+      .get()
+      .then(snap => {
+        if (snap.docs.length) {
+
+          snap.docs.forEach(doc => {
+            updatePlayedHistory(initHistoryAction({ ...doc.data(), firebaseId: doc.id }))
+          })
+        } else {
+          const history = getPlayHistoryObject(getTotalSeconds(playHistoryData.duration))
+          const firebaseId = playHistoryCollection.doc().id
+          // playedHistory = { ...playHistoryData, history, firebaseId }
+          updatePlayedHistory(initHistoryAction({ ...playHistoryData, history, firebaseId }))
+          playHistoryCollection.doc(firebaseId).set(playedHistory)
+        }
+        setCurrentVideo(lecture)
+      })
   }
 
   const { course, sectionList, lectureList } = data
   return (
     <div>
-      <h1>{course.title}</h1>
-      <p>{course.description}</p>
       {course.version && course.version === 1 && <StyledVideo>
         {course && <iframe
           width="100%"
@@ -74,13 +118,21 @@ const CoursePlayList = ({ courseId }) => {
       </StyledVideo>}
 
       {course.version && course.version === 2 && <StyledPlayerAndList>
-        {currentVideo.vimeoVideoId && currentVideo.levelRequired <= mapLevel[planLevel] && <Vimeo
-          video={currentVideo.vimeoVideoId}
-          onTimeUpdate={onTimeUpdate}
-          responsive
-        /> || <StyledPlayWrapper><StyledPlayMessage>Your member level is insufficient to watch this video. Consider upgrading or let's have a chat about it.</StyledPlayMessage></StyledPlayWrapper>}
-          {/* {<StyledListVideo>
-          </StyledListVideo>} */}
+        {currentVideo.vimeoVideoId && <>
+          <StyledReactPlayerWrapper>
+            <StyledReactPlayer
+              url={`https://vimeo.com/${currentVideo.vimeoVideoId}`}
+              controls
+              width="100%"
+              height="100%"
+              onProgress={onProgress}
+              onEnded={onEnded}
+            />
+            <HistoryGraph data={playedHistory.history} height={8} />
+          </StyledReactPlayerWrapper>
+        </>}
+        {currentVideo.vimeoVideoId && currentVideo.levelRequired <= mapLevel[planLevel] || <StyledPlayWrapper><StyledPlayMessage>Your member level is insufficient to watch this video. Consider upgrading or let's have a chat about it.</StyledPlayMessage></StyledPlayWrapper>}
+
         <StyledListWrapper>
           <StyledList>
             {sectionList.map(section => {
@@ -91,14 +143,14 @@ const CoursePlayList = ({ courseId }) => {
                     {lectureList
                       .filter(lecture => lecture.section.id === section.id && lecture.published)
                       .map(lecture => {
-                        const { youtubeVideoId = ''} = lecture
+                        const { youtubeVideoId = '' } = lecture
                         return (
                           <StyledListRow
                             key={lecture.id}
-                            onClick={() => setCurrentVideo(lecture)}
+                            onClick={() => updateCurrentVideo(lecture)}
                             selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
                             <StyledListImageWrapper>
-                              {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt=""/>}
+                              {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt="" />}
                             </StyledListImageWrapper>
                             <StyledListTitle>{lecture.title}</StyledListTitle>
                             <StyledListDuration>{lecture.duration}</StyledListDuration>
@@ -114,6 +166,8 @@ const CoursePlayList = ({ courseId }) => {
           </StyledList>
         </StyledListWrapper>
       </StyledPlayerAndList>}
+      <h1>{course.title}</h1>
+      <p>{course.description}</p>
     </div>
   )
 }

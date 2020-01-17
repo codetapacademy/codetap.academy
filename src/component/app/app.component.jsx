@@ -6,8 +6,8 @@ import TopMenu from '../top-menu/top-menu.component';
 export const CodeTapAcademy = () => {
   return (
     <StyledApp>
-      <TopMenu />
       <WebInfo />
+      <TopMenu />
     </StyledApp>
   )
 }
