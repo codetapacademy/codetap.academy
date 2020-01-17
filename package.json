@@ -1,6 +1,6 @@
 {
   "name": "codetap.academy",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.7.0",
