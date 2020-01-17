@@ -3,6 +3,7 @@ import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
 import { StyledReactPlayerWrapper, StyledReactPlayer, StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration, StyledPlayMessage } from './course-play-list.style';
 import { WebInfoState } from '../web-info/web-info.context';
+import { HistoryGraph } from '../_dumb/history-graph/history-graph.component';
 
 const mapLevel = {
   supporter: 0,
@@ -60,42 +61,12 @@ const CoursePlayList = ({ courseId }) => {
 
       if (lectureList.length && lectureList[0]) {
         const initialLectureList = lectureList.filter(lecture => lecture.section.id === sectionList[0].id)
-        console.log(initialLectureList, sectionList[0].id, lectureList)
-        setCurrentVideo(initialLectureList[0])
-        console.log(courseId, user.uid, lectureList[0], lectureList[0].duration, lectureList[0].id)
-        let playHistoryData = {
-          courseId,
-          userId: user.uid,
-          duration: lectureList[0].duration,
-          lectureId: lectureList[0].id,
-        }
-
-        playHistoryQuery = playHistoryCollection.where('courseId', '==', playHistoryData.courseId)
-          .where('userId', '==', playHistoryData.userId)
-          .where('duration', '==', playHistoryData.duration)
-          .where('lectureId', '==', playHistoryData.lectureId)
-        const playHistorySnap = await playHistoryQuery.get()
-        const playHistory = [...playHistorySnap.docs]
-        if (playHistory.length) {
-          console.log('********************** data', playHistory[0].id, playHistory[0].data())
-          playedHistory.current = playHistory[0].data()
-        } else {
-          console.log('********************** no data')
-          const history = getPlayHistoryObject(getTotalSeconds(playHistoryData.duration))
-          playedHistory.current = { ...playHistoryData, history };
-          playHistoryCollection.add(playedHistory.current)
-        }
+        updateCurrentVideo(initialLectureList[0])
       }
     })()
     return () => {
       console.log('This is unload')
-      playHistoryQuery.get().then(snap => {
-        snap.docs.forEach(doc => {
-          console.log(doc.id)
-          const { history } = playedHistory.current
-          playHistoryCollection.doc(doc.id).set({ history }, { merge: true })
-        })
-      })
+      updatePreviousVideo()
     }
   }, [])
 
@@ -127,25 +98,44 @@ const CoursePlayList = ({ courseId }) => {
     console.log(playedHistory)
   }
 
+  const updatePreviousVideo = () => {
+    if (currentVideo && playedHistory.current.firebaseId) {
+      const { history, firebaseId } = playedHistory.current
+      playHistoryCollection.doc(firebaseId)
+        .set({ history }, { merge: true })
+    }
+  }
+
   const updateCurrentVideo = lecture => {
+    // Check to see if there is a current video different than lecture
+    // This is to update the history of a previous selected video
+    updatePreviousVideo()
+
+    // Swicth to new lecture
     let playHistoryData = {
       courseId,
       userId: user.uid,
-      duration: currentVideo.duration,
-      lectureId: currentVideo.id,
+      duration: lecture.duration,
+      lectureId: lecture.id,
     }
 
-    playHistoryCollection.where('courseId', '==', playHistoryData.courseId)
+    playHistoryCollection
+      .where('courseId', '==', playHistoryData.courseId)
       .where('userId', '==', playHistoryData.userId)
-      .where('duration', '==', playHistoryData.duration)
       .where('lectureId', '==', playHistoryData.lectureId)
       .get()
       .then(snap => {
-        snap.docs.forEach(doc => {
-          console.log(doc.id)
-          const { history } = playedHistory.current
-          playHistoryCollection.doc(doc.id).set({ history }, { merge: true })
-        })
+        if (snap.docs.length) {
+
+          snap.docs.forEach(doc => {
+            playedHistory.current = { ...doc.data(), firebaseId: doc.id }
+          })
+        } else {
+          const history = getPlayHistoryObject(getTotalSeconds(playHistoryData.duration))
+          playedHistory.current = { ...playHistoryData, history };
+          const firebaseId = playHistoryCollection.doc().id
+          playHistoryCollection.doc(firebaseId).set(playedHistory.current)
+        }
         setCurrentVideo(lecture)
       })
   }
@@ -166,13 +156,18 @@ const CoursePlayList = ({ courseId }) => {
       </StyledVideo>}
 
       {course.version && course.version === 2 && <StyledPlayerAndList>
-        {currentVideo.vimeoVideoId && <StyledReactPlayerWrapper><StyledReactPlayer
-          url={`https://vimeo.com/${currentVideo.vimeoVideoId}`}
-          controls
-          width="100%"
-          height="100%"
-          onProgress={onProgress}
-        /></StyledReactPlayerWrapper>}
+        {currentVideo.vimeoVideoId && <>
+          <StyledReactPlayerWrapper>
+            <StyledReactPlayer
+              url={`https://vimeo.com/${currentVideo.vimeoVideoId}`}
+              controls
+              width="100%"
+              height="100%"
+              onProgress={onProgress}
+            />
+            <HistoryGraph data={playedHistory.current.history} />
+          </StyledReactPlayerWrapper>
+        </>}
         {currentVideo.vimeoVideoId && currentVideo.levelRequired <= mapLevel[planLevel] || <StyledPlayWrapper><StyledPlayMessage>Your member level is insufficient to watch this video. Consider upgrading or let's have a chat about it.</StyledPlayMessage></StyledPlayWrapper>}
 
         <StyledListWrapper>
