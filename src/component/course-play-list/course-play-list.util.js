@@ -1,4 +1,3 @@
-
 export const mapLevel = {
   supporter: 0,
   starter: 1,
