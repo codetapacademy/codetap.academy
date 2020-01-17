@@ -1,19 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useReducer } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
 import { StyledReactPlayerWrapper, StyledReactPlayer, StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration, StyledPlayMessage } from './course-play-list.style';
 import { WebInfoState } from '../web-info/web-info.context';
 import { HistoryGraph } from '../_dumb/history-graph/history-graph.component';
-
-const mapLevel = {
-  supporter: 0,
-  starter: 1,
-  wise: 2,
-  mentored: 3
-}
+import { historyReducer } from './course-play-list.reducer';
+import { mapLevel, getTotalSeconds, getPlayHistoryObject } from './course-play-list.util';
+import { updateHistoryAction, initHistoryAction } from './course-play-list.action';
 
 const CoursePlayList = ({ courseId }) => {
-  const playedHistory = useRef({})
+  const [playedHistory, updatePlayedHistory] = useReducer(historyReducer, {})
   const [currentVideo, setCurrentVideo] = useState({})
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
@@ -23,23 +19,8 @@ const CoursePlayList = ({ courseId }) => {
   const { user } = WebInfoState();
   const [planLevel] = ((user && user.plan_id) || 'supporter_').split('_')
 
-  // '01:25:41' -> split
-  // ['01', '25', '41'] -> reverse()
-  // ['41', '25', '01']
-  const getTotalSeconds = duration => duration
-    .split(':')
-    .reverse()
-    .map((v, c) => +v * Math.pow(60, c))
-    .reduce((a, c) => a + c, 0)
-
-  // {name: 'Marian', 0: 0, 1: 0, 2: 0, ...., 150: 0}
-  const getPlayHistoryObject = seconds => Array
-    .from({ length: seconds + 1 }, (_, k) => k)
-    // [0, 1, 2, 3, 4, ..., 150]
-    .reduce((a, c) => ({ ...a, [c]: 0 }), {})
 
   useEffect(() => {
-    let playHistoryQuery
     (async () => {
       const courseSnap = await courseCollection.doc(courseId).get()
       const course = { id: courseSnap.id, ...courseSnap.data() }
@@ -57,50 +38,30 @@ const CoursePlayList = ({ courseId }) => {
       const lectureList = [...lectureListSnap.docs].map(doc => ({ ...doc.data(), id: doc.id })).sort((a, b) => a.order - b.order)
       updateData({ lectureList, sectionList, course })
 
-      console.log(lectureList)
-
       if (lectureList.length && lectureList[0]) {
         const initialLectureList = lectureList.filter(lecture => lecture.section.id === sectionList[0].id)
         updateCurrentVideo(initialLectureList[0])
       }
     })()
     return () => {
-      console.log('This is unload')
       updatePreviousVideo()
     }
   }, [])
 
-  const onTimeUpdate = ({ seconds, duration }) => {
-    console.log(~~seconds, ~~duration)
+  const onEnded = () => {
+    updatePreviousVideo()
   }
 
-  const onProgress = ({ playedSeconds, played }) => {
-    // {playedSeconds: 0, played: 0, loadedSeconds: 6.033, loaded: 0.039965552648140175}
+  const onProgress = ({ playedSeconds }) => {
     const currentSecond = ~~playedSeconds
-
-    if (playedHistory.current.history && playedHistory.current.history.hasOwnProperty(currentSecond)) {
-      playedHistory.current = {
-        ...playedHistory.current,
-        history: {
-          ...playedHistory.current.history,
-          [currentSecond]: playedHistory.current.history[currentSecond] + 1
-        }
-      }
-    } else {
-      playedHistory.current = {
-        ...playedHistory.current,
-        history: {
-          ...playedHistory.current.history,
-          [currentSecond]: 1
-        }
-      }
-    }
-    console.log(playedHistory)
+    console.log(currentSecond, playedSeconds)
+    const secondToUpdate = playedHistory.history && playedHistory.history.hasOwnProperty(currentSecond) ? currentSecond : 0
+    updatePlayedHistory(updateHistoryAction(secondToUpdate))
   }
 
   const updatePreviousVideo = () => {
-    if (currentVideo && playedHistory.current.firebaseId) {
-      const { history, firebaseId } = playedHistory.current
+    if (currentVideo && playedHistory.firebaseId) {
+      const { history, firebaseId } = playedHistory
       playHistoryCollection.doc(firebaseId)
         .set({ history }, { merge: true })
     }
@@ -128,13 +89,14 @@ const CoursePlayList = ({ courseId }) => {
         if (snap.docs.length) {
 
           snap.docs.forEach(doc => {
-            playedHistory.current = { ...doc.data(), firebaseId: doc.id }
+            updatePlayedHistory(initHistoryAction({ ...doc.data(), firebaseId: doc.id }))
           })
         } else {
           const history = getPlayHistoryObject(getTotalSeconds(playHistoryData.duration))
-          playedHistory.current = { ...playHistoryData, history };
           const firebaseId = playHistoryCollection.doc().id
-          playHistoryCollection.doc(firebaseId).set(playedHistory.current)
+          // playedHistory = { ...playHistoryData, history, firebaseId }
+          updatePlayedHistory(initHistoryAction({ ...playHistoryData, history, firebaseId }))
+          playHistoryCollection.doc(firebaseId).set(playedHistory)
         }
         setCurrentVideo(lecture)
       })
@@ -164,8 +126,9 @@ const CoursePlayList = ({ courseId }) => {
               width="100%"
               height="100%"
               onProgress={onProgress}
+              onEnded={onEnded}
             />
-            <HistoryGraph data={playedHistory.current.history} />
+            <HistoryGraph data={playedHistory.history} height={8} />
           </StyledReactPlayerWrapper>
         </>}
         {currentVideo.vimeoVideoId && currentVideo.levelRequired <= mapLevel[planLevel] || <StyledPlayWrapper><StyledPlayMessage>Your member level is insufficient to watch this video. Consider upgrading or let's have a chat about it.</StyledPlayMessage></StyledPlayWrapper>}

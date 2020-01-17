@@ -4,23 +4,6 @@ import ReactPlayer from 'react-player'
 export const StyledReactPlayerWrapper = styled.div`
   padding-top: 56.25%;
   position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    height: 15px;
-    width: 100%;
-    left: 0;
-    background: linear-gradient(
-      to right,
-      #c00 0%,
-      #036 26%,
-      #0f0 51%,
-      #aae 77%,
-      #b06 100%
-    );
-  }
 `
 
 export const StyledReactPlayer = styled(ReactPlayer)`
