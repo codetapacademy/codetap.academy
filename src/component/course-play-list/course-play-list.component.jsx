@@ -10,6 +10,7 @@ import { updateHistoryAction, initHistoryAction } from './course-play-list.actio
 
 const CoursePlayList = ({ courseId }) => {
   const [playedHistory, updatePlayedHistory] = useReducer(historyReducer, {})
+  const ceilSeccond = useRef(0)
   const [currentVideo, setCurrentVideo] = useState({})
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
@@ -53,10 +54,13 @@ const CoursePlayList = ({ courseId }) => {
   }
 
   const onProgress = ({ playedSeconds }) => {
-    const currentSecond = ~~playedSeconds
-    console.log(currentSecond, playedSeconds)
-    const secondToUpdate = playedHistory.history && playedHistory.history.hasOwnProperty(currentSecond) ? currentSecond : 0
-    updatePlayedHistory(updateHistoryAction(secondToUpdate))
+    const currentSecond = Math.ceil(playedSeconds)
+    console.log(currentSecond, playedSeconds, ceilSeccond.current)
+    if (currentSecond !== ceilSeccond.current) {
+      ceilSeccond.current = currentSecond
+      const secondToUpdate = playedHistory.history && playedHistory.history.hasOwnProperty(currentSecond) ? currentSecond : 0
+      updatePlayedHistory(updateHistoryAction(secondToUpdate))
+    }
   }
 
   const updatePreviousVideo = () => {
@@ -125,6 +129,7 @@ const CoursePlayList = ({ courseId }) => {
               controls
               width="100%"
               height="100%"
+              progressInterval={250}
               onProgress={onProgress}
               onEnded={onEnded}
             />
