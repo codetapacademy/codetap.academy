@@ -10,7 +10,11 @@ import { updateHistoryAction, initHistoryAction } from './course-play-list.actio
 
 const CoursePlayList = ({ courseId }) => {
   const [playedHistory, updatePlayedHistory] = useReducer(historyReducer, {})
-  const ceilSeccond = useRef(0)
+  const internalPlaySettings = useRef({
+    ceilSeccond: 0,
+    saveSecondsInterval: 5,
+    currentPlayBeforeSave: 0,
+  })
   const [currentVideo, setCurrentVideo] = useState({})
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
@@ -55,9 +59,16 @@ const CoursePlayList = ({ courseId }) => {
 
   const onProgress = ({ playedSeconds }) => {
     const currentSecond = Math.ceil(playedSeconds)
-    console.log(currentSecond, playedSeconds, ceilSeccond.current)
-    if (currentSecond !== ceilSeccond.current) {
-      ceilSeccond.current = currentSecond
+    console.log(currentSecond, playedSeconds, internalPlaySettings.current)
+    if (currentSecond !== internalPlaySettings.current.ceilSeccond) {
+      internalPlaySettings.current.ceilSeccond = currentSecond
+
+      internalPlaySettings.current.currentPlayBeforeSave += 1
+      if (internalPlaySettings.current.currentPlayBeforeSave === internalPlaySettings.current.saveSecondsInterval) {
+        updatePreviousVideo()
+        internalPlaySettings.current.currentPlayBeforeSave = 0
+      }
+
       const secondToUpdate = playedHistory.history && playedHistory.history.hasOwnProperty(currentSecond) ? currentSecond : 0
       updatePlayedHistory(updateHistoryAction(secondToUpdate))
     }
@@ -98,9 +109,9 @@ const CoursePlayList = ({ courseId }) => {
         } else {
           const history = getPlayHistoryObject(getTotalSeconds(playHistoryData.duration))
           const firebaseId = playHistoryCollection.doc().id
-          // playedHistory = { ...playHistoryData, history, firebaseId }
-          updatePlayedHistory(initHistoryAction({ ...playHistoryData, history, firebaseId }))
-          playHistoryCollection.doc(firebaseId).set(playedHistory)
+          const playedHistoryObject = { ...playHistoryData, history, firebaseId }
+          updatePlayedHistory(initHistoryAction(playedHistoryObject))
+          playHistoryCollection.doc(firebaseId).set(playedHistoryObject)
         }
         setCurrentVideo(lecture)
       })
