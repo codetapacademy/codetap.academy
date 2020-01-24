@@ -10,6 +10,11 @@ import { updateHistoryAction, initHistoryAction } from './course-play-list.actio
 
 const CoursePlayList = ({ courseId }) => {
   const [playedHistory, updatePlayedHistory] = useReducer(historyReducer, {})
+  const internalPlaySettings = useRef({
+    ceilSeccond: 0,
+    saveSecondsInterval: 5,
+    currentPlayBeforeSave: 0,
+  })
   const [currentVideo, setCurrentVideo] = useState({})
   const lectureCollection = db.collection('lecture')
   const courseCollection = db.collection('course')
@@ -53,10 +58,20 @@ const CoursePlayList = ({ courseId }) => {
   }
 
   const onProgress = ({ playedSeconds }) => {
-    const currentSecond = ~~playedSeconds
-    console.log(currentSecond, playedSeconds, `${getPercentage(playedHistory.history)}%`)
-    const secondToUpdate = playedHistory.history && playedHistory.history.hasOwnProperty(currentSecond) ? currentSecond : 0
-    updatePlayedHistory(updateHistoryAction(secondToUpdate))
+    const currentSecond = Math.ceil(playedSeconds)
+    console.log(currentSecond, playedSeconds, `${getPercentage(playedHistory.history)}%`, playedHistory)
+    if (currentSecond !== internalPlaySettings.current.ceilSeccond) {
+      internalPlaySettings.current.ceilSeccond = currentSecond
+
+      internalPlaySettings.current.currentPlayBeforeSave += 1
+      if (internalPlaySettings.current.currentPlayBeforeSave === internalPlaySettings.current.saveSecondsInterval) {
+        updatePreviousVideo()
+        internalPlaySettings.current.currentPlayBeforeSave = 0
+      }
+
+      const secondToUpdate = playedHistory.history && playedHistory.history.hasOwnProperty(currentSecond) ? currentSecond : 0
+      updatePlayedHistory(updateHistoryAction(secondToUpdate))
+    }
   }
 
   const updatePreviousVideo = () => {
@@ -96,9 +111,9 @@ const CoursePlayList = ({ courseId }) => {
         } else {
           const history = getPlayHistoryObject(getTotalSeconds(playHistoryData.duration))
           const firebaseId = playHistoryCollection.doc().id
-          // playedHistory = { ...playHistoryData, history, firebaseId }
-          updatePlayedHistory(initHistoryAction({ ...playHistoryData, history, firebaseId }))
-          playHistoryCollection.doc(firebaseId).set(playedHistory)
+          const playedHistoryObject = { ...playHistoryData, history, firebaseId }
+          updatePlayedHistory(initHistoryAction(playedHistoryObject))
+          playHistoryCollection.doc(firebaseId).set(playedHistoryObject)
         }
         setCurrentVideo(lecture)
       })
@@ -127,6 +142,7 @@ const CoursePlayList = ({ courseId }) => {
               controls
               width="100%"
               height="100%"
+              progressInterval={250}
               onProgress={onProgress}
               onEnded={onEnded}
             />
