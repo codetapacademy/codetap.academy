@@ -5,7 +5,7 @@ import { StyledReactPlayerWrapper, StyledReactPlayer, StyledListRow, StyledListD
 import { WebInfoState } from '../web-info/web-info.context';
 import { HistoryGraph } from '../_dumb/history-graph/history-graph.component';
 import { historyReducer } from './course-play-list.reducer';
-import { mapLevel, getTotalSeconds, getPlayHistoryObject } from './course-play-list.util';
+import { mapLevel, getTotalSeconds, getPlayHistoryObject, getPercentage } from './course-play-list.util';
 import { updateHistoryAction, initHistoryAction } from './course-play-list.action';
 
 const CoursePlayList = ({ courseId }) => {
@@ -54,7 +54,7 @@ const CoursePlayList = ({ courseId }) => {
 
   const onProgress = ({ playedSeconds }) => {
     const currentSecond = ~~playedSeconds
-    console.log(currentSecond, playedSeconds)
+    console.log(currentSecond, playedSeconds, `${getPercentage(playedHistory.history)}%`)
     const secondToUpdate = playedHistory.history && playedHistory.history.hasOwnProperty(currentSecond) ? currentSecond : 0
     updatePlayedHistory(updateHistoryAction(secondToUpdate))
   }
@@ -78,6 +78,8 @@ const CoursePlayList = ({ courseId }) => {
       userId: user.uid,
       duration: lecture.duration,
       lectureId: lecture.id,
+      watched: 0, // as percentage
+      completed: false,
     }
 
     playHistoryCollection
