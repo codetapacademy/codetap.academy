@@ -33,3 +33,12 @@ As a user, when I visit the play list of a course, I want to be able to see a qu
 The picture preview is too small to provide any meaningful information and can make room for more relevant content to be presented. As a user I can get a suggestion about the lesson from the title of it and I can also get a better understanding if the expand description button allows me to view more info.
 * remove the image from being displayed to the left of the title
 * add the image as a tooltip when the user hovers with the mouse the lecture box and have it displayed to the left of the lecture. The tooltip should be big enough for the content of the image, especially the text, to be readable.
+
+### Watched vs Completed
+New properties and features will be added to the state that indicates the history interactions of a user with a lesson, on top of the ones already there: **lecture id**, **course id**, **user id**, **firestore document id** and **history**.
+
+* a lesson will have by default a **completed** property with a value of _false_. A user can toggle this value to _true_ of _false_. When a user triggers this action, only the state of completed changes. The XP and CodeTap Merits will remain the same.
+* upon reaching 100% watched event a lesson will be marked as completed. This event can reward the user with XP and CodeTap Merits, if certain conditions are met.
+    * If the user stand-up is not present and validated for that day, this event will not reward any XP or CodeTap Merits.
+    * If the user provided a stand-up update, and it has been validated, and no comments have been added, the default minimum XP will be rewarded and the CodeTap Merits will remain the same.
+    * If the user provided a stand-up update, and it has been validated, and a minimum of two comments have been added as first time watched, or a minimum of 1 comment has been added as second or more times watched, the default XP for this event will be rewarded and CodeTap Merits will be affected by this event. This rewards will be affected by the multiplication daily bonus scheme factor.
