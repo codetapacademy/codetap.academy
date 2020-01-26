@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
-import { StyledReactPlayerWrapper, StyledReactPlayer, StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration, StyledPlayMessage } from './course-play-list.style';
+import { StyledReactPlayerWrapper, StyledReactPlayer, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledPlayMessage } from './course-play-list.style';
 import { WebInfoState } from '../web-info/web-info.context';
 import { HistoryGraph } from '../_dumb/history-graph/history-graph.component';
 import { historyReducer } from './course-play-list.reducer';
 import { mapLevel, getTotalSeconds, getPlayHistoryObject, getPercentage } from './course-play-list.util';
 import { updateHistoryAction, initHistoryAction } from './course-play-list.action';
+import { CoursePlayLectureList } from '../course-play-lecture-list/course-play-lecture-list.component';
 
 const CoursePlayList = ({ courseId }) => {
   const [playedHistory, updatePlayedHistory] = useReducer(historyReducer, {})
@@ -157,27 +158,12 @@ const CoursePlayList = ({ courseId }) => {
               return (
                 <div key={section.id}>
                   <h2>{section.title}</h2>
-                  <div>
-                    {lectureList
-                      .filter(lecture => lecture.section.id === section.id && lecture.published)
-                      .map(lecture => {
-                        const { youtubeVideoId = '' } = lecture
-                        return (
-                          <StyledListRow
-                            key={lecture.id}
-                            onClick={() => updateCurrentVideo(lecture)}
-                            selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
-                            <StyledListImageWrapper>
-                              {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt="" />}
-                            </StyledListImageWrapper>
-                            <StyledListTitle>{lecture.title}</StyledListTitle>
-                            <StyledListDuration>{lecture.duration}</StyledListDuration>
-                            <StyledListDescription>{lecture.description}</StyledListDescription>
-                          </StyledListRow>
-                        )
-                      })
-                    }
-                  </div>
+                  <CoursePlayLectureList
+                    lectureList={lectureList}
+                    updateCurrentVideo={updateCurrentVideo}
+                    currentVideo={currentVideo}
+                    section={section}
+                  />
                 </div>
               )
             })}
