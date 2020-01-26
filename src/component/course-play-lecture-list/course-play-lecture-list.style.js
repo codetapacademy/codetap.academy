@@ -11,7 +11,7 @@ export const StyledListRow = styled.div`
 `
 
 export const StyledListImageWrapper = styled.div`
-  grid-row: 1/3;
+  grid-row: 1/2;
   max-width: 100%;
 
   img {
@@ -35,4 +35,5 @@ export const StyledListDuration = styled.div`
   font-size:0.9rem;
   text-align: right;
   padding-right: 0.5rem;
+  grid-column: 2/3;
 `

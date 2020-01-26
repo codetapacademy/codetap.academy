@@ -21,6 +21,7 @@ const CoursePlayLectureList = ({ lectureList, updateCurrentVideo, currentVideo, 
             {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt="" />}
           </StyledListImageWrapper>
           <StyledListTitle>{lecture.title}</StyledListTitle>
+          <div><input type="checkbox" /></div>
           <StyledListDuration>{lecture.duration}</StyledListDuration>
           <StyledListDescription>{lecture.description}</StyledListDescription>
         </StyledListRow>
