@@ -44,3 +44,7 @@ export const StyledList = styled.div`
   right: 0;
   overflow-y: auto;
 `
+
+export const StyledSectionListTitle = styled.div`
+  font-size: 1rem;
+`

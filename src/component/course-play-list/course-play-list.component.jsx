@@ -1,7 +1,16 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
-import { StyledReactPlayerWrapper, StyledReactPlayer, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledPlayMessage } from './course-play-list.style';
+import {
+  StyledReactPlayerWrapper,
+  StyledReactPlayer,
+  StyledPlayerAndList,
+  StyledList,
+  StyledListWrapper,
+  StyledPlayWrapper,
+  StyledPlayMessage,
+  StyledSectionListTitle,
+} from './course-play-list.style';
 import { WebInfoState } from '../web-info/web-info.context';
 import { HistoryGraph } from '../_dumb/history-graph/history-graph.component';
 import { historyReducer } from './course-play-list.reducer';
@@ -157,7 +166,7 @@ const CoursePlayList = ({ courseId }) => {
             {sectionList.map(section => {
               return (
                 <div key={section.id}>
-                  <h2>{section.title}</h2>
+                  <StyledSectionListTitle>{section.title}</StyledSectionListTitle>
                   <CoursePlayLectureList
                     lectureList={lectureList}
                     updateCurrentVideo={updateCurrentVideo}

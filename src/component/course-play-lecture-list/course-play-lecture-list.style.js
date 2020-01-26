@@ -27,6 +27,7 @@ export const StyledListDescription = styled.div`
 
 export const StyledListTitle = styled.h3`
   margin: 0;
+  font-size: 0.875rem;
 `
 
 export const StyledListDuration = styled.div`
