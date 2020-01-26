@@ -22,7 +22,11 @@ As a user I want to be able to see a chevron pointing up or down, to the right o
 ## Lecture
 
 ### Description of a lecture
-
+As a user, when I visit the play list of a course, I want to be able to see a quick overview of the sections and lectures of the course. If a description of a lecture is present, I want to be able to toggle its visiblity on and off. By default all descriptions of lectures should be hidden.
+* Hide the description of the lectures
+* Implement a toggle button to show/hide the lecture description
+* If a description is empty the toggle lecture description button should be either disabled or hidden.
+* the state of the playlist shouldn't be saved for the user, hence a good idea is to implement these features using CSS only
 
 ### Reposition the picture preview
 
