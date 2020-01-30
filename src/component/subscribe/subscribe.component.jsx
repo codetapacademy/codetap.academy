@@ -46,7 +46,7 @@ const cbInstance = window.Chargebee.init({
 
 const Subscribe = () => {
   const [selected, updateSelected] = useState('wise_25')
-  const [customer, updateCustomer] = useState(subscribeConfig)
+  const [customer, updateCustomer] = useState({})
   const { user } = WebInfoState();
 
   useEffect(() => {
@@ -85,7 +85,11 @@ const Subscribe = () => {
   }
 
   const handleSubscribe = () => {
-    const plan_id = subscribeConfig.planList[selected].plan_id
+    const plan_id = subscribeConfig.planList
+      .flatMap(x => x.planList)
+      .filter(x => x.plan_id === selected)
+      .reduce(a => a).plan_id
+
     cbInstance.openCheckout({
       hostedPage: () => axios
         .post(`https://api2.codetap.academy/generate_checkout_new_url`, urlEncode({

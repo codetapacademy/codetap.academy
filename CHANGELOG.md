@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.14.2](https://github.com/codetapacademy/codetap.academy/compare/v0.14.1...v0.14.2) (2020-01-17)
+
+
+### Features
+
+* watch history [#326](https://github.com/codetapacademy/codetap.academy/issues/326) ([8dd2bd1](https://github.com/codetapacademy/codetap.academy/commit/8dd2bd1a57ebcd4becf4e81ab2525dceb95a0285))
+
+
+### Bug Fixes
+
+* discord user id not present after refresh ([12cbb8f](https://github.com/codetapacademy/codetap.academy/commit/12cbb8f81f88f73e01d1a54c23c0dc62aaeff071)), closes [#319](https://github.com/codetapacademy/codetap.academy/issues/319)
+* drop down menu doesn't go away ([c4bfb78](https://github.com/codetapacademy/codetap.academy/commit/c4bfb786d88260e5591884cc5a60ea720a3248b8)), closes [#320](https://github.com/codetapacademy/codetap.academy/issues/320)
+
 ### [0.14.1](https://github.com/codetapacademy/codetap.academy/compare/v0.14.0...v0.14.1) (2019-12-17)
 
 
