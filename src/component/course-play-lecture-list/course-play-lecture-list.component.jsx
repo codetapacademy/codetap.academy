@@ -2,11 +2,12 @@ import React from 'react'
 import {
   StyledListRow,
   StyledListDescription,
-  StyledListImageWrapper,
   StyledListTitle,
   StyledListDuration,
+  StyledListInput,
+  StyledListLabel,
 } from './course-play-lecture-list.style';
-
+// sort-amount-desc
 const CoursePlayLectureList = ({ lectureList, updateCurrentVideo, currentVideo, section }) => {
   return lectureList
     .filter(lecture => lecture.section.id === section.id && lecture.published)
@@ -17,12 +18,13 @@ const CoursePlayLectureList = ({ lectureList, updateCurrentVideo, currentVideo, 
           key={lecture.id}
           onClick={() => updateCurrentVideo(lecture)}
           selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
-          <StyledListImageWrapper>
-            {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt="" />}
-          </StyledListImageWrapper>
-          <StyledListTitle>{lecture.title}</StyledListTitle>
-          <div><input type="checkbox" /></div>
-          <StyledListDuration>{lecture.duration}</StyledListDuration>
+          <StyledListTitle title={lecture.title}>{lecture.title}</StyledListTitle>
+          <StyledListInput id={`toggle-${lecture.id}`} type="checkbox" />
+          <StyledListLabel
+            htmlFor={`toggle-${lecture.id}`}
+            className="codetap-academy-sort-amount-desc"
+          />
+          <StyledListDuration>{lecture.duration} <i className="codetap-academy-clock" /></StyledListDuration>
           <StyledListDescription>{lecture.description}</StyledListDescription>
         </StyledListRow>
       )

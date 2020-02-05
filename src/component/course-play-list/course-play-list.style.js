@@ -51,5 +51,10 @@ export const StyledList = styled.div`
 `
 
 export const StyledSectionListTitle = styled.div`
-  font-size: 1rem;
+  font-size: 1.1rem;
+  padding: 0.25rem 0;
+  margin-bottom: 0.5rem;
+  border: 1px dashed white;
+  border-left: 0;
+  border-right: 0;
 `
