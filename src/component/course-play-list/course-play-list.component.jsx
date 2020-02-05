@@ -1,12 +1,22 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react'
 import { db } from '../data/firebase';
 import { StyledVideo, StyledVideoOverlay } from '../play-video/play-video.style';
-import { StyledReactPlayerWrapper, StyledReactPlayer, StyledListRow, StyledListDescription, StyledListImageWrapper, StyledListVideo, StyledListVideoIframe, StyledListLevelRequired, StyledPlayerAndList, StyledList, StyledListWrapper, StyledPlayWrapper, StyledListTitle, StyledListDuration, StyledPlayMessage } from './course-play-list.style';
+import {
+  StyledReactPlayerWrapper,
+  StyledReactPlayer,
+  StyledPlayerAndList,
+  StyledList,
+  StyledListWrapper,
+  StyledPlayWrapper,
+  StyledPlayMessage,
+  StyledSectionListTitle,
+} from './course-play-list.style';
 import { WebInfoState } from '../web-info/web-info.context';
 import { HistoryGraph } from '../_dumb/history-graph/history-graph.component';
 import { historyReducer } from './course-play-list.reducer';
-import { mapLevel, getTotalSeconds, getPlayHistoryObject } from './course-play-list.util';
+import { mapLevel, getTotalSeconds, getPlayHistoryObject, getPercentage } from './course-play-list.util';
 import { updateHistoryAction, initHistoryAction } from './course-play-list.action';
+import { CoursePlayLectureList } from '../course-play-lecture-list/course-play-lecture-list.component';
 
 const CoursePlayList = ({ courseId }) => {
   const [playedHistory, updatePlayedHistory] = useReducer(historyReducer, {})
@@ -59,7 +69,7 @@ const CoursePlayList = ({ courseId }) => {
 
   const onProgress = ({ playedSeconds }) => {
     const currentSecond = Math.ceil(playedSeconds)
-    console.log(currentSecond, playedSeconds, internalPlaySettings.current)
+    console.log(currentSecond, playedSeconds, `${getPercentage(playedHistory.history)}%`, playedHistory)
     if (currentSecond !== internalPlaySettings.current.ceilSeccond) {
       internalPlaySettings.current.ceilSeccond = currentSecond
 
@@ -93,6 +103,8 @@ const CoursePlayList = ({ courseId }) => {
       userId: user.uid,
       duration: lecture.duration,
       lectureId: lecture.id,
+      watched: 0, // as percentage
+      completed: false,
     }
 
     playHistoryCollection
@@ -154,28 +166,13 @@ const CoursePlayList = ({ courseId }) => {
             {sectionList.map(section => {
               return (
                 <div key={section.id}>
-                  <h2>{section.title}</h2>
-                  <div>
-                    {lectureList
-                      .filter(lecture => lecture.section.id === section.id && lecture.published)
-                      .map(lecture => {
-                        const { youtubeVideoId = '' } = lecture
-                        return (
-                          <StyledListRow
-                            key={lecture.id}
-                            onClick={() => updateCurrentVideo(lecture)}
-                            selected={currentVideo.vimeoVideoId === lecture.vimeoVideoId}>
-                            <StyledListImageWrapper>
-                              {youtubeVideoId && <img src={`http://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt="" />}
-                            </StyledListImageWrapper>
-                            <StyledListTitle>{lecture.title}</StyledListTitle>
-                            <StyledListDuration>{lecture.duration}</StyledListDuration>
-                            <StyledListDescription>{lecture.description}</StyledListDescription>
-                          </StyledListRow>
-                        )
-                      })
-                    }
-                  </div>
+                  <StyledSectionListTitle>{section.title}</StyledSectionListTitle>
+                  <CoursePlayLectureList
+                    lectureList={lectureList}
+                    updateCurrentVideo={updateCurrentVideo}
+                    currentVideo={currentVideo}
+                    section={section}
+                  />
                 </div>
               )
             })}

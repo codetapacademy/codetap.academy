@@ -154,3 +154,7 @@ body {
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
+
+.codetap-academy-sort-amount-desc:before {
+  content: "\ee51";
+}
