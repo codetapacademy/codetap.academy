@@ -1,3 +1,9 @@
+export const getPercentage = o => {
+  const valueList = Object.values(o)
+  const playedSecondsList = valueList.filter(Boolean)
+  return ~~(playedSecondsList.length * 10000 / valueList.length) / 100
+}
+
 export const mapLevel = {
   supporter: 0,
   starter: 1,

@@ -40,9 +40,9 @@ const SubscribeSlider = withStyles({
 })(Slider);
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-const cbInstance = window.Chargebee.init({
+const cbInstance = window.Chargebee && window.Chargebee.init({
   site: 'bitbeeuk'
-})
+}) || {}
 
 const Subscribe = () => {
   const [selected, updateSelected] = useState('wise_25')

@@ -2,11 +2,20 @@
   "metadata": {
     "name": "CodeTap Academy",
     "lastOpened": 0,
-    "created": 1574075248131
+    "created": 1580935003052
   },
   "iconSets": [
     {
       "selection": [
+        {
+          "order": 43,
+          "prevSize": 16,
+          "ligatures": "sort-amount-desc, arrange6",
+          "name": "sort-amount-desc",
+          "id": 10,
+          "code": 61009,
+          "tempChar": ""
+        },
         {
           "order": 32,
           "prevSize": 16,
@@ -14,7 +23,7 @@
           "name": "subscribe",
           "id": 9,
           "code": 61010,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 33,
@@ -23,7 +32,7 @@
           "name": "check",
           "id": 8,
           "code": 60786,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 34,
@@ -32,7 +41,7 @@
           "name": "clock",
           "id": 7,
           "code": 59981,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 35,
@@ -47,10 +56,10 @@
             59651
           ],
           "tempChar": [
-            "",
             "",
             "",
-            ""
+            "",
+            ""
           ]
         },
         {
@@ -60,7 +69,7 @@
           "name": "cart",
           "id": 0,
           "code": 59907,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 37,
@@ -69,7 +78,7 @@
           "name": "chat",
           "id": 1,
           "code": 60126,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 38,
@@ -78,7 +87,7 @@
           "name": "users",
           "id": 2,
           "code": 60152,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 39,
@@ -87,7 +96,7 @@
           "name": "dashboard",
           "id": 3,
           "code": 60251,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 40,
@@ -96,7 +105,7 @@
           "name": "login",
           "id": 4,
           "code": 60794,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 41,
@@ -105,7 +114,7 @@
           "name": "logout",
           "id": 5,
           "code": 60795,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 1,
@@ -115,6 +124,25 @@
       "height": 1024,
       "prevSize": 32,
       "icons": [
+        {
+          "id": 10,
+          "paths": [
+            "M320 768v-768h-128v768h-160l224 224 224-224h-160z",
+            "M448 0h576v128h-576v-128z",
+            "M448 192h448v128h-448v-128z",
+            "M448 384h320v128h-320v-128z",
+            "M448 576h192v128h-192v-128z"
+          ],
+          "attrs": [],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "sort-amount-desc",
+            "arrange"
+          ],
+          "defaultCode": 61009,
+          "grid": 16
+        },
         {
           "id": 9,
           "paths": [
@@ -9886,7 +9914,7 @@
           "name": "sort-time-asc",
           "id": 1362,
           "code": 61011,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 0,
@@ -40739,7 +40767,6 @@
       "colorThemeIdx": 0
     }
   ],
-  "uid": -1,
   "preferences": {
     "showGlyphs": true,
     "showCodes": true,
@@ -40774,5 +40801,6 @@
     },
     "historySize": 50,
     "gridSize": 16
-  }
+  },
+  "uid": -1
 }
