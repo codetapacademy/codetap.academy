@@ -4,12 +4,6 @@ import { db } from '../data/firebase'
 
 const QuickProfile = () => {
   const { user, updateUser } = WebInfoState()
-  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
-
-  if (user) {
-    console.log(user.displayName)
-    console.log(user)
-  }
 
   const handleOnBlur = (se, element) => {
     const { value } = se.target
@@ -17,6 +11,13 @@ const QuickProfile = () => {
       .collection('user')
       .doc(user.uid)
       .set({ [element]: value }, { merge: true })
+    updateUser({
+      type: 'USER_AUTHENTICATE',
+      user: {
+        ...user,
+        [element]: value
+      }
+    })
   }
 
   return (
@@ -44,13 +45,23 @@ const QuickProfile = () => {
         />
       </div>
       <div>
-        <label htmlFor="lastName">Discord User ID</label>
+        <label htmlFor="discordUserId">Discord User ID</label>
         <input
           type="text"
           id="discordUserId"
           name="discordUserId"
           defaultValue={user && user.discordUserId}
           onBlur={e => handleOnBlur(e, 'discordUserId')}
+        />
+      </div>
+      <div>
+        <label htmlFor="githubUserId">GitHub User ID</label>
+        <input
+          type="text"
+          id="githubUserId"
+          name="githubUserId"
+          defaultValue={user && user.githubUserId}
+          onBlur={e => handleOnBlur(e, 'githubUserId')}
         />
       </div>
     </div>
