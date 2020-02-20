@@ -23,7 +23,7 @@ const TopMenu = () => {
           const isAdmin = (data && data.isAdmin) || false
           console.log(data)
           const { accepted = false, displayName, photoURL, email } = data || {}
-          const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
+          const { current_term_end, next_billing_at, plan_id, customer_id, discordUserId, githubUserId } = (data && data.subscription) || {}
           updateUser({
             type: 'USER_AUTHENTICATE',
             user: {
@@ -32,6 +32,8 @@ const TopMenu = () => {
               photoURL,
               email,
               plan_id,
+              discordUserId,
+              githubUserId,
               current_term_end,
               next_billing_at,
               customer_id,
@@ -68,7 +70,7 @@ const TopMenu = () => {
             .then(snap => {
               const data = snap.data()
               const isAdmin = (data && data.isAdmin) || false
-              const { accepted = false, firstName, lastName, discordUserId } = data || {}
+              const { accepted = false, firstName, lastName, discordUserId, githubUserId } = data || {}
               const { current_term_end, next_billing_at, plan_id, customer_id } = (data && data.subscription) || {}
               db.collection('user')
                 .doc(uid)
@@ -84,6 +86,7 @@ const TopMenu = () => {
                   firstName,
                   lastName,
                   discordUserId,
+                  githubUserId,
                   email,
                   plan_id,
                   current_term_end,
@@ -120,12 +123,10 @@ const TopMenu = () => {
   const handleClickOutsideCallback = useCallback(e => handleClickOutside(e), [])
 
   const toggleDropDownMenu = () => {
-    console.log('toggleDropDownMenu', showDropDownMenu)
     setShowDropDownMenu(!showDropDownMenu)
     if (!showDropDownMenu) {
       document.querySelector('body').addEventListener('click', handleClickOutsideCallback)
     } else {
-      console.log(`I'm removing the handleClickOutside()`)
       document.querySelector('body').removeEventListener('click', handleClickOutsideCallback)
     }
   }
