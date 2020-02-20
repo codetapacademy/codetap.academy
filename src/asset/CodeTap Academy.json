@@ -2,49 +2,58 @@
   "metadata": {
     "name": "CodeTap Academy",
     "lastOpened": 0,
-    "created": 1580935003052
+    "created": 1582234228266
   },
   "iconSets": [
     {
       "selection": [
         {
-          "order": 43,
+          "order": 45,
+          "prevSize": 16,
+          "ligatures": "arrow-up14, up19",
+          "name": "pointer-up",
+          "id": 11,
+          "code": 60967,
+          "tempChar": ""
+        },
+        {
+          "order": 46,
           "prevSize": 16,
           "ligatures": "sort-amount-desc, arrange6",
           "name": "sort-amount-desc",
           "id": 10,
           "code": 61009,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 32,
+          "order": 47,
           "prevSize": 16,
           "ligatures": "sort-time-asc, arrange7",
           "name": "subscribe",
           "id": 9,
           "code": 61010,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 33,
+          "order": 48,
           "prevSize": 16,
           "ligatures": "checkmark4, tick4",
           "name": "check",
           "id": 8,
           "code": 60786,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 34,
+          "order": 49,
           "prevSize": 16,
           "ligatures": "clock, time2",
           "name": "clock",
           "id": 7,
           "code": 59981,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 35,
+          "order": 50,
           "id": 6,
           "name": "codetap",
           "prevSize": 16,
@@ -56,65 +65,65 @@
             59651
           ],
           "tempChar": [
-            "",
             "",
             "",
-            ""
+            "",
+            ""
           ]
         },
         {
-          "order": 36,
+          "order": 51,
           "prevSize": 16,
           "ligatures": "cart-add, cart6",
           "name": "cart",
           "id": 0,
           "code": 59907,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 37,
+          "order": 52,
           "prevSize": 16,
           "ligatures": "bubbles9, comments9",
           "name": "chat",
           "id": 1,
           "code": 60126,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 38,
+          "order": 53,
           "prevSize": 16,
           "ligatures": "users, group",
           "name": "users",
           "id": 2,
           "code": 60152,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 39,
+          "order": 54,
           "prevSize": 16,
           "ligatures": "equalizer, sliders",
           "name": "dashboard",
           "id": 3,
           "code": 60251,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 40,
+          "order": 55,
           "prevSize": 16,
           "ligatures": "enter3, signin3",
           "name": "login",
           "id": 4,
           "code": 60794,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 41,
+          "order": 56,
           "prevSize": 16,
           "ligatures": "exit3, signout3",
           "name": "logout",
           "id": 5,
           "code": 60795,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 1,
@@ -124,6 +133,23 @@
       "height": 1024,
       "prevSize": 32,
       "icons": [
+        {
+          "id": 11,
+          "paths": [
+            "M512 0l-448 1024 448-192 448 192z"
+          ],
+          "attrs": [],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "arrow-up",
+            "up",
+            "arrow-top",
+            "upload"
+          ],
+          "defaultCode": 60967,
+          "grid": 16
+        },
         {
           "id": 10,
           "paths": [
@@ -9908,7 +9934,7 @@
           "id": 1361
         },
         {
-          "order": 31,
+          "order": 0,
           "prevSize": 16,
           "ligatures": "sort-time-asc, arrange7",
           "name": "sort-time-asc",
