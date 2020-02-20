@@ -100,7 +100,7 @@ const CoursePlayList = ({ courseId }) => {
     // Swicth to new lecture
     let playHistoryData = {
       courseId,
-      userId: user.uid,
+      userId: user && user.uid || '',
       duration: lecture.duration,
       lectureId: lecture.id,
       watched: 0, // as percentage
