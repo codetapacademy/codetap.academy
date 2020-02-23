@@ -21,7 +21,7 @@ const TopMenu = () => {
         .onSnapshot({ includeMetadataChanges: true }, doc => {
           const data = doc.data()
           const isAdmin = (data && data.isAdmin) || false
-          console.log(data)
+
           const { accepted = false, displayName, photoURL, email } = data || {}
           const { current_term_end, next_billing_at, plan_id, customer_id, discordUserId, githubUserId } = (data && data.subscription) || {}
           updateUser({

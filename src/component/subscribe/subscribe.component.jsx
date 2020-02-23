@@ -127,11 +127,11 @@ const Subscribe = () => {
   return (
     <StyledSubscribePanel>
       <StyledSubscribeLabelWrapper>
-        {subscribeConfig.planList.map(({ planType, planList }) => (console.log(planList.length)) || (
-          <StyledSubscribePlanType planNumber={planList.length}>
+        {subscribeConfig.planList.map(({ planType, planList }, key) => (
+          <StyledSubscribePlanType key={key} planNumber={planList.length}>
             <StyledSubscribePlanTitle>{planType}</StyledSubscribePlanTitle>
             <StyledSubscribePlanList>
-              {planList.map(({ label, plan_id }) => <StyledSubscribeLabel onClick={() => updateSelected(plan_id)} selected={plan_id === selected}>{label}</StyledSubscribeLabel>)}
+              {planList.map(({ label, plan_id }) => <StyledSubscribeLabel key={plan_id} onClick={() => updateSelected(plan_id)} selected={plan_id === selected}>{label}</StyledSubscribeLabel>)}
             </StyledSubscribePlanList>
           </StyledSubscribePlanType>
         ))}
@@ -155,6 +155,7 @@ const Subscribe = () => {
           {getPlanList().map(({ label, plan_id }, index) => {
             return (
               <StyledTurtle
+                key={plan_id}
                 selected={plan_id === selected}
                 niceIndex={index}
                 title={label}
@@ -188,12 +189,14 @@ const Subscribe = () => {
       {!user && <StyledSubscribeSliderInfo>To be able to subscribe you want to authenticate. Click on the <strong>Login</strong> button located at the top right of this page. Use your GitHub account to authenticate. If you do not have a GitHub account, in the popup that opens, choose to <strong>Create an account</strong>.</StyledSubscribeSliderInfo>}
 
       <StyledSubscribeLabelWrapper>
-        {subscribeConfig.featureList.map(({ label, amount }) => <StyledSubscribeFeature selected={amount <= getPlanList().filter(x => x.plan_id === selected)[0].amount}>
-          <StyledSubscribeFeatureLabel>
-            {label}
-          </StyledSubscribeFeatureLabel>
-          <div className="codetap-academy-check"></div>
-        </StyledSubscribeFeature>)}
+        {subscribeConfig.featureList.map(({ label, amount }, key) => (
+          <StyledSubscribeFeature key={key} selected={amount <= getPlanList().filter(x => x.plan_id === selected)[0].amount}>
+            <StyledSubscribeFeatureLabel>
+              {label}
+            </StyledSubscribeFeatureLabel>
+            <div className="codetap-academy-check"></div>
+          </StyledSubscribeFeature>
+        ))}
       </StyledSubscribeLabelWrapper>
 
       <p>Note: features marked with * might not be fully implemented or lack automation.</p>
