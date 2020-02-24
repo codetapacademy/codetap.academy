@@ -147,12 +147,18 @@ const TopMenu = () => {
         text="CodeTap Academy - the Web Developer Factory"
         link="/"
       />
-      <Button
+      {(!user || user && !user.discordUserId) && (<Button
         onClick={() => window.open('https://discord.gg/xcmtRYV')}
         label="Chat"
         color="warning"
         icon="chat"
-      />
+      />)}
+      {(user && user.discordUserId) && (<Button
+        onClick={() => navigate('/my-update')}
+        label="Stand Up"
+        color="warning"
+        icon="chat"
+      />)}
       <Button
         onClick={() => navigate('/subscribe')}
         label="Subscribe"
@@ -199,6 +205,12 @@ const TopMenu = () => {
                 label="profile"
                 color="primary"
               />
+              {(user && user.discordUserId) && (<Button
+                onClick={() => window.open('https://discord.gg/xcmtRYV')}
+                label="Chat"
+                color="warning"
+                icon="chat"
+              />)}
               <Button
                 onClick={handleLogInAndOut}
                 label={getLogInOutLabel()}
