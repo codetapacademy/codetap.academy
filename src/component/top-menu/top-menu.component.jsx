@@ -153,6 +153,12 @@ const TopMenu = () => {
         color="warning"
         icon="chat"
       />)}
+      {(user && user.discordUserId) && (<Button
+        onClick={() => navigate('/my-update')}
+        label="Stand Up"
+        color="warning"
+        icon="chat"
+      />)}
       <Button
         onClick={() => navigate('/subscribe')}
         label="Subscribe"
