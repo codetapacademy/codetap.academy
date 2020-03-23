@@ -8,6 +8,7 @@ import { getAddSectionTitlePropList, getManageSectionTitlePropList, getDefaultSe
 
 const SectionPanel = ({ course, showHeader }) => {
   const defaultSection = getDefaultSection(course)
+  const sectionCollection = db.collection('section')
 
   const [section, setSection] = useState(defaultSection)
   const { sectionList } = WebInfoState()
@@ -17,7 +18,6 @@ const SectionPanel = ({ course, showHeader }) => {
   }
 
   const save = () => {
-    const sectionCollection = db.collection('section')
     const { id, title, description } = section
     if (id) {
       // it means we want to update a Section
@@ -41,7 +41,7 @@ const SectionPanel = ({ course, showHeader }) => {
   const getUpdateValue = (list, updateId) => {
     return list
       .filter(({ id }) => id === updateId)
-      .map(({ title, description }) => ({ title, description }))[0] || {}
+      .map(({ title, description }) => ({ title, description: description }))[0] || {}
   }
 
   const handleUpdate = id => {
@@ -49,10 +49,23 @@ const SectionPanel = ({ course, showHeader }) => {
     setSection({ ...section, id, title, description })
   }
 
+  const toggleSection = id => {
+    // hideSectionLectureList
+    const sectionToToggle = sectionList
+      .filter(section => id === section.id)
+      .reduce(a => a)
+
+    sectionCollection
+      .doc(id)
+      .set({
+        hideSectionLectureList: !sectionToToggle.hideSectionLectureList,
+        description: sectionToToggle.description || '',
+      }, { merge: true })
+  }
+
   const getSaveLabel = () => section.id ? "Update section" : "Add section"
 
   const addSectionTitlePropList = getAddSectionTitlePropList()
-  const manageSectionTitlePropList = getManageSectionTitlePropList()
 
   return (
     <div>
@@ -71,7 +84,9 @@ const SectionPanel = ({ course, showHeader }) => {
       <SectionList
         data={sectionList}
         course={course}
+        toggleSection={toggleSection}
         handleUpdate={handleUpdate}
+        hideSectionLectureList={section.hideSectionLectureList}
       />
 
     </div>

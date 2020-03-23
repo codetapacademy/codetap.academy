@@ -56,6 +56,7 @@ const CoursePlayList = ({ courseId }) => {
       const lectureList = [...lectureListSnap.docs]
         .map(doc => ({ ...doc.data(), id: doc.id }))
         .sort((a, b) => a.order - b.order);
+
       updateData({ lectureList, sectionList, course });
 
       if (lectureList.length && lectureList[0]) {

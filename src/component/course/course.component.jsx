@@ -123,8 +123,9 @@ const Course = ({ courseId }) => {
           } else if (change.type === 'modified') {
             updateSectionList(
               modifySectionAction({
+                ...section,
                 title: section.title,
-                description: section.description,
+                description: section.description || '',
                 id: change.doc.id
               })
             );

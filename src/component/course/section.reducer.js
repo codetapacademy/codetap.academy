@@ -14,6 +14,7 @@ export const sectionListReducer = (state = [], action) => {
       return [
         ...action.sectionList
       ]
+
     case ADD_SECTION:
       return [
         ...state,

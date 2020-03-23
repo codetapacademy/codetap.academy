@@ -107,8 +107,6 @@ const TopMenu = () => {
   const getLogInOutLabel = () => (user ? 'Logout' : 'Login');
   const goHome = () => {
     navigate('/')
-    console.log('go home');
-
   }
 
   const handleClickOutside = e => {
