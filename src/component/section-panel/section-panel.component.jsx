@@ -6,7 +6,7 @@ import { WebInfoState } from '../web-info/web-info.context';
 import HeaderTitle from '../_dumb/header-title/header-title.component';
 import { getAddSectionTitlePropList, getManageSectionTitlePropList, getDefaultSection } from './section-panel.config';
 
-const SectionPanel = ({ course }) => {
+const SectionPanel = ({ course, showHeader }) => {
   const defaultSection = getDefaultSection(course)
 
   const [section, setSection] = useState(defaultSection)
@@ -56,16 +56,18 @@ const SectionPanel = ({ course }) => {
 
   return (
     <div>
-      <HeaderTitle {...addSectionTitlePropList} />
-      <ManageMeta
-        label={getSaveLabel()}
-        save={save}
-        change={change}
-        cancel={cancel}
-        data={section}
-      />
+      {showHeader && <div>
+        <HeaderTitle {...addSectionTitlePropList} />
+        <ManageMeta
+          label={getSaveLabel()}
+          save={save}
+          change={change}
+          cancel={cancel}
+          data={section}
+        />
 
-      <HeaderTitle {...addSectionTitlePropList} />
+        <HeaderTitle {...addSectionTitlePropList} />
+      </div>}
       <SectionList
         data={sectionList}
         course={course}

@@ -187,6 +187,7 @@ const CoursePlayList = ({ courseId }) => {
                   height="100%"
                   progressInterval={250}
                   onProgress={onProgress}
+                  onError={e => console.log('Error', e)}
                   onEnded={onEnded}
                   ref={videoRef}
                 />
