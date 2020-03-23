@@ -112,7 +112,7 @@ const TopMenu = () => {
   }
 
   const handleClickOutside = e => {
-    if (!dropDownMenuRef.current.contains(e.target)) {
+    if (dropDownMenuRef && dropDownMenuRef.current && !dropDownMenuRef.current.contains(e.target)) {
       setShowDropDownMenu(false)
       document
         .querySelector('body')
@@ -147,12 +147,6 @@ const TopMenu = () => {
         text="CodeTap Academy - the Web Developer Factory"
         link="/"
       />
-      {(!user || user && !user.discordUserId) && (<Button
-        onClick={() => window.open('https://discord.gg/xcmtRYV')}
-        label="Chat"
-        color="warning"
-        icon="chat"
-      />)}
       {(user && user.discordUserId) && (<Button
         onClick={() => navigate('/my-update')}
         label="Stand Up"
