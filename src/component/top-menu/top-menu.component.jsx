@@ -21,7 +21,7 @@ const TopMenu = () => {
         .onSnapshot({ includeMetadataChanges: true }, doc => {
           const data = doc.data()
           const isAdmin = (data && data.isAdmin) || false
-          console.log(data)
+
           const { accepted = false, displayName, photoURL, email } = data || {}
           const { current_term_end, next_billing_at, plan_id, customer_id, discordUserId, githubUserId } = (data && data.subscription) || {}
           updateUser({
@@ -107,12 +107,10 @@ const TopMenu = () => {
   const getLogInOutLabel = () => (user ? 'Logout' : 'Login');
   const goHome = () => {
     navigate('/')
-    console.log('go home');
-
   }
 
   const handleClickOutside = e => {
-    if (!dropDownMenuRef.current.contains(e.target)) {
+    if (dropDownMenuRef && dropDownMenuRef.current && !dropDownMenuRef.current.contains(e.target)) {
       setShowDropDownMenu(false)
       document
         .querySelector('body')
@@ -147,12 +145,12 @@ const TopMenu = () => {
         text="CodeTap Academy - the Web Developer Factory"
         link="/"
       />
-      <Button
-        onClick={() => window.open('https://discord.gg/xcmtRYV')}
-        label="Chat"
+      {(user && user.discordUserId) && (<Button
+        onClick={() => navigate('/my-update')}
+        label="Stand Up"
         color="warning"
         icon="chat"
-      />
+      />)}
       <Button
         onClick={() => navigate('/subscribe')}
         label="Subscribe"
@@ -199,6 +197,12 @@ const TopMenu = () => {
                 label="profile"
                 color="primary"
               />
+              {(user && user.discordUserId) && (<Button
+                onClick={() => window.open('https://discord.gg/xcmtRYV')}
+                label="Chat"
+                color="warning"
+                icon="chat"
+              />)}
               <Button
                 onClick={handleLogInAndOut}
                 label={getLogInOutLabel()}

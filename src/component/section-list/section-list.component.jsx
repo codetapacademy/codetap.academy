@@ -8,7 +8,7 @@ import { removeLectureFromSectionAction, initSectionListAction, modifySectionAct
 import { WebInfoState } from '../web-info/web-info.context';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSectionList }) => {
+const SectionList = ({ data = [], handleUpdate, toggleSection, course = {}, hideSectionLectureList }) => {
   const [showAddLectureId, setShowAddLectureId] = useState('nimic')
   const { updateSectionList } = WebInfoState()
   const sectionCollection = db.collection('section')
@@ -149,10 +149,10 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
   return (
     <StyledSectionList>
       <DragDropContext onDragEnd={onDragEnd}>
-        {data.map(({ title, description, id, lectureList }, index) => {
+        {data.map(({ title, description, id, lectureList, hideSectionLectureList }, index) => {
           const lectureListLength = lectureList && lectureList.length || 0
           const section = { title, description, id, }
-          const sectionItemPropList = { ...section, showAddLectureId, setShowAddLectureId, deleteItem, handleUpdate }
+          const sectionItemPropList = { ...section, showAddLectureId, setShowAddLectureId, deleteItem, handleUpdate, toggleSection }
           const lecturePanelPropList = { section, course, showAddLectureId, setShowAddLectureId, lectureListLength }
           const showLecturelist = lectureList && lectureList.length || null
 
@@ -177,7 +177,7 @@ const SectionList = ({ data = [], handleUpdate, course = {}, handleUpdateSection
                         <div key={id}>
                           <SectionItem {...sectionItemPropList} />
                           {id === showAddLectureId && <LecturePanel {...lecturePanelPropList} />}
-                          {showLecturelist && renderLectureList(lectureList.sort((a, b) => a.order - b.order), id)}
+                          {!hideSectionLectureList && showLecturelist && renderLectureList(lectureList.sort((a, b) => a.order - b.order), id)}
                         </div>
                       </StyledSectionItem>
                     )}

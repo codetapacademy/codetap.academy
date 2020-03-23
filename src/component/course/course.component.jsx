@@ -13,6 +13,7 @@ import HeaderTitle from '../_dumb/header-title/header-title.component';
 import courseSchema from './course.schema';
 import DynamicForm from '../_dumb/dynamic-form/dynamic-form.component';
 import { getCourseTitlePropList, getCourseSettingsPropList } from './course.config';
+import { StyledCourseWrapper } from './course.style';
 
 const Course = ({ courseId }) => {
   const { updateSectionList } = WebInfoState();
@@ -122,8 +123,9 @@ const Course = ({ courseId }) => {
           } else if (change.type === 'modified') {
             updateSectionList(
               modifySectionAction({
+                ...section,
                 title: section.title,
-                description: section.description,
+                description: section.description || '',
                 id: change.doc.id
               })
             );
@@ -139,6 +141,11 @@ const Course = ({ courseId }) => {
       unsubscribeToCourse();
     };
   }, []);
+
+  const toggleCourseHeader = () => {
+    console.log('Toggle couse header')
+    courseDocument.set({ toggleHeader: !course.toggleHeader }, { merge: true });
+  }
 
   const courseTitlePropList = getCourseTitlePropList(course.title);
 
@@ -165,12 +172,17 @@ const Course = ({ courseId }) => {
 
   return (
     <div>
-      <HeaderTitle {...courseTitlePropList} />
-      <p>{course.description}</p>
-      <DynamicForm schema={courseSchema} data={course} dbItem={courseDocument} />
-      <HeaderTitle {...courseSettingsPropList} />
-      <button onClick={handlePublish}>{course.published ? 'Unp' : 'P'}ublish Course</button>
-      {course && <SectionPanel course={course} />}
+      <StyledCourseWrapper>
+        <HeaderTitle {...courseTitlePropList} />
+        <button onClick={toggleCourseHeader}>{course.toggleHeader ? 'Hide' : 'Show'} header</button>
+      </StyledCourseWrapper>
+      {course.toggleHeader && <div>
+        <p>{course.description}</p>
+        <DynamicForm schema={courseSchema} data={course} dbItem={courseDocument} />
+        <HeaderTitle {...courseSettingsPropList} />
+        <button onClick={handlePublish}>{course.published ? 'Unp' : 'P'}ublish Course</button>
+      </div>}
+      {course && <SectionPanel showHeader={course.toggleHeader} course={course} />}
     </div>
   );
 };

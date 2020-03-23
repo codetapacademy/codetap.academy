@@ -11,6 +11,7 @@ import HomeOld from '../home-old';
 import CoursePlayList from '../course-play-list';
 // import { Router } from '@reach/router'
 import { QuickProfile } from '../quick-profile';
+import StandUp from '../stand-up';
 
 const WebInfo = () => {
   return (
@@ -27,6 +28,7 @@ const WebInfo = () => {
           <QuickProfile path="/manage/profile" />
           <ManageUser path="/manage/user" />
           <Subscribe path="/subscribe" />
+          <StandUp path="/my-update" />
         </StyledRouter>
       </StyledWebInfo>
     </>

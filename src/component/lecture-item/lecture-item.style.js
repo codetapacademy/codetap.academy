@@ -8,7 +8,7 @@ export const StyledLink = styled(Link)`
 
 export const StyledLectureItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto auto auto auto;
   grid-gap: 1rem;
   background-color:  ${({ theme }) => `${theme.menu.background}`};
   padding: ${({ theme }) => `${theme.layout.defaultPadding} ${theme.layout.bigPadding}`};
