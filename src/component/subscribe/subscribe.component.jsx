@@ -142,7 +142,7 @@ const Subscribe = () => {
       <SubscribeSlider
         valueLabelDisplay="off"
         aria-label="Subscribe slider"
-        defaultValue={2}
+        defaultValue={1}
         max={3}
         onChange={onSliderChange}
       />
