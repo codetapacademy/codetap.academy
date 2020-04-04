@@ -1,5 +1,9 @@
-import firebase from 'firebase'
-
+// import firebase from 'firebase'
+// ES Modules:
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/storage';
+import 'firebase/auth';
 const firebaseConfig = {
   apiKey: "AIzaSyD1tgumvFXB77I3TsPppXJX35nd3jENOLg",
   authDomain: "codetapacademy.firebaseapp.com",
