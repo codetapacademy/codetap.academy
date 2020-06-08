@@ -71,7 +71,8 @@ const Course = ({ courseId }) => {
 
         const totalDurationParts = Object
           .keys(lectureKeyList || [])
-          .flatMap(key => lectureKeyList[key].map(({ duration = '00:00:00' }) => duration.split(':').map(t => +t)))
+          .map(key => lectureKeyList[key].map(({ duration = '00:00:00' }) => duration.split(':').map(t => +t)))
+          .reduce((a, c) => [...a, ...c], [])
           .reduce((a, c) => {
             a.h += c[0]
             a.m += c[1]
