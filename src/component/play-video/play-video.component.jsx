@@ -34,7 +34,8 @@ const PlayVideo = ({ youtubeVideoId }) => {
         .get()
       const lectureList = [...lectureListSnap.docs].map(doc => doc.data()).sort((a, b) => a.order - b.order)
       const { index } = sectionList
-        .flatMap(section => lectureList.filter(lecture => lecture.section.id === section.id))
+        .map(section => lectureList.filter(lecture => lecture.section.id === section.id))
+        .reduce((a, c) => [...a, ...c], [])
         .map((lecture, index) => ({ ...lecture, index }))
         .filter(lecture => lecture.youtubeVideoId === youtubeVideoId)[0]
 
