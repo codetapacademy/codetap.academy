@@ -86,7 +86,8 @@ const Subscribe = () => {
 
   const handleSubscribe = () => {
     const plan_id = subscribeConfig.planList
-      .flatMap(x => x.planList)
+      .map(x => x.planList)
+      .reduce((a, c) => [...a, ...c], [])
       .filter(x => x.plan_id === selected)
       .reduce(a => a).plan_id
 
@@ -112,7 +113,9 @@ const Subscribe = () => {
     })
   }
 
-  const getPlanList = () => subscribeConfig.planList.flatMap(x => x.planList)
+  const getPlanList = () => subscribeConfig.planList
+    .map(x => x.planList)
+    .reduce((a, c) => [...a, ...c], [])
 
   const onSliderChange = (e, index) => {
     updateSelected(getPlanList()[index].plan_id)
