@@ -5,7 +5,7 @@ import 'firebase/firestore';
 import 'firebase/storage';
 import 'firebase/auth';
 const firebaseConfig = {
-  apiKey: "AIzaSyD1tgumvFXB77I3TsPppXJX35nd3jENOLg",
+  apiKey: "AIzaSyDVoth7PJSPbkeM1J-iiRCjXuMER56xrg4",
   authDomain: "codetapacademy.firebaseapp.com",
   databaseURL: "https://codetapacademy.firebaseio.com",
   projectId: "codetapacademy",
