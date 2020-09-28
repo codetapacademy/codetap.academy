@@ -44,10 +44,10 @@ export const StyledList = styled.div`
   right: 0;
   overflow-y: auto;
   -ms-overflow-style: none;
-
+/* 
   &::-webkit-scrollbar {
     display: none;
-  }
+  } */
 `
 
 export const StyledSectionListTitle = styled.div`
