@@ -129,6 +129,12 @@ const Subscribe = () => {
 
   return (
     <StyledSubscribePanel>
+      <h1>The subscription has been disabled since 26 Feb 2021</h1>
+      <ul>
+        <li>we will continue to provide access to the courses until v3 of CodeTap Academy will be final and published</li>
+        <li>we're going to no longer provide access to mentor or mentor assistant services starting with the date above</li>
+        <li>be happy, it's not a bad thing, it evolves in the best opportunities for you</li>
+      </ul>
       <StyledSubscribeLabelWrapper>
         {subscribeConfig.planList.map(({ planType, planList }, key) => (
           <StyledSubscribePlanType key={key} planNumber={planList.length}>
@@ -147,6 +153,7 @@ const Subscribe = () => {
         aria-label="Subscribe slider"
         defaultValue={1}
         max={3}
+        disabled
         onChange={onSliderChange}
       />
       <StyledSubscribeSliderInfo>
@@ -176,15 +183,17 @@ const Subscribe = () => {
             label={getSubscribeMessage()}
             color="danger"
             icon="subscribe"
-            disabled={!user}
-          />
-        }
+            disabled
+            />
+          }
+          {/* disabled={!user} */}
         {user && user.customer_id &&
           <Button
             onClick={handlePortal}
             label="Manage Your Subscription"
             color="warning"
             icon="subscribe"
+            disabled
           />
         }
       </StyledSubscribeButtonWrapper>
@@ -211,9 +220,10 @@ const Subscribe = () => {
             label={getSubscribeMessage()}
             color="danger"
             icon="subscribe"
-            disabled={!user}
-          />
-        }
+            disabled
+            />
+          // disabled={!user}
+          }
         {user && user.customer_id &&
           <Button
             onClick={handlePortal}
