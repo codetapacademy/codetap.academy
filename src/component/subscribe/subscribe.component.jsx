@@ -147,6 +147,7 @@ const Subscribe = () => {
         aria-label="Subscribe slider"
         defaultValue={1}
         max={3}
+        disabled
         onChange={onSliderChange}
       />
       <StyledSubscribeSliderInfo>
@@ -176,15 +177,17 @@ const Subscribe = () => {
             label={getSubscribeMessage()}
             color="danger"
             icon="subscribe"
-            disabled={!user}
-          />
-        }
+            disabled
+            />
+          }
+          {/* disabled={!user} */}
         {user && user.customer_id &&
           <Button
             onClick={handlePortal}
             label="Manage Your Subscription"
             color="warning"
             icon="subscribe"
+            disabled
           />
         }
       </StyledSubscribeButtonWrapper>
@@ -211,9 +214,10 @@ const Subscribe = () => {
             label={getSubscribeMessage()}
             color="danger"
             icon="subscribe"
-            disabled={!user}
-          />
-        }
+            disabled
+            />
+          // disabled={!user}
+          }
         {user && user.customer_id &&
           <Button
             onClick={handlePortal}
