@@ -200,14 +200,6 @@ const CoursePlayList = ({ courseId }) => {
               </StyledReactPlayerWrapper>
             </>
           )}
-          {(currentVideo.vimeoVideoId && currentVideo.levelRequired <= mapLevel[planLevel]) || (
-            <StyledPlayWrapper>
-              <StyledPlayMessage>
-                Your member level is insufficient to watch this video. Consider upgrading or let's
-                have a chat about it.
-              </StyledPlayMessage>
-            </StyledPlayWrapper>
-          )}
 
           <StyledListWrapper>
             <StyledList>
